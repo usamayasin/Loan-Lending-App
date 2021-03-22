@@ -30,51 +30,62 @@
                 android:src="@drawable/mifos_logo" />
 
             <!-- Username  Label -->
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:text="@string/username"
-                android:textSize="16sp" />
+                android:orientation="horizontal"
+                android:layout_marginTop="50dp">
 
-            <EditText
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/username"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/asterisk"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_username"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/input_field_height"
-                android:background="@drawable/rectangular_border"
-                android:gravity="center|start"
-                android:paddingStart="10dp"
-                android:paddingLeft="10dp"
-                android:cursorVisible="true"
-                android:textCursorDrawable="@drawable/edittext_cursor_drawable"
-                android:textColor="@color/black"
-                android:elevation="20dp"
-                android:layout_marginTop="10dp"/>
-
-<!--            <com.google.android.material.textfield.TextInputLayout-->
-<!--                android:id="@+id/til_username"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@drawable/rectangular_border"-->
-<!--                android:layout_marginTop="@dimen/default_margin"-->
-<!--                android:layout_marginBottom="@dimen/default_margin">-->
-
-<!--                <EditText-->
-<!--                    style="@style/Base.TextAppearance.AppCompat.Medium"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:drawablePadding="@dimen/layout_padding_8dp"-->
-<!--                    android:hint="@string/username"-->
-<!--                    android:inputType="textEmailAddress" />-->
-
-<!--            </com.google.android.material.textfield.TextInputLayout>-->
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:text="@string/password"
-                android:textSize="16sp" />
+                android:background="@drawable/rectangular_border"
+                android:layout_marginTop="@dimen/default_margin"
+                android:layout_marginBottom="@dimen/default_margin">
+
+                <EditText
+                    style="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:inputType="textEmailAddress" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="30dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/password"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/asterisk"
+                    android:textColor="@color/primary"
+                    android:textSize="16sp" />
+            </LinearLayout>
 
             <!-- Password Label -->
             <com.google.android.material.textfield.TextInputLayout

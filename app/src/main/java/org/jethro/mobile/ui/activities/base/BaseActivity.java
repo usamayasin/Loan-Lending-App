@@ -9,6 +9,13 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.ViewCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.mifos.mobile.passcode.BasePassCodeActivity;
 
 import org.jethro.mobile.MifosSelfServiceApp;
@@ -20,12 +27,7 @@ import org.jethro.mobile.ui.activities.PassCodeActivity;
 import org.jethro.mobile.ui.views.BaseActivityCallback;
 import org.jethro.mobile.utils.LanguageHelper;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @author ishan
@@ -247,5 +249,34 @@ public class BaseActivity extends BasePassCodeActivity implements BaseActivityCa
                         Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(
                 activity.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    public static void showAlertDialogForError(Context context, final String message) {
+        new SweetAlertDialog(context, SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Alert")
+                .setContentText(message)
+                .setConfirmText("Ok")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
+    }
+
+    public static boolean showAlertDialogForSuccess(Context context, final String message) {
+        new SweetAlertDialog(context, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Alert")
+                .setContentText(message)
+                .setConfirmText("Ok")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
+        return true;
     }
 }
