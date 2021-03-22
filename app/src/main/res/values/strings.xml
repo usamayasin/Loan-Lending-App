@@ -8,6 +8,7 @@
     <string name="progress_message_login">Logging In</string>
     <string name="progress_message_loading">Loading</string>
     <string name="password">Password</string>
+    <string name="dont_have_account">Dont have an account?</string>
     <string name="email">Email</string>
     <string name="accounts">Accounts</string>
     <string name="clients">Clients</string>
@@ -106,7 +107,7 @@
     <string name="need_approval">Need Approval</string>
     <string name="pending">Pending</string>
     <string name="matured">Matured</string>
-    <string name="create_an_account">Create an account</string>
+    <string name="create_an_account">Sign Up</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="phone_number">Phone Number</string>
@@ -376,6 +377,7 @@
     <string name="reenter_passcode">Please re-enter your passcode</string>
     <string name="passcode_does_not_match">Passcode does not match.</string>
     <string name="forgot_passcode">Forgot passcode, login manually</string>
+    <string name="forgot_password">Forgot your password?</string>
     <string name="proceed">Proceed</string>
     <string name="amount_greater_than_zero">Amount should be greater than zero</string>
     <string name="about_us_under_construction">About Us Under Construction</string>

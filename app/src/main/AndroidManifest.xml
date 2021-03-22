@@ -33,8 +33,7 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <activity
-            android:name="org.jethro.mobile.ui.activities.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:name="org.jethro.mobile.ui.activities.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

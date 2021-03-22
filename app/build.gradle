@@ -67,6 +67,9 @@ android {
     androidExtensions {
         experimental = true
     }
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
 }
 
 dependencies {
@@ -136,6 +139,9 @@ dependencies {
     //TableView
     implementation "com.evrencoskun.library:tableview:$rootProject.tableViewVersion"
 
+    //constraint layout
+    implementation "androidx.constraintlayout:constraintlayout:2.0.4"
+    
     // Unit tests dependencies
     testImplementation "junit:junit:$rootProject.jUnitVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"

@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/white"
-    android:layout_height="match_parent"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <androidx.core.widget.NestedScrollView
-        android:fitsSystemWindows="true"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_width="match_parent">
+        android:fitsSystemWindows="true">
 
         <LinearLayout
             android:id="@+id/ll_login"
@@ -31,24 +30,51 @@
                 android:src="@drawable/mifos_logo" />
 
             <!-- Username  Label -->
-            <com.google.android.material.textfield.TextInputLayout
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:text="@string/username"
+                android:textSize="16sp" />
+
+            <EditText
                 android:id="@+id/til_username"
                 android:layout_width="match_parent"
+                android:layout_height="@dimen/input_field_height"
+                android:background="@drawable/rectangular_border"
+                android:gravity="center|start"
+                android:paddingStart="10dp"
+                android:paddingLeft="10dp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@drawable/edittext_cursor_drawable"
+                android:textColor="@color/black"
+                android:elevation="20dp"
+                android:layout_marginTop="10dp"/>
+
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/til_username"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@drawable/rectangular_border"-->
+<!--                android:layout_marginTop="@dimen/default_margin"-->
+<!--                android:layout_marginBottom="@dimen/default_margin">-->
+
+<!--                <EditText-->
+<!--                    style="@style/Base.TextAppearance.AppCompat.Medium"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:drawablePadding="@dimen/layout_padding_8dp"-->
+<!--                    android:hint="@string/username"-->
+<!--                    android:inputType="textEmailAddress" />-->
+
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/default_margin"
-                android:layout_marginBottom="@dimen/default_margin">
-
-                <EditText
-                    style="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_wrapped_person_black_24dp"
-                    android:drawableLeft="@drawable/ic_wrapped_person_black_24dp"
-                    android:drawablePadding="@dimen/layout_padding_8dp"
-                    android:hint="@string/username"
-                    android:inputType="textEmailAddress" />
-
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_marginTop="30dp"
+                android:text="@string/password"
+                android:textSize="16sp" />
 
             <!-- Password Label -->
             <com.google.android.material.textfield.TextInputLayout
@@ -57,36 +83,58 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/default_margin"
                 android:layout_marginBottom="@dimen/default_margin"
+                android:background="@drawable/rectangular_border"
                 app:passwordToggleEnabled="true">
 
                 <EditText
                     style="@style/Base.TextAppearance.AppCompat.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/ic_wrapped_lock_black_24dp"
-                    android:drawableLeft="@drawable/ic_wrapped_lock_black_24dp"
                     android:drawablePadding="@dimen/layout_padding_8dp"
-                    android:hint="@string/password"
+                    android:backgroundTint="@color/white"
                     android:inputType="textPassword" />
+
             </com.google.android.material.textfield.TextInputLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/forgot_password"
+                android:gravity="end"
+                android:clickable="true"
+                />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/login_margin_top"
+                android:layout_height="65dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginBottom="@dimen/default_margin"
                 android:text="@string/login"
+                android:capitalize="none"
                 android:textColor="@color/white" />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btn_register"
-                style="@style/Widget.AppCompat.Button.Borderless"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/create_an_account"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textColor="@color/primary" />
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dont_have_account"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp" />
+
+                <TextView
+                    android:id="@+id/btn_register"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create_an_account"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:textColor="@color/primary"/>
+            </LinearLayout>
 
         </LinearLayout>
 

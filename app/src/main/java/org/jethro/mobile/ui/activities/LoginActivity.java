@@ -3,6 +3,7 @@ package org.jethro.mobile.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     AppCompatButton btnLogin;
 
     @BindView(R.id.til_username)
-    TextInputLayout tilUsername;
+    EditText tilUsername;
 
     @BindView(R.id.til_password)
     TextInputLayout tilPassword;
@@ -89,7 +90,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
      */
     @Override
     public void showPassCodeActivity() {
-        showToast(getString(R.string.toast_welcome, userName));
+//        showToast(getString(R.string.toast_welcome, userName));
         startPassCodeActivity();
     }
 
@@ -116,7 +117,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void clearUsernameError() {
-        tilUsername.setErrorEnabled(false);
+        tilUsername.setError(null);
     }
 
     @Override
@@ -130,7 +131,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @OnClick(R.id.btn_login)
     public void onLoginClicked() {
 
-        final String username = tilUsername.getEditText().getEditableText().toString();
+        final String username = tilUsername.getText().toString();
         final String password = tilPassword.getEditText().getEditableText().toString();
 
         if (Network.isConnected(this)) {
