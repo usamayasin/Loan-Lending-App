@@ -5,6 +5,7 @@
     <string name="unable_to_connect">Not connected to internet</string>
     <string name="basic">Basic</string>
     <string name="username">Username</string>
+    <string name="asterisk"> *</string>
     <string name="progress_message_login">Logging In</string>
     <string name="progress_message_loading">Loading</string>
     <string name="password">Password</string>

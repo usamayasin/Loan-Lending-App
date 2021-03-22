@@ -51,7 +51,7 @@
     <!--<color name="primary_dark">#006978</color>-->
     <!--<color name="primary_light">#56c8d8</color>-->
     <color name="primary">#D93C3F</color>
-    <color name="primary_dark">#0288D1</color>
+    <color name="primary_dark">#D93C3F</color>
     <color name="primary_light">#B3E5FC</color>
     <color name="accent">#FF4081</color>
     <color name="primary_text">#212121</color>

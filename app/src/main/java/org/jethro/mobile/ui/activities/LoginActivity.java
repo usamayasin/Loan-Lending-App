@@ -3,9 +3,9 @@ package org.jethro.mobile.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -19,10 +19,10 @@ import org.jethro.mobile.utils.Toaster;
 
 import javax.inject.Inject;
 
-import androidx.appcompat.widget.AppCompatButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @author Vishwajeet
@@ -38,7 +38,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     AppCompatButton btnLogin;
 
     @BindView(R.id.til_username)
-    EditText tilUsername;
+    TextInputLayout tilUsername;
 
     @BindView(R.id.til_password)
     TextInputLayout tilPassword;
@@ -66,7 +66,18 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void onLoginSuccess(String userName) {
         this.userName = userName;
-        loginPresenter.loadClient();
+        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Alert")
+                .setContentText("You are Successfully Logged in!")
+                .setConfirmText("Ok")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                        loginPresenter.loadClient();
+                    }
+                })
+                .show();
     }
 
     /**
@@ -101,7 +112,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
      */
     @Override
     public void showMessage(String errorMessage) {
-        showToast(errorMessage, Toast.LENGTH_LONG);
+        BaseActivity.showAlertDialogForError(this, errorMessage);
         llLogin.setVisibility(View.VISIBLE);
     }
 
@@ -131,7 +142,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @OnClick(R.id.btn_login)
     public void onLoginClicked() {
 
-        final String username = tilUsername.getText().toString();
+        final String username = tilUsername.getEditText().getEditableText().toString();
         final String password = tilPassword.getEditText().getEditableText().toString();
 
         if (Network.isConnected(this)) {

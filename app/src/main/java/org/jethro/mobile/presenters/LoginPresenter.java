@@ -117,9 +117,10 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                                 final String authToken = Constants.BASIC +
                                         user.getBase64EncodedAuthenticationKey();
                                 saveAuthenticationTokenForSession(userName, userID, authToken);
+                                getMvpView().hideProgress();
                                 getMvpView().onLoginSuccess(userName);
                             } else {
-                                getMvpView().hideProgress();
+                                getMvpView().showMessage("Server Error");
                             }
                         }
                     })
