@@ -62,6 +62,8 @@
     <color name="screen_background_color">#F2F2F2</color>
     <color name="header_line_color">@color/blue_light</color>
 
+    <color name="EditTextInputHeading">#989898</color>
+
     <!--Swipe Refresh Colors-->
     <array name="swipeRefreshColors">
         <item>@color/blue_light</item>
