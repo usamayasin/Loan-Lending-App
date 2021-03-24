@@ -124,6 +124,10 @@
     <string name="verification_mode">Verification Mode</string>
     <string name="blank">&#160;</string>
     <string name="import_qr">Import QR</string>
+    <string name="setup_finger_print">Add Your Biometric</string>
+    <string name="biometric">Use Biometric</string>
+    <string name="register_biometric">Kindly register your biometric</string>
+    <string name="biometric_registered">Your biometric have been registered</string>
 
     <string name="view_guarantor">View Guarantor</string>
     <string name="add_guarantor">Add Guarantor</string>
@@ -538,7 +542,9 @@
     <string name="error_password_not_match">Password does not match.</string>
     <string name="app_version">Version %1$s</string>
     <string name="copy_right_mifos">©2020-%1$s Ahead.</string>
-    <string name="all_rights_reserved">All rights reserved.</string>    <string name="licenses">Licenses</string>   <string name="privacy_policy">Privacy Policy</string>
+    <string name="all_rights_reserved">All rights reserved.</string>
+    <string name="licenses">Licenses</string>
+    <string name="privacy_policy">Privacy Policy</string>
     <string name="privacy_policy_host" translatable="false">openmf.github.io/privacy_policy_mifos_mobile.html</string>
     <string name="privacy_policy_host_url" translatable="false">https://openmf.github.io/privacy_policy_mifos_mobile.html</string>
     <string name="transfer_error">Unable to complete transfer, please try again later</string>
@@ -573,6 +579,7 @@
     <string name="savings_account_transaction">Savings Account Transaction</string>
     <string name="transaction_period">Transaction Period</string>
     <string name="transaction_type">Transaction Type</string>
+    <string name="passcode_dash">-</string>
 
     <string-array name="languages" translatable="false">
         <item>English</item>

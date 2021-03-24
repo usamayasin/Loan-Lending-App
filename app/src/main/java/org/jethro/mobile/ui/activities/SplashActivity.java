@@ -36,7 +36,7 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 if (!passcodePreferencesHelper.getPassCode().isEmpty()) {
                     intent = new Intent(SplashActivity.this, PassCodeActivity.class);
-                    intent.putExtra(Constants.INTIAL_LOGIN, true);
+                    intent.putExtra(Constants.INTIAL_LOGIN, false);
                 } else {
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
                 }

@@ -100,8 +100,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                                         errorMessage =
                                                 ((HttpException) e).response().errorBody().string();
                                         getMvpView()
-                                                .showMessage(MFErrorParser.parseError(errorMessage)
-                                                        .getDeveloperMessage());
+                                                .showMessage(((HttpException) e).message());
                                     }
                                 }
                             } catch (Throwable throwable) {
