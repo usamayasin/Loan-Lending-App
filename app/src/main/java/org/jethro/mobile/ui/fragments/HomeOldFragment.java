@@ -1,12 +1,14 @@
 package org.jethro.mobile.ui.fragments;
 
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -84,6 +86,18 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
 
     @BindView(R.id.ll_container)
     LinearLayout llContainer;
+
+    @BindView(R.id.tv_homeAccountTab)
+    TextView tv_homeAccountTab;
+
+    @BindView(R.id.tv_homeLoanTab)
+    TextView tv_homeLoanTab;
+
+    @BindView(R.id.tv_homeShareTab)
+    TextView tv_homeShareTab;
+
+    @BindView(R.id.ll_homeAccountLayout)
+    LinearLayout ll_homeAccountLayout;
 
     @Inject
     HomeOldPresenter presenter;
@@ -482,6 +496,62 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
             slHomeContainer.removeAllViews();
         }
         presenter.detachView();
+    }
+
+    @OnClick(R.id.tv_homeAccountTab)
+    public void selectAccountTab(){
+        changeSelectedTabUI(tv_homeAccountTab);
+        changeUnselectedTabUI(tv_homeLoanTab);
+        changeUnselectedTabUI(tv_homeShareTab);
+        /*tv_homeAccountTab.setBackgroundResource(R.drawable.rounded_corner_background);
+        tv_homeAccountTab.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
+        tv_homeAccountTab.setTypeface(tv_homeAccountTab.getTypeface(), Typeface.BOLD);
+
+        tv_homeLoanTab.setBackgroundResource(0);
+        tv_homeLoanTab.setTypeface(tv_homeLoanTab.getTypeface(), Typeface.NORMAL);
+
+        tv_homeShareTab.setBackgroundResource(0);
+        tv_homeShareTab.setTypeface(tv_homeShareTab.getTypeface(), Typeface.NORMAL);*/
+    }
+    @OnClick(R.id.tv_homeLoanTab)
+    public void selectLoanTab(){
+        changeSelectedTabUI(tv_homeLoanTab);
+        changeUnselectedTabUI(tv_homeAccountTab);
+        changeUnselectedTabUI(tv_homeShareTab);
+       /* tv_homeLoanTab.setBackgroundResource(R.drawable.rounded_corner_background);
+        tv_homeLoanTab.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
+        tv_homeLoanTab.setTypeface(tv_homeLoanTab.getTypeface(), Typeface.BOLD);
+
+        tv_homeAccountTab.setBackgroundResource(0);
+        tv_homeAccountTab.setTypeface(tv_homeAccountTab.getTypeface(), Typeface.NORMAL);
+
+        tv_homeShareTab.setBackgroundResource(0);
+        tv_homeShareTab.setTypeface(tv_homeShareTab.getTypeface(), Typeface.NORMAL);*/
+    }
+    @OnClick(R.id.tv_homeShareTab)
+    public void selectShareTab(){
+        changeSelectedTabUI(tv_homeShareTab);
+        changeUnselectedTabUI(tv_homeAccountTab);
+        changeUnselectedTabUI(tv_homeLoanTab);
+       /* tv_homeShareTab.setBackgroundResource(R.drawable.rounded_corner_background);
+        tv_homeShareTab.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
+        tv_homeShareTab.setTypeface(tv_homeShareTab.getTypeface(), Typeface.BOLD);
+
+        tv_homeAccountTab.setBackgroundResource(0);
+        tv_homeAccountTab.setTypeface(tv_homeAccountTab.getTypeface(), Typeface.NORMAL);
+
+        tv_homeLoanTab.setBackgroundResource(0);
+        tv_homeLoanTab.setTypeface(tv_homeLoanTab.getTypeface(), Typeface.NORMAL);*/
+    }
+    private void changeSelectedTabUI(TextView textView){
+        textView.setBackgroundResource(R.drawable.rounded_corner_background);
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
+        textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
+    }
+    private void changeUnselectedTabUI(TextView textView){
+        textView.setBackgroundResource(0);
+        textView.setTypeface(textView.getTypeface(), Typeface.NORMAL);
+        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.home_views_color));
     }
 
 }

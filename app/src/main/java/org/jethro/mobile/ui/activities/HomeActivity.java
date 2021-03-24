@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
 
 import org.jethro.mobile.R;
@@ -45,6 +46,7 @@ import org.jethro.mobile.utils.fcm.RegistrationIntentService;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
@@ -52,6 +54,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -67,6 +70,9 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
 
     @BindView(R.id.drawer)
     DrawerLayout drawerLayout;
+
+    @BindView(R.id.bottom_navigation)
+    BottomNavigationView bottomNavigation;
 
     @Inject
     PreferencesHelper preferencesHelper;
@@ -119,6 +125,44 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
             startService(intent);
         }
 
+        BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener =
+                new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        menuItem = item.getItemId();
+                        if (menuItem != R.id.item_settings && menuItem != R.id.item_share
+                                && menuItem != R.id.item_about_us && menuItem != R.id.item_help) {
+                            // If we have clicked something other than settings or share
+                            // we can safely clear the back stack as a new fragment will replace
+                            // the current fragment.
+                            clearFragmentBackStack();
+                        }
+                        switch (item.getItemId()) {
+                            case R.id.bottom_navigation_home: {
+                                hideToolbarElevation();
+                                replaceFragment(HomeOldFragment.newInstance(), true, R.id.container);
+                                return true;
+                            }
+                            case R.id.bottom_navigation_portfolio: {
+                                hideToolbarElevation();
+                                replaceFragment(ClientAccountsFragment.newInstance(AccountType.SAVINGS),
+                                        true, R.id.container);
+                                return true;
+                            }
+                            case R.id.bottom_navigation_transfer: {
+                                replaceFragment(ThirdPartyTransferFragment.newInstance(), true, R.id.container);
+                                return true;
+                            }
+                            case R.id.bottom_navigation_settings: {
+                                startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                };
+        bottomNavigation.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+
     }
 
     @Override
@@ -142,6 +186,7 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                     new IntentFilter(Constants.REGISTER_ON_SERVER));
             isReceiverRegistered = true;
         }
+        bottomNavigation.setSelectedItemId(R.id.bottom_navigation_home);
     }
 
     /**
@@ -183,6 +228,9 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                 break;
             case R.id.item_beneficiaries:
                 replaceFragment(BeneficiaryListFragment.newInstance(), true, R.id.container);
+                break;
+            case R.id.item_apply_for_loan:
+                Toast.makeText(this, "Work in Progress", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.item_settings:
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

@@ -8,7 +8,7 @@
             android:persistent="false"
             android:icon="@drawable/ic_lock_black_24dp"
             android:summary="@string/change_account_password"
-            android:title="@string/change_password"/>
+            android:title="@string/change_password" />
 
         <Preference
             android:key="@string/passcode"
@@ -28,10 +28,10 @@
             android:summary="@string/choose_language"
             android:title="@string/language"/>
 
-        <org.jethro.mobile.utils.ConfigurationPreference
+        <!--<org.jethro.mobile.utils.ConfigurationPreference
             android:key="@string/pref_configuration"
             android:icon="@drawable/ic_update"
             android:summary="@string/pref_base_url_desc"
-            android:title="@string/pref_base_url_title"/>
+            android:title="@string/pref_base_url_title"/>-->
     </PreferenceCategory>
 </androidx.preference.PreferenceScreen>

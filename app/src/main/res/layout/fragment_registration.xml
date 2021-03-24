@@ -176,6 +176,7 @@
                 android:backgroundTint="@color/white"
                 android:imeOptions="actionNext"
                 android:inputType="text" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -300,6 +301,7 @@
                 android:backgroundTint="@color/white"
                 android:imeOptions="actionNext"
                 android:inputType="textPassword" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -441,6 +443,7 @@
             android:layout_marginTop="@dimen/login_margin_top"
             android:layout_marginBottom="@dimen/login_margin_bottom"
             android:text="@string/register"
+            android:textAllCaps="false"
             android:textColor="@color/white" />
     </LinearLayout>
 

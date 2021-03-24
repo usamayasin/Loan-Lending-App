@@ -314,27 +314,28 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
         inputLayout.requestFocus();
 
     }
-    private void clearTextInputLayoutErrorMessage(){
 
-        til_account_number.setError(null);
+    private void clearTextInputLayoutErrorMessage() {
+
+        til_account_number.setErrorEnabled(false);
         til_account_number.clearFocus();
 
-        til_username.setError(null);
+        til_username.setErrorEnabled(false);
         til_username.clearFocus();
 
-        til_firstName.setError(null);
+        til_firstName.setErrorEnabled(false);
         til_firstName.clearFocus();
 
-        til_lastName.setError(null);
+        til_lastName.setErrorEnabled(false);
         til_lastName.clearFocus();
 
-        til_email.setError(null);
+        til_email.setErrorEnabled(false);
         til_email.clearFocus();
 
-        til_password.setError(null);
+        til_password.setErrorEnabled(false);
         til_password.clearFocus();
 
-        til_confirmPassword.setError(null);
+        til_confirmPassword.setErrorEnabled(false);
         til_confirmPassword.clearFocus();
     }
 }

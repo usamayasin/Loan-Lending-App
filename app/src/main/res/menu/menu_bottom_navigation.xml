@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bottom_navigation_home"
+        android:checked="true"
+        android:icon="@drawable/bottom_nav_home_icon"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/bottom_navigation_portfolio"
+        android:checked="false"
+        android:icon="@drawable/ic_account_balance_black_24dp"
+        android:title="Portfolio" />
+    <item
+        android:id="@+id/bottom_navigation_transfer"
+        android:checked="false"
+        android:icon="@drawable/ic_compare_arrows_black_24dp"
+        android:title="Transfer" />
+    <item
+        android:id="@+id/bottom_navigation_settings"
+        android:checked="false"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings" />
+
+</menu>
