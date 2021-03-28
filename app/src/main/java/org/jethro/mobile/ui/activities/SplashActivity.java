@@ -36,7 +36,7 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 if (!passcodePreferencesHelper.getPassCode().isEmpty()) {
                     intent = new Intent(SplashActivity.this, PassCodeActivity.class);
-                    intent.putExtra(Constants.INTIAL_LOGIN, true);
+                    intent.putExtra(Constants.INTIAL_LOGIN, false);
                 } else {
                     intent = new Intent(SplashActivity.this, LoginActivity.class);
                 }
@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity {
         },2000);
 
         Animation myAnimation = AnimationUtils.loadAnimation(this,R.anim.animation);
-        splashImage.startAnimation(myAnimation);
+        if(splashImage!=null) splashImage.startAnimation(myAnimation);
 
     }
 }

@@ -66,18 +66,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     @Override
     public void onLoginSuccess(String userName) {
         this.userName = userName;
-        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Alert")
-                .setContentText("You are Successfully Logged in!")
-                .setConfirmText("Ok")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismissWithAnimation();
-                        loginPresenter.loadClient();
-                    }
-                })
-                .show();
+        loginPresenter.loadClient();
     }
 
     /**

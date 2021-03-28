@@ -2,5 +2,5 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="oval">
     <corners android:radius="@dimen/account_status_width"/>
-    <solid android:color="@color/keypad_btn_color"/>
+    <solid android:color="@color/gray_dark"/>
 </shape>

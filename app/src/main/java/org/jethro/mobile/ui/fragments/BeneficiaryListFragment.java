@@ -146,7 +146,7 @@ public class BeneficiaryListFragment extends BaseFragment implements RecyclerIte
     @OnClick(R.id.btn_try_again)
     public void retryClicked() {
         if (Network.isConnected(getContext())) {
-            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvBeneficiaries, layoutError);
+//            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvBeneficiaries, layoutError);
             beneficiaryListPresenter.loadBeneficiaries();
         } else {
             Toast.makeText(getContext(), getString(R.string.internet_not_connected),
@@ -161,7 +161,7 @@ public class BeneficiaryListFragment extends BaseFragment implements RecyclerIte
     @Override
     public void onRefresh() {
         if (layoutError.getVisibility() == View.VISIBLE) {
-            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvBeneficiaries, layoutError);
+//            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvBeneficiaries, layoutError);
         }
         beneficiaryListPresenter.loadBeneficiaries();
     }
@@ -191,10 +191,10 @@ public class BeneficiaryListFragment extends BaseFragment implements RecyclerIte
     public void showError(String msg) {
 
         if (!Network.isConnected(getActivity())) {
-            sweetUIErrorHandler.showSweetNoInternetUI(rvBeneficiaries, layoutError);
+//            sweetUIErrorHandler.showSweetNoInternetUI(rvBeneficiaries, layoutError);
         } else {
-            sweetUIErrorHandler.showSweetErrorUI(msg,
-                    rvBeneficiaries, layoutError);
+//            sweetUIErrorHandler.showSweetErrorUI(msg,
+//                    rvBeneficiaries, layoutError);
             Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
         }
     }
@@ -242,9 +242,9 @@ public class BeneficiaryListFragment extends BaseFragment implements RecyclerIte
      * Shows an error layout when this function is called.
      */
     public void showEmptyBeneficiary() {
-        sweetUIErrorHandler.showSweetEmptyUI(getString(R.string.beneficiary),
-                getString(R.string.beneficiary),
-                R.drawable.ic_beneficiaries_48px, rvBeneficiaries, layoutError);
+//        sweetUIErrorHandler.showSweetEmptyUI(getString(R.string.beneficiary),
+//                getString(R.string.beneficiary),
+//                R.drawable.ic_beneficiaries_48px, rvBeneficiaries, layoutError);
         rvBeneficiaries.setVisibility(View.GONE);
     }
 

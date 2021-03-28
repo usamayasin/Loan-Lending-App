@@ -124,6 +124,10 @@
     <string name="verification_mode">Verification Mode</string>
     <string name="blank">&#160;</string>
     <string name="import_qr">Import QR</string>
+    <string name="setup_finger_print">Add Your Biometric</string>
+    <string name="biometric">Use Biometric</string>
+    <string name="register_biometric">Kindly register your biometric</string>
+    <string name="biometric_registered">Your biometric have been registered</string>
 
     <string name="view_guarantor">View Guarantor</string>
     <string name="add_guarantor">Add Guarantor</string>
@@ -326,7 +330,7 @@
     <string name="transfer_limit">Transfer Limit</string>
     <string name="add_beneficiary">Add Beneficiary</string>
     <string name="office_name">Office Name</string>
-    <string name="select_account_type">Select Account Type*</string>
+    <string name="select_account_type">Select Account Type</string>
     <string name="submit_beneficiary">Submit Beneficiary</string>
     <string name="enter_office_name">Enter Beneficiary Office Name</string>
     <string name="enter_beneficiary_name">Enter Beneficiary Name</string>
@@ -575,6 +579,7 @@
     <string name="savings_account_transaction">Savings Account Transaction</string>
     <string name="transaction_period">Transaction Period</string>
     <string name="transaction_type">Transaction Type</string>
+    <string name="passcode_dash">-</string>
 
     <string name="required_sign">*</string>
     <string name="view_all"><u>view all</u></string>

@@ -15,6 +15,8 @@
     <color name="red">#FF0000</color>
     <color name="light_black">#1C1C1C</color>
 
+    <color name="light_green_for_fingerprint">#03A87C</color>
+
     <color name="dashboard_gray_background">#B2C1C8</color>
 
     <!-- A light Holo shade of blue -->
@@ -56,6 +58,7 @@
     <color name="accent">#FF4081</color>
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
+    <color name="keypad_btn_color">#F9F9F9</color>
     <color name="icons">#FFFFFF</color>
     <color name="divider">#BDBDBD</color>
     <color name="cell_background_color">#ffffff</color>
