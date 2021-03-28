@@ -7,7 +7,7 @@
 
     <style name="MaterialAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/accent</item>
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/primary</item>
         <item name="colorPrimary">@color/primary</item>
         <item name="colorButtonNormal">@color/primary</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>

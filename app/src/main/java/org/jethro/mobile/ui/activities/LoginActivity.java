@@ -4,7 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -18,10 +19,10 @@ import org.jethro.mobile.utils.Toaster;
 
 import javax.inject.Inject;
 
-import androidx.appcompat.widget.AppCompatButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @author Vishwajeet
@@ -89,7 +90,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
      */
     @Override
     public void showPassCodeActivity() {
-        showToast(getString(R.string.toast_welcome, userName));
+//        showToast(getString(R.string.toast_welcome, userName));
         startPassCodeActivity();
     }
 
@@ -100,7 +101,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
      */
     @Override
     public void showMessage(String errorMessage) {
-        showToast(errorMessage, Toast.LENGTH_LONG);
+        BaseActivity.showAlertDialogForError(this, errorMessage);
         llLogin.setVisibility(View.VISIBLE);
     }
 
@@ -116,7 +117,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
 
     @Override
     public void clearUsernameError() {
-        tilUsername.setErrorEnabled(false);
+        tilUsername.setError(null);
     }
 
     @Override

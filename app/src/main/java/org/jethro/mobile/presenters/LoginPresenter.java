@@ -100,8 +100,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                                         errorMessage =
                                                 ((HttpException) e).response().errorBody().string();
                                         getMvpView()
-                                                .showMessage(MFErrorParser.parseError(errorMessage)
-                                                        .getDeveloperMessage());
+                                                .showMessage(((HttpException) e).message());
                                     }
                                 }
                             } catch (Throwable throwable) {
@@ -117,9 +116,10 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                                 final String authToken = Constants.BASIC +
                                         user.getBase64EncodedAuthenticationKey();
                                 saveAuthenticationTokenForSession(userName, userID, authToken);
+                                getMvpView().hideProgress();
                                 getMvpView().onLoginSuccess(userName);
                             } else {
-                                getMvpView().hideProgress();
+                                getMvpView().showMessage("Server Error");
                             }
                         }
                     })
@@ -179,20 +179,14 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         final Resources resources = context.getResources();
         final String correctUsername = username.replaceFirst("\\s++$", "").trim();
         if (username == null || username.matches("\\s*") || username.isEmpty()) {
-            getMvpView().showUsernameError(context.getString(R.string.error_validation_blank,
-                    context.getString(R.string.username)));
-            credentialValid = false;
+            getMvpView().showUsernameError("Required Field");
+            return false;
         } else if (username.length() < 5) {
-            getMvpView().showUsernameError(context.getString(R.string.error_validation_minimum_chars
-                    , resources.getString(R.string.username), resources.getInteger(R.integer.
-                            username_minimum_length)));
-            credentialValid = false;
+            getMvpView().showUsernameError("Invalid Username");
+            return false;
         } else if (correctUsername.contains(" ")) {
-            getMvpView().showUsernameError(context.getString(
-                    R.string.error_validation_cannot_contain_spaces,
-                    resources.getString(R.string.username),
-                    context.getString(R.string.not_contain_username)));
-            credentialValid = false;
+            getMvpView().showUsernameError("Invalid Username");
+            return false;
         } else {
             getMvpView().clearUsernameError();
         }
@@ -200,12 +194,12 @@ public class LoginPresenter extends BasePresenter<LoginView> {
         if (password == null || password.isEmpty()) {
             getMvpView().showPasswordError(context.getString(R.string.error_validation_blank,
                     context.getString(R.string.password)));
-            credentialValid = false;
+            return false;
         } else if (password.length() < 6) {
             getMvpView().showPasswordError(context.getString(R.string.error_validation_minimum_chars
                     , resources.getString(R.string.password), resources.getInteger(R.integer.
                             password_minimum_length)));
-            credentialValid = false;
+            return false;
         } else {
             getMvpView().clearPasswordError();
         }

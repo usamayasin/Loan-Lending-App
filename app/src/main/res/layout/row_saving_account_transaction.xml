@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:background="@color/white"
+              android:background="@drawable/rectangular_border"
               android:layout_height="wrap_content"
               android:layout_width="match_parent"
               android:orientation="horizontal"
@@ -9,6 +9,7 @@
     <View
         android:id="@+id/v_indicator"
         android:layout_gravity="center"
+        android:visibility="gone"
         android:layout_height="@dimen/account_status_width"
         android:layout_width="@dimen/account_status_width"/>
 
@@ -16,7 +17,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_width="0dp"
-        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
         android:paddingEnd="@dimen/layout_padding_8dp"
         android:paddingLeft="@dimen/row_padding_left"
         android:paddingRight="@dimen/layout_padding_8dp"
@@ -27,7 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/medium_text"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:gravity="start"
+            android:layout_weight="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
             android:textColor="@color/black"/>
 
         <TextView
@@ -35,6 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/small_text"
+            android:layout_weight="1"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="@color/gray_dark"/>
 
@@ -58,16 +63,17 @@
         android:orientation="vertical">
 
         <TextView
-            android:gravity="end"
+            android:gravity="start"
             android:id="@+id/tv_savingAccountAmount"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/medium_text"
+            android:textStyle="bold"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"/>
 
         <TextView
-            android:gravity="end"
+            android:gravity="start"
             android:id="@+id/tv_saving_account_running_balance"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

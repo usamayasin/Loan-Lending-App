@@ -1,117 +1,134 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ This project is licensed under the open source MPL V2.
   ~ See https://github.com/openMF/self-service-app/blob/master/LICENSE.md
   -->
 
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_loan_summary"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="visible">
 
-        <androidx.cardview.widget.CardView
-            android:background="@color/white"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            app:cardElevation="@dimen/cardview_default_elevation"
-            app:cardUseCompatPadding="true">
+            android:background="@drawable/rectangular_border"
+            android:orientation="horizontal"
+            android:padding="@dimen/default_padding"
+            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/layout_padding_8dp"
+            android:weightSum="2">
 
-            <TableLayout
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/login_padding_button"
+            <TextView
                 android:layout_width="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:text="@string/account_number"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black" />
 
-                <TableRow>
-                    <TextView
-                        android:layout_gravity="start"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:text="@string/account_number"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:gravity="start"
-                        android:id="@+id/tv_account_number"
-                        android:layout_gravity="start"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        tools:text="@string/account_number"/>
-                </TableRow>
+            <TextView
+                android:id="@+id/tv_account_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:text="123123"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"
+                android:textStyle="bold" />
+        </LinearLayout>
 
-                <TableRow>
-                    <TextView
-                        android:layout_gravity="start"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:text="@string/disbursement_date"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:gravity="start"
-                        android:id="@+id/tv_disbursement_date"
-                        android:layout_gravity="start"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        tools:text="@string/disbursement_date"/>
-                </TableRow>
-
-                <TableRow>
-                    <TextView
-                        android:layout_gravity="start"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:text="@string/no_of_payments"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        android:textColor="@color/black"/>
-                    <TextView
-                        android:gravity="start"
-                        android:id="@+id/tv_number_of_payments"
-                        android:layout_gravity="start"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                        tools:text="@string/no_of_payments"/>
-                </TableRow>
-
-            </TableLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <com.evrencoskun.tableview.TableView
-            android:id="@+id/tv_repayment_schedule"
-            android:layout_marginTop="@dimen/default_margin"
-            android:layout_marginBottom="@dimen/default_margin"
-            android:layout_marginLeft="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
-            android:layout_marginStart="@dimen/default_margin"
-            app:selected_color="@color/primary"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangular_border"
+            android:orientation="horizontal"
+            android:padding="@dimen/default_padding"
+            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/layout_padding_8dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:text="@string/disbursement_date"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_disbursement_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"
+                tools:text="@string/disbursement_date" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/rectangular_border"
+            android:orientation="horizontal"
+            android:padding="@dimen/default_padding"
+            android:paddingTop="8dp"
+            android:paddingBottom="@dimen/layout_padding_8dp"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:text="@string/no_of_payments"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_number_of_payments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:gravity="start"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                android:textColor="@color/black"
+                tools:text="@string/no_of_payments" />
+        </LinearLayout>
 
     </LinearLayout>
 
+    <com.evrencoskun.tableview.TableView
+        android:id="@+id/tv_repayment_schedule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_loan_summary"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/default_margin"
+        app:selected_color="@color/primary" />
+
     <include
-        layout="@layout/layout_sweet_exception_handler"
         android:id="@+id/layout_error"
-        android:visibility="gone"/>
+        layout="@layout/layout_sweet_exception_handler"
+        android:visibility="gone" />
 
 </RelativeLayout>
