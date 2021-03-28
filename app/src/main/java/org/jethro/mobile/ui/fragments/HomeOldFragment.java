@@ -17,26 +17,43 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jethro.mobile.R;
 import org.jethro.mobile.api.local.PreferencesHelper;
+import org.jethro.mobile.models.accounts.loan.LoanAccount;
+import org.jethro.mobile.models.accounts.savings.SavingAccount;
+import org.jethro.mobile.models.accounts.savings.SavingsWithAssociations;
+import org.jethro.mobile.models.accounts.savings.Transactions;
+import org.jethro.mobile.models.accounts.share.ShareAccount;
 import org.jethro.mobile.models.client.Client;
+import org.jethro.mobile.presenters.AccountsPresenter;
 import org.jethro.mobile.presenters.HomeOldPresenter;
+import org.jethro.mobile.presenters.SavingAccountsTransactionPresenter;
 import org.jethro.mobile.ui.activities.HomeActivity;
 import org.jethro.mobile.ui.activities.LoanApplicationActivity;
 import org.jethro.mobile.ui.activities.NotificationActivity;
 import org.jethro.mobile.ui.activities.UserProfileActivity;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
+import org.jethro.mobile.ui.adapters.HomeLoanListAdapter;
+import org.jethro.mobile.ui.adapters.HomeShareListAdapter;
 import org.jethro.mobile.ui.enums.AccountType;
 import org.jethro.mobile.ui.enums.ChargeType;
 import org.jethro.mobile.ui.fragments.base.BaseFragment;
+import org.jethro.mobile.ui.views.AccountsView;
 import org.jethro.mobile.ui.views.HomeOldView;
+import org.jethro.mobile.ui.views.SavingAccountsTransactionView;
 import org.jethro.mobile.utils.CircularImageView;
+import org.jethro.mobile.utils.ComparatorBasedOnId;
 import org.jethro.mobile.utils.Constants;
 import org.jethro.mobile.utils.CurrencyUtil;
+import org.jethro.mobile.utils.DateHelper;
 import org.jethro.mobile.utils.MaterialDialog;
 import org.jethro.mobile.utils.TextDrawable;
 import org.jethro.mobile.utils.Toaster;
@@ -46,7 +63,14 @@ import javax.inject.Inject;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -55,7 +79,7 @@ import butterknife.OnClick;
  * Created by michaelsosnick on 1/1/17.
  */
 
-public class HomeOldFragment extends BaseFragment implements HomeOldView,
+public class HomeOldFragment extends BaseFragment implements HomeOldView, AccountsView, SavingAccountsTransactionView,
         SwipeRefreshLayout.OnRefreshListener {
 
     public static final String LOG_TAG = HomeFragment.class.getSimpleName();
@@ -90,6 +114,19 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
     @BindView(R.id.tv_homeAccountTab)
     TextView tv_homeAccountTab;
 
+    @BindView(R.id.tv_homeAccountType)
+    TextView tv_homeAccountType;
+
+    @BindView(R.id.tv_homeAccountAmount)
+    TextView tv_homeAccountAmount;
+
+    @BindView(R.id.tv_homeAccountViewAll)
+    TextView tv_homeAccountViewAll;
+
+    @Inject
+    SavingAccountsTransactionPresenter savingAccountsTransactionPresenter;
+
+
     @BindView(R.id.tv_homeLoanTab)
     TextView tv_homeLoanTab;
 
@@ -99,8 +136,37 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
     @BindView(R.id.ll_homeAccountLayout)
     LinearLayout ll_homeAccountLayout;
 
+    @BindView(R.id.ll_homeLoanLayout)
+    LinearLayout ll_homeLoanLayout;
+
+    @BindView(R.id.ll_homeShareLayout)
+    LinearLayout ll_homeShareLayout;
+
+    @BindView(R.id.rv_homeShare)
+    RecyclerView rv_homeShare;
+
+    @BindView(R.id.rv_homeLoan)
+    RecyclerView rv_homeLoan;
+
+    @BindView(R.id.spinner_accounts)
+    Spinner spinner_accounts;
+
+    @BindView(R.id.tv_homeAccountLatestTransactionNumber)
+    TextView tv_homeAccountLatestTransactionNumber;
+
+    @BindView(R.id.tv_homeAccountLatestTransactionTime)
+    TextView tv_homeAccountLatestTransactionTime;
+    @BindView(R.id.tv_homeAccountLatestTransactionType)
+    TextView tv_homeAccountLatestTransactionType;
+    @BindView(R.id.tv_homeAccountLatestTransactionAmount)
+    TextView tv_homeAccountLatestTransactionAmount;
+
+
     @Inject
     HomeOldPresenter presenter;
+
+    @Inject
+    AccountsPresenter accountsPresenter;
 
     @Inject
     PreferencesHelper preferencesHelper;
@@ -113,6 +179,10 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
     private boolean isDetailVisible;
     private boolean isReceiverRegistered = false;
     private TextView tvNotificationCount;
+    private ArrayList spinnerList = new ArrayList<String>();
+    private List<SavingAccount> savingAccounts;
+    private Long selectedAccountID = 0L;
+    private List<Transactions> transactionsList;
 
     public static HomeOldFragment newInstance() {
         HomeOldFragment fragment = new HomeOldFragment();
@@ -121,7 +191,7 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_home_old, container, false);
         ((HomeActivity) getActivity()).getActivityComponent().inject(this);
         ButterKnife.bind(this, rootView);
@@ -129,6 +199,9 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
 
         presenter.attachView(this);
         setHasOptionsMenu(true);
+
+        accountsPresenter.attachView(this);
+        savingAccountsTransactionPresenter.attachView(this);
 
         slHomeContainer.setColorSchemeResources(R.color.blue_light, R.color.green_light, R
                 .color.orange_light, R.color.red_light);
@@ -140,11 +213,48 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
         }
         if (savedInstanceState == null) {
             loadClientData();
+            accountsPresenter.loadAccounts(Constants.SAVINGS_ACCOUNTS);
         }
+        spinnerList.clear();
+        spinner_accounts.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setAccountUIOnSpinnerValueChange(spinner_accounts.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         setToolbarTitle(getString(R.string.home));
         showUserInterface();
         return rootView;
+    }
+
+    private void setAccountUIOnSpinnerValueChange(String accountNo) {
+        SavingAccount selectedSavingAccount = null;
+        for (int index = 0; index < savingAccounts.size(); index++) {
+            if (savingAccounts.get(index).getAccountNo().equals(accountNo)) {
+                selectedSavingAccount = savingAccounts.get(index);
+                selectedAccountID = selectedSavingAccount.getId();
+                break;
+            }
+        }
+        tv_homeAccountAmount.setText(String.valueOf(selectedSavingAccount.getAccountBalance()));
+        tv_homeAccountType.setText(selectedSavingAccount.getProductName());
+        savingAccountsTransactionPresenter.loadSavingsWithAssociations(selectedSavingAccount.getId());
+
+    }
+
+    @OnClick(R.id.tv_homeAccountViewAll)
+    public void onClickViewAll() {
+        if (selectedAccountID != 0) {
+            ((BaseActivity) getActivity()).replaceFragment(SavingAccountsTransactionFragment.
+                    newInstance(selectedAccountID), true, R.id.container);
+            selectedAccountID = 0L;
+        }
     }
 
     private BroadcastReceiver notificationReceiver = new BroadcastReceiver() {
@@ -153,7 +263,6 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
             getActivity().invalidateOptionsMenu();
         }
     };
-
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -233,6 +342,43 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
         } else {
             hideOverviewState();
         }
+    }
+
+    @Override
+    public void showSavingAccountsDetail(SavingsWithAssociations savingsWithAssociations) {
+        transactionsList = savingsWithAssociations.getTransactions();
+        if (transactionsList.size() > 0) {
+            tv_homeAccountLatestTransactionAmount.setText(transactionsList.get(0).getAmount().toString());
+            tv_homeAccountLatestTransactionType.setText(transactionsList.get(0).getTransactionType().getValue());
+            tv_homeAccountLatestTransactionTime.setText(DateHelper.
+                    getDateAsString(transactionsList.get(0).getDate()));
+            tv_homeAccountLatestTransactionNumber.setText(String.valueOf(transactionsList.get(0).getAccountNo()));
+
+        } else {
+            tv_homeAccountLatestTransactionAmount.setText("");
+            tv_homeAccountLatestTransactionType.setText("");
+            tv_homeAccountLatestTransactionTime.setText("");
+            tv_homeAccountLatestTransactionNumber.setText("");
+            selectedAccountID = 0L;
+            Toast.makeText(requireContext(), "No Recent Transaction Found", Toast.LENGTH_SHORT).show();
+
+        }
+
+    }
+
+    @Override
+    public void showErrorFetchingSavingAccountsDetail(String message) {
+
+    }
+
+    @Override
+    public void showFilteredList(List<Transactions> list) {
+
+    }
+
+    @Override
+    public void showEmptyTransactions() {
+
     }
 
     /**
@@ -457,6 +603,36 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
 
     }
 
+    @Override
+    public void showLoanAccounts(List<LoanAccount> loanAccounts) {
+        if (loanAccounts.size() > 0) {
+            Collections.sort(loanAccounts, new ComparatorBasedOnId());
+            setLoanRecyclerView(loanAccounts);
+        } else {
+            Toast.makeText(requireContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void showSavingsAccounts(List<SavingAccount> savingAccounts) {
+        if (savingAccounts.size() > 0) {
+            this.savingAccounts = savingAccounts;
+            createAccountList();
+        } else {
+            Toast.makeText(requireContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void showShareAccounts(List<ShareAccount> shareAccounts) {
+        if (shareAccounts.size() > 0) {
+            Collections.sort(shareAccounts, new ComparatorBasedOnId());
+            setShareRecyclerView(shareAccounts);
+        } else {
+            Toast.makeText(requireContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     /**
      * It is called whenever any error occurs while executing a request
      *
@@ -496,63 +672,95 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView,
             slHomeContainer.removeAllViews();
         }
         presenter.detachView();
+        accountsPresenter.detachView();
+        savingAccountsTransactionPresenter.detachView();
     }
 
     @OnClick(R.id.tv_homeAccountTab)
-    public void selectAccountTab(){
+    public void selectAccountTab() {
         changeSelectedTabUI(tv_homeAccountTab);
         changeUnselectedTabUI(tv_homeLoanTab);
         changeUnselectedTabUI(tv_homeShareTab);
-        /*tv_homeAccountTab.setBackgroundResource(R.drawable.rounded_corner_background);
-        tv_homeAccountTab.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
-        tv_homeAccountTab.setTypeface(tv_homeAccountTab.getTypeface(), Typeface.BOLD);
-
-        tv_homeLoanTab.setBackgroundResource(0);
-        tv_homeLoanTab.setTypeface(tv_homeLoanTab.getTypeface(), Typeface.NORMAL);
-
-        tv_homeShareTab.setBackgroundResource(0);
-        tv_homeShareTab.setTypeface(tv_homeShareTab.getTypeface(), Typeface.NORMAL);*/
+        showView(ll_homeAccountLayout);
+        hideView(ll_homeLoanLayout);
+        hideView(ll_homeShareLayout);
+        accountsPresenter.loadAccounts(Constants.SAVINGS_ACCOUNTS);
     }
+
     @OnClick(R.id.tv_homeLoanTab)
-    public void selectLoanTab(){
+    public void selectLoanTab() {
         changeSelectedTabUI(tv_homeLoanTab);
         changeUnselectedTabUI(tv_homeAccountTab);
         changeUnselectedTabUI(tv_homeShareTab);
-       /* tv_homeLoanTab.setBackgroundResource(R.drawable.rounded_corner_background);
-        tv_homeLoanTab.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
-        tv_homeLoanTab.setTypeface(tv_homeLoanTab.getTypeface(), Typeface.BOLD);
-
-        tv_homeAccountTab.setBackgroundResource(0);
-        tv_homeAccountTab.setTypeface(tv_homeAccountTab.getTypeface(), Typeface.NORMAL);
-
-        tv_homeShareTab.setBackgroundResource(0);
-        tv_homeShareTab.setTypeface(tv_homeShareTab.getTypeface(), Typeface.NORMAL);*/
+        hideView(ll_homeAccountLayout);
+        showView(ll_homeLoanLayout);
+        hideView(ll_homeShareLayout);
+        accountsPresenter.loadAccounts(Constants.LOAN_ACCOUNTS);
     }
+
     @OnClick(R.id.tv_homeShareTab)
-    public void selectShareTab(){
+    public void selectShareTab() {
         changeSelectedTabUI(tv_homeShareTab);
         changeUnselectedTabUI(tv_homeAccountTab);
         changeUnselectedTabUI(tv_homeLoanTab);
-       /* tv_homeShareTab.setBackgroundResource(R.drawable.rounded_corner_background);
-        tv_homeShareTab.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
-        tv_homeShareTab.setTypeface(tv_homeShareTab.getTypeface(), Typeface.BOLD);
+        hideView(ll_homeAccountLayout);
+        hideView(ll_homeLoanLayout);
+        showView(ll_homeShareLayout);
+        accountsPresenter.loadAccounts(Constants.SHARE_ACCOUNTS);
 
-        tv_homeAccountTab.setBackgroundResource(0);
-        tv_homeAccountTab.setTypeface(tv_homeAccountTab.getTypeface(), Typeface.NORMAL);
-
-        tv_homeLoanTab.setBackgroundResource(0);
-        tv_homeLoanTab.setTypeface(tv_homeLoanTab.getTypeface(), Typeface.NORMAL);*/
     }
-    private void changeSelectedTabUI(TextView textView){
+
+    private void changeSelectedTabUI(TextView textView) {
         textView.setBackgroundResource(R.drawable.rounded_corner_background);
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.primary));
         textView.setTypeface(textView.getTypeface(), Typeface.BOLD);
     }
-    private void changeUnselectedTabUI(TextView textView){
+
+    private void changeUnselectedTabUI(TextView textView) {
         textView.setBackgroundResource(0);
         textView.setTypeface(textView.getTypeface(), Typeface.NORMAL);
         textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.home_views_color));
     }
+
+    private void hideView(LinearLayout view) {
+        view.setVisibility(View.GONE);
+    }
+
+    private void showView(LinearLayout view) {
+        view.setVisibility(View.VISIBLE);
+    }
+
+    private void setLoanRecyclerView(List<LoanAccount> loanAccounts) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        rv_homeLoan.setLayoutManager(layoutManager);
+        rv_homeLoan.setHasFixedSize(true);
+        HomeLoanListAdapter adapter = new HomeLoanListAdapter(loanAccounts);
+        rv_homeLoan.setAdapter(adapter);
+    }
+
+    private void setShareRecyclerView(List<ShareAccount> shareAccounts) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(RecyclerView.VERTICAL);
+        rv_homeShare.setLayoutManager(layoutManager);
+        rv_homeShare.setHasFixedSize(true);
+        HomeShareListAdapter adapter = new HomeShareListAdapter(shareAccounts);
+        rv_homeShare.setAdapter(adapter);
+    }
+
+    private void createAccountList() {
+        spinnerList.clear();
+        for (int index = 0; index < savingAccounts.size(); index++) {
+            spinnerList.add(savingAccounts.get(index).getAccountNo());
+        }
+        if (spinnerList.size() > 0) {
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+                    R.layout.home_account_spinner_text_layout, spinnerList);
+            spinner_accounts.setAdapter(adapter);
+            spinner_accounts.setSelection(0);
+        }
+    }
+
 
 }
 
