@@ -23,7 +23,7 @@ data class BeneficiaryPayload(
         var accountType: Int = 0,
 
         @SerializedName("transferLimit")
-        var transferLimit: Float = 0f,
+        var transferLimit: Int  = 0,
 
         @SerializedName("officeName")
         var officeName: String? = null

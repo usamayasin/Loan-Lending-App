@@ -330,7 +330,7 @@
     <string name="transfer_limit">Transfer Limit</string>
     <string name="add_beneficiary">Add Beneficiary</string>
     <string name="office_name">Office Name</string>
-    <string name="select_account_type">Select Account Type*</string>
+    <string name="select_account_type">Select Account Type</string>
     <string name="submit_beneficiary">Submit Beneficiary</string>
     <string name="enter_office_name">Enter Beneficiary Office Name</string>
     <string name="enter_beneficiary_name">Enter Beneficiary Name</string>

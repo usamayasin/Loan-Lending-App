@@ -3,9 +3,6 @@ package org.jethro.mobile.ui.fragments;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -26,7 +23,10 @@ import org.jethro.mobile.utils.Toaster;
 
 import javax.inject.Inject;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatButton;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -54,6 +54,12 @@ public class BeneficiaryDetailFragment extends BaseFragment implements Beneficia
     @BindView(R.id.tv_office_name)
     TextView tvOfficeName;
 
+    @BindView(R.id.item_update_beneficiary)
+    AppCompatButton updateButton;
+
+    @BindView(R.id.item_delete_beneficiary)
+    AppCompatButton deleteButton;
+
     @Inject
     BeneficiaryDetailPresenter presenter;
 
@@ -74,7 +80,24 @@ public class BeneficiaryDetailFragment extends BaseFragment implements Beneficia
         if (getArguments() != null) {
             beneficiary = getArguments().getParcelable(Constants.BENEFICIARY);
         }
-        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        updateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateButtonClicked(v);
+            }
+        });
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteButtonClicked(v);
+            }
+        });
     }
 
     @Nullable
@@ -107,43 +130,33 @@ public class BeneficiaryDetailFragment extends BaseFragment implements Beneficia
         tvOfficeName.setText(beneficiary.getOfficeName());
     }
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.menu_beneficiary, menu);
+
+    public void updateButtonClicked(View view){
+        ((BaseActivity) getActivity()).replaceFragment(BeneficiaryApplicationFragment.
+                newInstance(BeneficiaryState.UPDATE, beneficiary), true, R.id.container);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.item_update_beneficiary:
-                ((BaseActivity) getActivity()).replaceFragment(BeneficiaryApplicationFragment.
-                        newInstance(BeneficiaryState.UPDATE, beneficiary), true, R.id.container);
-                break;
-            case R.id.item_delete_beneficiary:
-                new MaterialDialog.Builder().init(getActivity())
-                        .setTitle(getString(R.string.delete_beneficiary))
-                        .setMessage(getString(R.string.delete_beneficiary_confirmation))
-                        .setPositiveButton(getString(R.string.delete),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                        presenter.deleteBeneficiary(beneficiary.getId());
-                                    }
-                                })
-                        .setNegativeButton(getString(R.string.cancel),
-                                new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                        .createMaterialDialog()
-                        .show();
-                break;
-        }
-        return true;
+    public void deleteButtonClicked(View view){
+        new MaterialDialog.Builder().init(getActivity())
+                .setTitle(getString(R.string.delete_beneficiary))
+                .setMessage(getString(R.string.delete_beneficiary_confirmation))
+                .setPositiveButton(getString(R.string.delete),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                presenter.deleteBeneficiary(beneficiary.getId());
+                            }
+                        })
+                .setNegativeButton(getString(R.string.cancel),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                .createMaterialDialog()
+                .show();
     }
 
     /**

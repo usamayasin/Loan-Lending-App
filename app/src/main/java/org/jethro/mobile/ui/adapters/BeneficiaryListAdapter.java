@@ -47,7 +47,7 @@ public class BeneficiaryListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         Beneficiary beneficiary = beneficiaryList.get(position);
         ((ViewHolder) holder).tvAccountNumber.setText(beneficiary.getAccountNumber());
         ((ViewHolder) holder).tvName.setText(beneficiary.getName());
-        ((ViewHolder) holder).tvOfficeName.setText(beneficiary.getOfficeName());
+        ((ViewHolder) holder).tvLimit.setText(beneficiary.getTransferLimit().toString());
     }
 
     @Override
@@ -68,8 +68,8 @@ public class BeneficiaryListAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @BindView(R.id.tv_account_number)
         TextView tvAccountNumber;
 
-        @BindView(R.id.tv_office_name)
-        TextView tvOfficeName;
+        @BindView(R.id.tv_limit)
+        TextView tvLimit;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -68,7 +68,7 @@ android {
         experimental = true
     }
     dexOptions {
-        javaMaxHeapSize "2g"
+        javaMaxHeapSize "6g"
     }
 }
 

@@ -64,8 +64,8 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     @BindView(R.id.til_beneficiary_name)
     TextInputLayout tilBeneficiaryName;
 
-    @BindView(R.id.layout_error)
-    View layoutError;
+//    @BindView(R.id.layout_error)
+//    View layoutError;
 
     @BindView(R.id.view_flipper)
     NestedScrollView nsvBeneficiary;
@@ -240,7 +240,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     public void onRetry() {
         if (Network.isConnected(getContext())) {
             presenter.loadBeneficiaryTemplate();
-            sweetUIErrorHandler.hideSweetErrorLayoutUI(nsvBeneficiary, layoutError);
+//            sweetUIErrorHandler.hideSweetErrorLayoutUI(nsvBeneficiary, layoutError);
         } else {
             Toaster.show(rootView, getString(R.string.internet_not_connected));
         }
@@ -312,9 +312,9 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     @Override
     public void showError(String msg) {
         if (!Network.isConnected(getContext())) {
-            sweetUIErrorHandler.showSweetNoInternetUI(nsvBeneficiary, layoutError);
+//            sweetUIErrorHandler.showSweetNoInternetUI(nsvBeneficiary, layoutError);
         } else {
-            sweetUIErrorHandler.showSweetErrorUI(msg, nsvBeneficiary, layoutError);
+//            sweetUIErrorHandler.showSweetErrorUI(msg, nsvBeneficiary, layoutError);
             Toaster.show(rootView, msg);
         }
     }

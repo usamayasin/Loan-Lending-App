@@ -46,7 +46,7 @@ public class SplashActivity extends BaseActivity {
         },2000);
 
         Animation myAnimation = AnimationUtils.loadAnimation(this,R.anim.animation);
-        splashImage.startAnimation(myAnimation);
+        if(splashImage!=null) splashImage.startAnimation(myAnimation);
 
     }
 }

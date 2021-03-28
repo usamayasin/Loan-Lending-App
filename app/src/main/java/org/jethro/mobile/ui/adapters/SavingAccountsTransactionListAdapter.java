@@ -1,6 +1,7 @@
 package org.jethro.mobile.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,10 +88,12 @@ public class SavingAccountsTransactionListAdapter extends
 
         ColorSelect color = getColor(transaction.getTransactionType());
         if (color == ColorSelect.RED) {
+            ((ViewHolder) holder).tvTransactionType.setTextColor(Color.parseColor("#D93C3F"));
             ((ViewHolder) holder).vIndicator.setRotation(180);
             ((ViewHolder) holder).vIndicator.setBackgroundDrawable(
                     ContextCompat.getDrawable(context, R.drawable.triangular_red_view));
         } else {
+            ((ViewHolder) holder).tvTransactionType.setTextColor(Color.parseColor("#ff14c416"));
             ((ViewHolder) holder).vIndicator.setRotation(0);
             ((ViewHolder) holder).vIndicator.setBackgroundDrawable(
                     ContextCompat.getDrawable(context, R.drawable.triangular_green_view));

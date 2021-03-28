@@ -9,6 +9,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/cell_background_color"
     android:layout_width="@dimen/row_header_width"
+    android:visibility="gone"
     android:layout_height="@dimen/cell_height">
 
     <LinearLayout
@@ -35,5 +36,6 @@
         android:layout_width="@dimen/table_header_line"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
+        android:visibility="gone"
         android:background="@color/header_line_color"/>
 </RelativeLayout>

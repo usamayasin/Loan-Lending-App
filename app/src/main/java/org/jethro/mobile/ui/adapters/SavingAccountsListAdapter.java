@@ -121,8 +121,8 @@ public class SavingAccountsListAdapter extends RecyclerView.Adapter<RecyclerView
 
     private void setSavingAccountsGeneralDetails(RecyclerView.ViewHolder holder, int colorId,
             String dateStr) {
-        ((ViewHolder) holder).ivStatusIndicator.setColorFilter(ContextCompat.
-                getColor(context, colorId));
+//        ((ViewHolder) holder).ivStatusIndicator.setColorFilter(ContextCompat.
+//                getColor(context, colorId));
         ((ViewHolder) holder).tvLastActive.setText(dateStr);
     }
 
@@ -138,9 +138,9 @@ public class SavingAccountsListAdapter extends RecyclerView.Adapter<RecyclerView
 
         @BindView(R.id.tv_savingAccountProductName)
         TextView tvSavingAccountProductName;
-
-        @BindView(R.id.iv_status_indicator)
-        AppCompatImageView ivStatusIndicator;
+//      label with accountsf
+//        @BindView(R.id.iv_status_indicator)
+//        AppCompatImageView ivStatusIndicator;
 
         @BindView(R.id.tv_last_active)
         TextView tvLastActive;
