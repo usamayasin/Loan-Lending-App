@@ -26,9 +26,12 @@
         android:id="@+id/fab_add_beneficiary"
         android:layout_gravity="bottom|end"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_16dp"
         android:layout_width="wrap_content"
         app:backgroundTint="@color/primary"
+        android:layout_marginBottom="100dp"
+        android:layout_marginEnd="@dimen/margin_16dp"
+        android:layout_marginRight="@dimen/margin_16dp"
+        android:layout_marginTop="@dimen/margin_16dp"
         app:srcCompat="@drawable/ic_add_white_24dp"/>
 
     <include
