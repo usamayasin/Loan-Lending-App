@@ -1,5 +1,6 @@
 package org.jethro.mobile.ui.fragments;
 
+import android.annotation.SuppressLint;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
@@ -27,6 +28,9 @@ import org.jethro.mobile.utils.Toaster;
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+
+import com.google.android.material.textfield.TextInputLayout;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -73,6 +77,30 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
     @BindView(R.id.password_strength)
     TextView strengthView;
 
+    @BindView(R.id.til_account_number)
+    TextInputLayout til_account_number;
+
+    @BindView(R.id.til_username)
+    TextInputLayout til_username;
+
+    @BindView(R.id.til_firstName)
+    TextInputLayout til_firstName;
+
+    @BindView(R.id.til_lastName)
+    TextInputLayout til_lastName;
+
+    @BindView(R.id.til_phoneNumber)
+    TextInputLayout til_phoneNumber;
+
+    @BindView(R.id.til_email)
+    TextInputLayout til_email;
+
+    @BindView(R.id.til_password)
+    TextInputLayout til_password;
+
+    @BindView(R.id.til_confirmPassword)
+    TextInputLayout til_confirmPassword;
+
 
     private View rootView;
 
@@ -84,7 +112,7 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_registration, container, false);
 
         ((BaseActivity) getActivity()).getActivityComponent().inject(this);
@@ -182,51 +210,70 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
 
     }
 
+    @SuppressLint({"StringFormatInvalid", "StringFormatMatches"})
     private boolean areFieldsValidated() {
+        clearTextInputLayoutErrorMessage();
 
         if (etAccountNumber.getText().toString().trim().length() == 0) {
-            Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.
+            // Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.account_number)));
+            setTextInputLayoutErrorMessage(til_account_number, getString(R.string.error_validation_blank, getString(R.string.
                     account_number)));
             return false;
         } else if (etUsername.getText().toString().trim().length() == 0) {
-            Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.
+            // Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.username)));
+            setTextInputLayoutErrorMessage(til_username, getString(R.string.error_validation_blank, getString(R.string.
                     username)));
             return false;
         } else if (etUsername.getText().toString().trim().length() < 6) {
-            Toaster.show(rootView, getString(R.string.error_username_greater_than_six));
+            // Toaster.show(rootView, getString(R.string.error_username_greater_than_six));
+            setTextInputLayoutErrorMessage(til_username, getString(R.string.error_username_greater_than_six));
+
             return false;
         } else if (etUsername.getText().toString().trim().contains(" ")) {
-            Toaster.show(rootView, getString(R.string.error_validation_cannot_contain_spaces,
+            /*Toaster.show(rootView, getString(R.string.error_validation_cannot_contain_spaces,
+                    getString(R.string.username), getString(R.string.not_contain_username)));*/
+            setTextInputLayoutErrorMessage(til_username, getString(R.string.error_validation_cannot_contain_spaces,
                     getString(R.string.username), getString(R.string.not_contain_username)));
             return false;
         } else if (etFirstName.getText().length() == 0) {
-            Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.
+            // Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.first_name)));
+            setTextInputLayoutErrorMessage(til_firstName, getString(R.string.error_validation_blank, getString(R.string.
                     first_name)));
             return false;
         } else if (etLastName.getText().toString().trim().length() == 0) {
-            Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.
+            //Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.last_name)));
+            setTextInputLayoutErrorMessage(til_lastName, getString(R.string.error_validation_blank, getString(R.string.
                     last_name)));
             return false;
         } else if (etEmail.getText().toString().trim().length() == 0) {
-            Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.
+            //Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.email)));
+            setTextInputLayoutErrorMessage(til_email, getString(R.string.error_validation_blank, getString(R.string.
                     email)));
             return false;
         } else if (etPassword.getText().toString().trim().length() == 0) {
-            Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.
+            // Toaster.show(rootView, getString(R.string.error_validation_blank, getString(R.string.password)));
+            setTextInputLayoutErrorMessage(til_password, getString(R.string.error_validation_blank, getString(R.string.
                     password)));
             return false;
         } else if (etPassword.getText().toString().trim().length()
                 < etPassword.getText().toString().length()) {
-            Toaster.show(rootView,
+          /*  Toaster.show(rootView,
                     getString(R.string.error_validation_cannot_contain_leading_or_trailing_spaces,
-                            getString(R.string.password)));
+                            getString(R.string.password)));*/
+            setTextInputLayoutErrorMessage(til_password, getString(R.string.error_validation_cannot_contain_leading_or_trailing_spaces,
+                    getString(R.string.password)));
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString().trim())
                 .matches()) {
-            Toaster.show(rootView, getString(R.string.error_invalid_email));
+            //Toaster.show(rootView, getString(R.string.error_invalid_email));
+            setTextInputLayoutErrorMessage(til_email, getString(R.string.error_invalid_email));
+
             return false;
         } else if (etPassword.getText().toString().trim().length() < 6) {
-            Toaster.show(rootView, getString(R.string.error_validation_minimum_chars,
+            /*Toaster.show(rootView, getString(R.string.error_validation_minimum_chars,
+                    getString(R.string.password), getResources().
+                            getInteger(R.integer.password_minimum_length)));*/
+            setTextInputLayoutErrorMessage(til_password, getString(R.string.error_validation_minimum_chars,
                     getString(R.string.password), getResources().
                             getInteger(R.integer.password_minimum_length)));
             return false;
@@ -260,5 +307,35 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
     public void onDestroyView() {
         super.onDestroyView();
         presenter.detachView();
+    }
+
+    private void setTextInputLayoutErrorMessage(TextInputLayout inputLayout, String message) {
+        inputLayout.setError(message);
+        inputLayout.requestFocus();
+
+    }
+
+    private void clearTextInputLayoutErrorMessage() {
+
+        til_account_number.setErrorEnabled(false);
+        til_account_number.clearFocus();
+
+        til_username.setErrorEnabled(false);
+        til_username.clearFocus();
+
+        til_firstName.setErrorEnabled(false);
+        til_firstName.clearFocus();
+
+        til_lastName.setErrorEnabled(false);
+        til_lastName.clearFocus();
+
+        til_email.setErrorEnabled(false);
+        til_email.clearFocus();
+
+        til_password.setErrorEnabled(false);
+        til_password.clearFocus();
+
+        til_confirmPassword.setErrorEnabled(false);
+        til_confirmPassword.clearFocus();
     }
 }

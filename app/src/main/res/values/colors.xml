@@ -64,6 +64,13 @@
     <color name="cell_background_color">#ffffff</color>
     <color name="screen_background_color">#F2F2F2</color>
     <color name="header_line_color">@color/blue_light</color>
+    <color name="forgot_password">#181918</color>
+    <color name="bottom_navigation_unslected_item_color">#B0B0B0</color>
+    <color name="home_views_color">#BEBEBE</color>
+    <color name="home_price_color">#03A87C</color>
+    <color name="home_load_list_pending_color">#D9A43C</color>
+
+    <color name="EditTextInputHeading">#989898</color>
 
     <!--Swipe Refresh Colors-->
     <array name="swipeRefreshColors">

@@ -45,9 +45,9 @@
     <string name="last_transaction">Last Transaction</string>
     <string name="made_on">Made on</string>
     <string name="make_transfer">Make a Transfer</string>
-    <string name="select_loan_product">Select Loan Product*</string>
-    <string name="purpose_of_loan">Purpose of Loan*</string>
-    <string name="principal_amount">Principal Amount*</string>
+    <string name="select_loan_product">Select Loan Product</string>
+    <string name="purpose_of_loan">Purpose of Loan</string>
+    <string name="principal_amount">Principal Amount</string>
     <string name="amount">Amount</string>
     <string name="remark">Remark</string>
     <string name="expected_disbursement_date">Expected Disbursement Date</string>
@@ -580,6 +580,9 @@
     <string name="transaction_period">Transaction Period</string>
     <string name="transaction_type">Transaction Type</string>
     <string name="passcode_dash">-</string>
+
+    <string name="required_sign">*</string>
+    <string name="view_all"><u>view all</u></string>
 
     <string-array name="languages" translatable="false">
         <item>English</item>

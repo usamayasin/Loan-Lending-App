@@ -8,34 +8,45 @@
             android:id="@+id/item_home"
             android:checked="true"
             android:icon="@drawable/ic_account_balance_black_24dp"
-            android:title="@string/home"/>
+            android:title="@string/home"
+            android:visible="false"/>
 
         <item
             android:id="@+id/item_accounts"
             android:icon="@drawable/ic_account_balance_wallet_black_24dp"
-            android:title="@string/accounts"/>
-
-        <item
-            android:id="@+id/item_recent_transactions"
-            android:checked="false"
-            android:icon="@drawable/ic_label_black_24dp"
-            android:title="@string/recent_transactions"/>
-
-        <item
-            android:id="@+id/item_charges"
-            android:checked="false"
-            android:icon="@drawable/ic_charges"
-            android:title="@string/charges"/>
-        <item
-            android:id="@+id/item_third_party_transfer"
-            android:checked="false"
-            android:icon="@drawable/ic_compare_arrows_black_24dp"
-            android:title="@string/third_party_transfer"/>
+            android:title="@string/accounts"
+            android:visible="false"/>
         <item
             android:id="@+id/item_beneficiaries"
             android:checked="false"
             android:icon="@drawable/ic_beneficiaries_48px"
             android:title="@string/manage_beneficiaries"/>
+
+        <item
+            android:id="@+id/item_recent_transactions"
+            android:checked="false"
+            android:icon="@drawable/ic_label_black_24dp"
+            android:title="@string/recent_transactions"
+            android:visible="false"/>
+
+        <item
+            android:id="@+id/item_charges"
+            android:checked="false"
+            android:icon="@drawable/ic_charges"
+            android:title="@string/charges"
+            android:visible="false"/>
+        <item
+            android:id="@+id/item_third_party_transfer"
+            android:checked="false"
+            android:icon="@drawable/ic_compare_arrows_black_24dp"
+            android:title="@string/third_party_transfer"
+            />
+        <item
+            android:id="@+id/item_apply_for_loan"
+            android:checked="false"
+            android:icon="@drawable/ic_loan"
+            android:title="@string/apply_for_loan"
+            />
 
     </group>
 
@@ -44,7 +55,8 @@
         <item
             android:id="@+id/item_settings"
             android:icon="@drawable/ic_settings"
-            android:title="@string/settings"/>
+            android:title="@string/settings"
+            android:visible="false"/>
         <item
             android:id="@+id/item_about_us"
             android:icon="@drawable/ic_info_black_24dp"
