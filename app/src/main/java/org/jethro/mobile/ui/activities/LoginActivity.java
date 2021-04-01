@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.jethro.mobile.R;
+import org.jethro.mobile.api.local.PreferencesHelper;
 import org.jethro.mobile.presenters.LoginPresenter;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.ui.views.LoginView;

@@ -10,4 +10,4 @@ data class BeneficiaryUpdatePayload @JvmOverloads constructor(
 
     @SerializedName("name") var name: String? = null,
 
-    @SerializedName("transferLimit") var transferLimit: Float = 0f)
+    @SerializedName("transferLimit") var transferLimit: Int = 0)

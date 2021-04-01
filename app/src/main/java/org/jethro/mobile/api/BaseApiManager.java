@@ -1,5 +1,7 @@
 package org.jethro.mobile.api;
 
+import android.util.Log;
+
 import org.jethro.mobile.api.local.PreferencesHelper;
 import org.jethro.mobile.api.services.AuthenticationService;
 import org.jethro.mobile.api.services.BeneficiaryService;
@@ -16,6 +18,7 @@ import org.jethro.mobile.api.services.UserDetailsService;
 
 import javax.inject.Inject;
 
+import okhttp3.Credentials;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -27,6 +30,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseApiManager {
 
     private static Retrofit retrofit;
+    private static Retrofit beneficiaryRetrofit;
+
     private static AuthenticationService authenticationApi;
     private static ClientService clientsApi;
     private static SavingAccountsListService savingAccountsListApi;
@@ -44,6 +49,12 @@ public class BaseApiManager {
     public BaseApiManager(PreferencesHelper preferencesHelper) {
         createService(preferencesHelper.getBaseUrl(), preferencesHelper.getTenant(),
                 preferencesHelper.getToken());
+
+        Log.e("check",preferencesHelper.getUserName()+" "+preferencesHelper.getPassword());
+        String authenticationToken = Credentials.basic("okoye","Pass1234");
+        createBeneficiaryService(preferencesHelper.getBaseUrl(),
+                SelfServiceInterceptor.DEFAULT_TENANT,authenticationToken);
+
     }
 
     private static void init() {
@@ -53,7 +64,6 @@ public class BaseApiManager {
         loanAccountsListApi = createApi(LoanAccountsListService.class);
         recentTransactionsApi = createApi(RecentTransactionsService.class);
         clientChargeApi = createApi(ClientChargeService.class);
-        beneficiaryApi = createApi(BeneficiaryService.class);
         thirdPartyTransferApi = createApi(ThirdPartyTransferService.class);
         registrationApi = createApi(RegistrationService.class);
         notificationApi = createApi(NotificationService.class);
@@ -73,6 +83,21 @@ public class BaseApiManager {
                 .client(new SelfServiceOkHttpClient(tenant, authToken).getMifosOkHttpClient())
                 .build();
         init();
+    }
+
+
+    private static <T> T createBeneficiaryApi(Class<T> clazz) {
+        return beneficiaryRetrofit.create(clazz);
+    }
+
+    public static void createBeneficiaryService(String endpoint, String tenant, String authToken) {
+        beneficiaryRetrofit = new Retrofit.Builder()
+                .baseUrl(new BaseURL().getUrl(endpoint))
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(new SelfServiceOkHttpClient(tenant, authToken).getMifosOkHttpClient())
+                .build();
+        beneficiaryApi = createBeneficiaryApi(BeneficiaryService.class);
     }
 
     public AuthenticationService getAuthenticationApi() {

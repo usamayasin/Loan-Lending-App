@@ -266,8 +266,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     private void submitUpdateBeneficiaryApplication() {
         BeneficiaryUpdatePayload payload = new BeneficiaryUpdatePayload();
         payload.setName(tilBeneficiaryName.getEditText().getText().toString());
-        payload.setTransferLimit(Float.parseFloat(tilTransferLimit.getEditText().getText().
-                toString()));
+        payload.setTransferLimit(100);
         presenter.updateBeneficiary(beneficiary.getId(), payload);
     }
 

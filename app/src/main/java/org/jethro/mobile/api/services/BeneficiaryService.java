@@ -29,13 +29,13 @@ public interface BeneficiaryService {
     @GET(ApiEndPoints.BENEFICIARIES + "/tpt/template")
     Observable<BeneficiaryTemplate> getBeneficiaryTemplate();
 
-    @POST(ApiEndPoints.BENEFICIARIES + "/tpt")
+    @POST(ApiEndPoints.BENEFICIARIES + "/tpt?tenantIdentifier=default&pretty=true")
     Observable<ResponseBody> createBeneficiary(@Body BeneficiaryPayload beneficiaryPayload);
 
-    @PUT(ApiEndPoints.BENEFICIARIES + "/tpt/{beneficiaryId}")
+    @PUT(ApiEndPoints.BENEFICIARIES + "/tpt/{beneficiaryId}?tenantIdentifier=default&pretty=true")
     Observable<ResponseBody> updateBeneficiary(@Path("beneficiaryId") long beneficiaryId,
                                                @Body BeneficiaryUpdatePayload payload);
 
-    @DELETE(ApiEndPoints.BENEFICIARIES + "/tpt/{beneficiaryId}")
+    @DELETE(ApiEndPoints.BENEFICIARIES + "/tpt/{beneficiaryId}?tenantIdentifier=default&pretty=true")
     Observable<ResponseBody> deleteBeneficiary(@Path("beneficiaryId") long beneficiaryId);
 }

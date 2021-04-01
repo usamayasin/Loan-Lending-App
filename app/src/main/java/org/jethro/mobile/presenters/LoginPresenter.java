@@ -115,6 +115,7 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                                 final long userID = user.getUserId();
                                 final String authToken = Constants.BASIC +
                                         user.getBase64EncodedAuthenticationKey();
+                                preferencesHelper.setPassword(password);
                                 saveAuthenticationTokenForSession(userName, userID, authToken);
                                 getMvpView().hideProgress();
                                 getMvpView().onLoginSuccess(userName);
