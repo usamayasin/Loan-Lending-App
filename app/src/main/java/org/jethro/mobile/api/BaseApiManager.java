@@ -16,6 +16,7 @@ import org.jethro.mobile.api.services.UserDetailsService;
 
 import javax.inject.Inject;
 
+import okhttp3.Credentials;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -27,6 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class BaseApiManager {
 
     private static Retrofit retrofit;
+    private static Retrofit signUpretrofit;
     private static AuthenticationService authenticationApi;
     private static ClientService clientsApi;
     private static SavingAccountsListService savingAccountsListApi;
@@ -44,6 +46,10 @@ public class BaseApiManager {
     public BaseApiManager(PreferencesHelper preferencesHelper) {
         createService(preferencesHelper.getBaseUrl(), preferencesHelper.getTenant(),
                 preferencesHelper.getToken());
+
+        String authenticationToken = Credentials.basic("genuser", "R3s0lut#657");
+        createSignUpService("https://ahead-dev.com/fineract-provider/api/v1",
+                SelfServiceInterceptor.DEFAULT_TENANT,authenticationToken);
     }
 
     private static void init() {
@@ -55,7 +61,6 @@ public class BaseApiManager {
         clientChargeApi = createApi(ClientChargeService.class);
         beneficiaryApi = createApi(BeneficiaryService.class);
         thirdPartyTransferApi = createApi(ThirdPartyTransferService.class);
-        registrationApi = createApi(RegistrationService.class);
         notificationApi = createApi(NotificationService.class);
         guarantorService = createApi(GuarantorService.class);
         userDetailsService = createApi(UserDetailsService.class);
@@ -63,6 +68,20 @@ public class BaseApiManager {
 
     private static <T> T createApi(Class<T> clazz) {
         return retrofit.create(clazz);
+    }
+
+    private static <T> T createSignUpApi(Class<T> clazz) {
+        return signUpretrofit.create(clazz);
+    }
+
+    public static void createSignUpService(String endpoint, String tenant, String authToken) {
+       signUpretrofit = new Retrofit.Builder()
+                    .baseUrl(new BaseURL().getUrl(endpoint))
+                    .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .client(new SelfServiceOkHttpClient(tenant, authToken).getMifosOkHttpClient())
+                    .build();
+        registrationApi = createSignUpApi(RegistrationService.class);
     }
 
     public static void createService(String endpoint, String tenant, String authToken) {

@@ -31,7 +31,7 @@
                     android:layout_weight="2"
                     android:layout_width="0dp"
                     android:text="@string/client_name"
-                    android:textColor="@color/light_grey"/>
+                    android:textColor="@color/black"/>
 
                 <TextView
                     style="@style/Base.TextAppearance.AppCompat.Medium"
@@ -40,6 +40,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
                     android:layout_width="0dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
                     tools:text="@string/medium_text"/>
 
             </LinearLayout>
@@ -56,7 +58,7 @@
                     android:layout_weight="2"
                     android:layout_width="0dp"
                     android:text="@string/submission_date"
-                    android:textColor="@color/light_grey"/>
+                    android:textColor="@color/black"/>
 
                 <TextView
                     style="@style/Base.TextAppearance.AppCompat.Medium"
@@ -64,6 +66,8 @@
                     android:id="@+id/tv_submission_date"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
                     android:layout_width="0dp"
                     tools:text="@string/medium_text"/>
 
@@ -73,22 +77,35 @@
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/default_padding"
-        android:layout_marginTop="@dimen/default_padding"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:text="@string/select_product_id"
-        android:textColor="@color/light_grey"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/select_product_id"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/asterisk"
+            android:textColor="@color/primary"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <Spinner
-        style="@style/Widget.AppCompat.Spinner.Underlined"
         android:id="@+id/sp_product_id"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/default_padding"
-        android:layout_marginTop="@dimen/default_padding"
         android:layout_width="match_parent"
-        android:spinnerMode="dropdown"/>
+        android:layout_height="50dp"
+        android:spinnerMode="dropdown"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/spinner_background"
+        android:paddingTop="@dimen/default_margin"
+        android:paddingBottom="@dimen/default_margin" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_submit"

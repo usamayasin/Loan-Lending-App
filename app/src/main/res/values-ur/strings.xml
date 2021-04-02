@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mifos موبائل</string>
+    <string name="app_name">Ahead</string>
     <string name="login">لاگ ان کریں</string>
     <string name="toast_welcome">خوش آمدید %1$s</string>
     <string name="unable_to_connect">انٹرنیٹ سے منسلک نہیں</string>

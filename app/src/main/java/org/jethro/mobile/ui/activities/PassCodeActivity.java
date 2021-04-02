@@ -6,16 +6,18 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
-
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import com.mifos.mobile.passcode.utils.PasscodePreferencesHelper;
-
 import org.jethro.mobile.R;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.utils.AESEncryption;
 import org.jethro.mobile.utils.CheckSelfPermissionAndRequest;
 import org.jethro.mobile.utils.Constants;
+import java.util.concurrent.Executor;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -28,6 +30,10 @@ public class PassCodeActivity extends BaseActivity {
     private boolean isInitialScreen;
     private boolean showPassCodeFlag = false;
     private AppCompatButton submitPassocdeButton;
+
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,44 @@ public class PassCodeActivity extends BaseActivity {
             requestPermission();
         }
 
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(PassCodeActivity.this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(),
+                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+                        .show();
+//                showAlertDialogForError(PassCodeActivity.this,"Authentication Error");
+
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                startHomeActivity();
+                Toast.makeText(getApplicationContext(),
+                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(), "Authentication failed",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                showAlertDialogForError(PassCodeActivity.this,"Authentication failed");
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric login")
+                .setSubtitle("Log in using your biometric")
+                .setNegativeButtonText(" ")
+                .build();
     }
 
     private void setupPassCodeButton() {
@@ -132,49 +176,9 @@ public class PassCodeActivity extends BaseActivity {
     }
 
     public void startHomeActivity() {
-        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Alert")
-                .setContentText("You are Successfully Logged in!")
-                .setConfirmText("Ok")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismissWithAnimation();
-                        startActivity(new Intent(PassCodeActivity.this, HomeActivity.class));
-                        finish();
-                    }
-                }).show();
+        startActivity(new Intent(PassCodeActivity.this, HomeActivity.class));
+        finish();
     }
-
-//    @Override
-//    public void startLoginActivity() {
-//        new MaterialDialog.Builder().init(PassCodeActivity.this)
-//                .setCancelable(false)
-//                .setMessage(R.string.login_using_password_confirmation)
-//                .setPositiveButton(getString(R.string.logout),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                Intent i = new Intent(PassCodeActivity.this,
-//                                        LoginActivity.class);
-//                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.
-//                                        FLAG_ACTIVITY_CLEAR_TASK);
-//                                startActivity(i);
-//                                finish();
-//                            }
-//                        })
-//                .setNegativeButton(getString(R.string.cancel),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        })
-//                .createMaterialDialog()
-//                .show();
-//    }
-//
-
 
     @Override
     public void onBackPressed() {
@@ -228,6 +232,6 @@ public class PassCodeActivity extends BaseActivity {
     }
 
     public void startBiometricActivity(View view){
-        startActivity(new Intent(PassCodeActivity.this, BiometricActivity.class));
+        biometricPrompt.authenticate(promptInfo);
     }
 }

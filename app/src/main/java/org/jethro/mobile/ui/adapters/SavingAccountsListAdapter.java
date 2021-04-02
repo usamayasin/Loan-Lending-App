@@ -1,11 +1,14 @@
 package org.jethro.mobile.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.RecyclerView;
 import org.jethro.mobile.R;
 import org.jethro.mobile.injection.ActivityContext;
 import org.jethro.mobile.models.accounts.savings.SavingAccount;
@@ -17,9 +20,6 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -79,30 +79,36 @@ public class SavingAccountsListAdapter extends RecyclerView.Adapter<RecyclerView
                         R.color.deposit_green);
                 setSavingAccountsGeneralDetails(holder, R.color.deposit_green, DateHelper.
                         getDateAsString(savingAccount.getLastActiveTransactionDate()));
+                ((ViewHolder) holder).tvClientSavingAccountNumber.setTextColor(Color.parseColor("#ff14c416"));
 
             } else if (savingAccount.getStatus().getApproved()) {
 
                 setSavingAccountsGeneralDetails(holder, R.color.light_green, context.getString(R.
                         string.string_and_string, context.getString(R.string.approved), DateHelper.
                         getDateAsString(savingAccount.getTimeLine().getApprovedOnDate())));
+                ((ViewHolder) holder).tvClientSavingAccountNumber.setTextColor(Color.parseColor("#ff8bf98a"));
 
             } else if (savingAccount.getStatus().getSubmittedAndPendingApproval()) {
 
                 setSavingAccountsGeneralDetails(holder, R.color.light_yellow, context.getString(R.
                         string.string_and_string, context.getString(R.string.submitted), DateHelper.
                         getDateAsString(savingAccount.getTimeLine().getSubmittedOnDate())));
+                ((ViewHolder) holder).tvClientSavingAccountNumber.setTextColor(Color.parseColor("#fff9ac06"));
 
             } else if (savingAccount.getStatus().getMatured()) {
 
                 setSavingAccountsDetails(((ViewHolder) holder), savingAccount, R.color.red_light);
                 setSavingAccountsGeneralDetails(holder, R.color.red_light, DateHelper.
                         getDateAsString(savingAccount.getLastActiveTransactionDate()));
+                ((ViewHolder) holder).tvClientSavingAccountNumber.setTextColor(Color.parseColor("#ffff4444"));
+
 
             } else {
 
                 setSavingAccountsGeneralDetails(holder, R.color.black, context.getString(R.string.
                         string_and_string, context.getString(R.string.closed), DateHelper.
                         getDateAsString(savingAccount.getTimeLine().getClosedOnDate())));
+                ((ViewHolder) holder).tvClientSavingAccountNumber.setTextColor(Color.parseColor("#000000"));
 
             }
         }

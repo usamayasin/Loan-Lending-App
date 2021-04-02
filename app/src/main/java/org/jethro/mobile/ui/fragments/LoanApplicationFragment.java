@@ -423,11 +423,8 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
 
         spLoanProducts.setSelection(loanProductAdapter
                 .getPosition(loanWithAssociations.getLoanProductName()));
-        tvAccountNumber.setText(getString(R.string.string_and_string,
-                getString(R.string.account_number) + " ", loanWithAssociations.getAccountNo()));
-        tvNewLoanApplication.setText(getString(R.string.string_and_string,
-                getString(R.string.update_loan_application) + " ",
-                loanWithAssociations.getClientName()));
+        tvAccountNumber.setText( loanWithAssociations.getAccountNo());
+        tvNewLoanApplication.setText(loanWithAssociations.getClientName());
         tilPrincipalAmount.getEditText().setText(String.format(Locale.getDefault(),
                 "%.2f", loanWithAssociations.getPrincipal()));
         tvCurrency.setText(loanWithAssociations.getCurrency().getDisplayLabel());
@@ -448,10 +445,8 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
     @Override
     public void showLoanTemplateByProduct(LoanTemplate loanTemplate) {
         this.loanTemplate = loanTemplate;
-        tvAccountNumber.setText(getString(R.string.string_and_string,
-                getString(R.string.account_number) + " ", loanTemplate.getClientAccountNo()));
-        tvNewLoanApplication.setText(getString(R.string.string_and_string,
-                getString(R.string.new_loan_application) + " ", loanTemplate.getClientName()));
+        tvAccountNumber.setText( loanTemplate.getClientAccountNo());
+        tvNewLoanApplication.setText(loanTemplate.getClientName());
         tilPrincipalAmount.getEditText().setText(String.valueOf(loanTemplate.getPrincipal()));
         tvCurrency.setText(loanTemplate.getCurrency().getDisplayLabel());
 
@@ -494,10 +489,8 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
                     .getPosition(loanWithAssociations.getLoanPurposeName()));
             isLoanUpdatePurposesInitialization = false;
         } else {
-            tvAccountNumber.setText(getString(R.string.string_and_string,
-                    getString(R.string.account_number) + " ", loanTemplate.getClientAccountNo()));
-            tvNewLoanApplication.setText(getString(R.string.string_and_string,
-                    getString(R.string.new_loan_application) + " ", loanTemplate.getClientName()));
+            tvAccountNumber.setText(loanTemplate.getClientAccountNo());
+            tvNewLoanApplication.setText( loanTemplate.getClientName());
             tilPrincipalAmount.getEditText().setText(String.valueOf(loanTemplate.getPrincipal()));
             tvCurrency.setText(loanTemplate.getCurrency().getDisplayLabel());
         }

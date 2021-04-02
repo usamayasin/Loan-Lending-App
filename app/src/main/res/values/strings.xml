@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ahead Mobile</string>
+    <string name="app_name">Ahead</string>
     <string name="login">Login</string>
     <string name="toast_welcome">Welcome %1$s</string>
     <string name="unable_to_connect">Not connected to internet</string>
@@ -139,7 +139,7 @@
     <string name="guarantor_details">Guarantor Details</string>
     <string name="joined_date">Joined Date</string>
     <string name="submit">Submit</string>
-    <string name="select_product_id">Select Product Id*</string>
+    <string name="select_product_id">Select Product Id</string>
     <string name="account_id">Account Id</string>
     <string name="new_saving_account_application">New Saving Account Application</string>
     <string name="update_savings_account">Update Savings Account</string>

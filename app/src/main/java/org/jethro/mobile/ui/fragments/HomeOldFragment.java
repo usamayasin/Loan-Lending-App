@@ -356,12 +356,10 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView, Accoun
 
         } else {
             tv_homeAccountLatestTransactionAmount.setText("");
-            tv_homeAccountLatestTransactionType.setText("");
+            tv_homeAccountLatestTransactionType.setText("No Recent Transaction Found");
             tv_homeAccountLatestTransactionTime.setText("");
             tv_homeAccountLatestTransactionNumber.setText("");
             selectedAccountID = 0L;
-            Toast.makeText(requireContext(), "No Recent Transaction Found", Toast.LENGTH_SHORT).show();
-
         }
 
     }
