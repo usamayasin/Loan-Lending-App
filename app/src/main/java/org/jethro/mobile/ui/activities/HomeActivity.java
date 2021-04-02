@@ -230,7 +230,7 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                 replaceFragment(BeneficiaryListFragment.newInstance(), true, R.id.container);
                 break;
             case R.id.item_apply_for_loan:
-                Toast.makeText(this, "Work in Progress", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(this, LoanApplicationActivity.class));
                 break;
             case R.id.item_settings:
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));

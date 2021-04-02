@@ -35,6 +35,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -84,7 +85,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     private SweetUIErrorHandler sweetUIErrorHandler;
 
     public static BeneficiaryApplicationFragment newInstance(BeneficiaryState beneficiaryState,
-            @Nullable Beneficiary beneficiary) {
+                                                             @Nullable Beneficiary beneficiary) {
         BeneficiaryApplicationFragment fragment = new BeneficiaryApplicationFragment();
         Bundle args = new Bundle();
         args.putSerializable(Constants.BENEFICIARY_STATE, beneficiaryState);
@@ -117,7 +118,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_beneficiary_application, container, false);
         ((BaseActivity) getActivity()).getActivityComponent().inject(this);
         ButterKnife.bind(this, rootView);
@@ -266,8 +267,15 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     private void submitUpdateBeneficiaryApplication() {
         BeneficiaryUpdatePayload payload = new BeneficiaryUpdatePayload();
         payload.setName(tilBeneficiaryName.getEditText().getText().toString());
-        payload.setTransferLimit(Float.parseFloat(tilTransferLimit.getEditText().getText().
-                toString()));
+        if (tilTransferLimit.getEditText().getText().toString().contains(".")) {
+            payload.setTransferLimit(Integer.parseInt(
+                    tilTransferLimit.getEditText().getText().toString().split("\\.")[0].toString()
+            ));
+        } else {
+            payload.setTransferLimit(Integer.parseInt(
+                    tilTransferLimit.getEditText().getText().toString()
+            ));
+        }
         presenter.updateBeneficiary(beneficiary.getId(), payload);
     }
 
