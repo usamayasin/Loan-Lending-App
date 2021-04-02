@@ -68,6 +68,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public void onLoginSuccess(String userName) {
         this.userName = userName;
         loginPresenter.loadClient();
+
     }
 
     /**

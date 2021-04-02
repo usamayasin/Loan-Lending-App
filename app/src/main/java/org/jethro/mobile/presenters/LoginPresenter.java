@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import org.jethro.mobile.R;
 import org.jethro.mobile.api.BaseApiManager;
 import org.jethro.mobile.api.DataManager;
+import org.jethro.mobile.api.SelfServiceInterceptor;
 import org.jethro.mobile.api.local.PreferencesHelper;
 import org.jethro.mobile.injection.ApplicationContext;
 import org.jethro.mobile.models.Page;
@@ -23,6 +24,7 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.plugins.RxJavaPlugins;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Credentials;
 import retrofit2.HttpException;
 
 /**
@@ -113,10 +115,15 @@ public class LoginPresenter extends BasePresenter<LoginView> {
                             if (user != null) {
                                 final String userName = user.getUsername();
                                 final long userID = user.getUserId();
+
                                 final String authToken = Constants.BASIC +
                                         user.getBase64EncodedAuthenticationKey();
-                                preferencesHelper.setPassword(password);
-                                saveAuthenticationTokenForSession(userName, userID, authToken);
+                               // preferencesHelper.setPassword(password);
+                                saveAuthenticationTokenForSession(userName, userID, authToken, password);
+                                String authenticationToken = Credentials.basic(userName,
+                                        password);
+                                BaseApiManager.createBeneficiaryService(preferencesHelper.getBaseUrl(),
+                                        SelfServiceInterceptor.DEFAULT_TENANT, authenticationToken);
                                 getMvpView().hideProgress();
                                 getMvpView().onLoginSuccess(userName);
                             } else {
@@ -216,10 +223,11 @@ public class LoginPresenter extends BasePresenter<LoginView> {
      * @param userID    - The userID of the user to be saved.
      * @param authToken - The authentication token to be saved.
      */
-    private void saveAuthenticationTokenForSession(String userName, long userID, String authToken) {
+    private void saveAuthenticationTokenForSession(String userName, long userID, String authToken, String password) {
         preferencesHelper.setUserName(userName);
         preferencesHelper.setUserId(userID);
         preferencesHelper.saveToken(authToken);
+        preferencesHelper.setPassword(password);
         reInitializeService();
     }
 

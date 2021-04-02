@@ -50,10 +50,10 @@ public class BaseApiManager {
         createService(preferencesHelper.getBaseUrl(), preferencesHelper.getTenant(),
                 preferencesHelper.getToken());
 
-        Log.e("check",preferencesHelper.getUserName()+" "+preferencesHelper.getPassword());
-        String authenticationToken = Credentials.basic("okoye","Pass1234");
+        String authenticationToken = Credentials.basic(preferencesHelper.getUserName().toString(),
+                preferencesHelper.getPassword().toString());
         createBeneficiaryService(preferencesHelper.getBaseUrl(),
-                SelfServiceInterceptor.DEFAULT_TENANT,authenticationToken);
+                SelfServiceInterceptor.DEFAULT_TENANT, authenticationToken);
 
     }
 
