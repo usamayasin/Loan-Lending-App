@@ -28,11 +28,12 @@
             android:layout_width="match_parent"
             android:lines="1"
             android:layout_weight="1"
-            android:gravity="start"
+            android:gravity="center"
             android:text="@string/medium_text"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="@color/black"
-            android:textStyle="bold"/>
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"/>
 
         <TextView
             android:id="@+id/tv_shareAccountProductName"
@@ -41,7 +42,9 @@
             android:layout_weight="1"
             android:text="@string/small_text"
             android:gravity="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"
             android:textColor="@color/black"/>
 
         <LinearLayout

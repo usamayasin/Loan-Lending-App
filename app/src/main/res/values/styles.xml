@@ -74,5 +74,12 @@
         <item name="fontWeight">400</item>
         <item name="fontFamily">@font/helvetica</item>
     </style>
+    <style name="profileTextViewFieldHeading">
+        <item name="android:textColor">@color/EditTextInputHeading</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="fontWeight">400</item>
+        <item name="fontFamily">@font/helvetica</item>
+    </style>
 
 </resources>

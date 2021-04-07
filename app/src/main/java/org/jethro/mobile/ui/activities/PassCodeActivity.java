@@ -1,27 +1,45 @@
 package org.jethro.mobile.ui.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.navigation.NavigationView;
 import com.mifos.mobile.passcode.utils.PasscodePreferencesHelper;
+
 import org.jethro.mobile.R;
+import org.jethro.mobile.api.local.PreferencesHelper;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.utils.AESEncryption;
 import org.jethro.mobile.utils.CheckSelfPermissionAndRequest;
 import org.jethro.mobile.utils.Constants;
+import org.jethro.mobile.utils.MaterialDialog;
+
 import java.util.concurrent.Executor;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class PassCodeActivity extends BaseActivity {
+
+    @Inject
+    PreferencesHelper preferencesHelper;
+
+    private LinearLayout ll_add_biometric;
 
     private int count = 0;
     private String passCodeString = "";
@@ -35,6 +53,7 @@ public class PassCodeActivity extends BaseActivity {
     private BiometricPrompt biometricPrompt;
     private BiometricPrompt.PromptInfo promptInfo;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +66,10 @@ public class PassCodeActivity extends BaseActivity {
         passCodeFourthDigit = findViewById(R.id.tv_passcode_fourth_digit);
         submitPassocdeButton = findViewById(R.id.btn_set_passcode);
         biometricLabel = findViewById(R.id.tv_biometric_label);
+        ll_add_biometric = findViewById(R.id.ll_add_biometric);
 
         isInitialScreen = getIntent().getBooleanExtra(Constants.INTIAL_LOGIN, false);
+
         setupPassCodeButton();
         if (!CheckSelfPermissionAndRequest.checkSelfPermission(this,
                 Manifest.permission.READ_PHONE_STATE)) {
@@ -98,6 +119,10 @@ public class PassCodeActivity extends BaseActivity {
     private void setupPassCodeButton() {
         if (isInitialScreen) {
             submitPassocdeButton.setText(getResources().getString(R.string.passcode_setup));
+        }
+        if (getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
+            submitPassocdeButton.setText("Change Passcode");
+            ll_add_biometric.setVisibility(View.GONE);
         } else {
             submitPassocdeButton.setText(getResources().getString(R.string.submit));
             biometricLabel.setText(getResources().getString(R.string.biometric));
@@ -144,6 +169,15 @@ public class PassCodeActivity extends BaseActivity {
                 try {
                     passcodePreferencesHelper.savePassCode(AESEncryption.encrypt(passCodeString));
                     startHomeActivity();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
+                try {
+                    showChangePasscodeDialog();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -181,7 +215,7 @@ public class PassCodeActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (isInitialScreen) {
+        if (isInitialScreen || getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
             super.onBackPressed();
         }
     }
@@ -232,5 +266,34 @@ public class PassCodeActivity extends BaseActivity {
 
     public void startBiometricActivity(View view){
         biometricPrompt.authenticate(promptInfo);
+    }
+
+    private void showChangePasscodeDialog() {
+        new MaterialDialog.Builder().init(PassCodeActivity.this)
+                .setCancelable(false)
+                .setMessage("Are you sure to change the passcode?")
+                .setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    passcodePreferencesHelper.savePassCode(AESEncryption.encrypt(passCodeString));
+                                    Toast.makeText(PassCodeActivity.this, "passcode change succesfully", Toast.LENGTH_SHORT).show();
+                                    clearPassCode(new View(PassCodeActivity.this));
+                                } catch (Exception e) {
+                                    Toast.makeText(PassCodeActivity.this, "passcode did not change ", Toast.LENGTH_SHORT).show();
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                .setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                .createMaterialDialog()
+                .show();
     }
 }

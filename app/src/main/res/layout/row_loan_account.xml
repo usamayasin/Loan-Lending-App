@@ -27,8 +27,10 @@
             android:ellipsize="end"
             android:gravity="start"
             android:text="@string/medium_text"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"/>
 
         <TextView
             android:id="@+id/tv_status_indicator"
@@ -37,7 +39,9 @@
             android:layout_weight="1"
             android:lines="1"
             android:gravity="center"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp" />
 
 
         <TextView
@@ -66,7 +70,9 @@
             android:gravity="center"
             android:layout_weight="1"
             android:textColor="@color/home_price_color"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp" />
 
     </LinearLayout>
 

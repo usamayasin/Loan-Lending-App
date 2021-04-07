@@ -161,6 +161,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     private void startPassCodeActivity() {
         Intent intent = new Intent(LoginActivity.this, PassCodeActivity.class);
         intent.putExtra(Constants.INTIAL_LOGIN, true);
+        intent.putExtra(Constants.CHANGE_PASSCODE, false);
         startActivity(intent);
         finish();
     }
