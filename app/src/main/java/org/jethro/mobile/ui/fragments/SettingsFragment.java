@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import org.jethro.mobile.R;
+import org.jethro.mobile.ui.activities.LoginActivity;
+import org.jethro.mobile.ui.activities.PassCodeActivity;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.utils.ConfigurationDialogFragmentCompat;
 import org.jethro.mobile.utils.ConfigurationPreference;
@@ -85,6 +87,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 ((BaseActivity) getActivity()).replaceFragment(UpdatePasswordFragment
                         .newInstance(), true, R.id.container);
                 break;
+            case Constants.PASSCODE: {
+                Intent intent = new Intent(requireContext(), PassCodeActivity.class);
+                intent.putExtra(Constants.INTIAL_LOGIN, false);
+                intent.putExtra(Constants.CHANGE_PASSCODE, true);
+                startActivity(intent);
+                break;
+            }
         }
         return super.onPreferenceTreeClick(preference);
     }

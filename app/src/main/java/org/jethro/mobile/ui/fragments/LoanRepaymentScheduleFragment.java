@@ -8,6 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.evrencoskun.tableview.TableView;
 import com.github.therajanmaurya.sweeterror.SweetUIErrorHandler;
@@ -21,6 +23,7 @@ import org.jethro.mobile.models.accounts.loan.tableview.RowHeader;
 import org.jethro.mobile.presenters.LoanRepaymentSchedulePresenter;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.ui.adapters.LoanRepaymentScheduleAdapter;
+import org.jethro.mobile.ui.adapters.LoanRepaymentScheduleRecyclerViewAdapter;
 import org.jethro.mobile.ui.fragments.base.BaseFragment;
 import org.jethro.mobile.ui.views.LoanRepaymentScheduleMvpView;
 import org.jethro.mobile.utils.Constants;
@@ -58,11 +61,16 @@ public class LoanRepaymentScheduleFragment extends BaseFragment implements
     @BindView(R.id.layout_error)
     View layoutError;
 
+    @BindView(R.id.rcv_loanRepaymentSchedule)
+    RecyclerView rcv_loanRepaymentSchedule;
+
     @Inject
     LoanRepaymentSchedulePresenter loanRepaymentSchedulePresenter;
 
     @Inject
     LoanRepaymentScheduleAdapter loanRepaymentScheduleAdapter;
+
+    LoanRepaymentScheduleRecyclerViewAdapter loanRepaymentScheduleRecyclerViewAdapter;
 
     SweetUIErrorHandler sweetUIErrorHandler;
 
@@ -150,9 +158,20 @@ public class LoanRepaymentScheduleFragment extends BaseFragment implements
         if (currencyRepresentation == null) {
             currencyRepresentation = loanWithAssociations.getCurrency().getCode();
         }
-        loanRepaymentScheduleAdapter
-                .setCurrency(currencyRepresentation);
-        setTableViewList(loanWithAssociations.getRepaymentSchedule().getPeriods());
+
+        //loanRepaymentScheduleRecyclerViewAdapter = new LoanRepaymentScheduleRecyclerViewAdapter();
+
+       /* loanRepaymentScheduleAdapter
+                .setCurrency(currencyRepresentation);*/
+
+        loanRepaymentScheduleRecyclerViewAdapter = new LoanRepaymentScheduleRecyclerViewAdapter();
+
+        loanRepaymentScheduleRecyclerViewAdapter.
+                setCurrency(currencyRepresentation);
+        setLoanRepaymetRecyclerView(loanWithAssociations.getRepaymentSchedule().getPeriods());
+
+        //setTableViewList(loanWithAssociations.getRepaymentSchedule().getPeriods());
+
         tvAccountNumber.setText(loanWithAssociations.getAccountNo());
         tvDisbursementDate.setText(DateHelper.getDateAsString(loanWithAssociations.
                 getTimeline().getExpectedDisbursementDate()));
@@ -160,7 +179,23 @@ public class LoanRepaymentScheduleFragment extends BaseFragment implements
                 valueOf(loanWithAssociations.getNumberOfRepayments()));
     }
 
+    private void setLoanRepaymetRecyclerView(List<Periods> periods) {
+        if (periods.size() > 0) {
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            layoutManager.setOrientation(RecyclerView.VERTICAL);
+            rcv_loanRepaymentSchedule.setLayoutManager(layoutManager);
+            rcv_loanRepaymentSchedule.setHasFixedSize(true);
+            loanRepaymentScheduleRecyclerViewAdapter.setLoanRepaymentList(periods);
+            rcv_loanRepaymentSchedule.setAdapter(loanRepaymentScheduleRecyclerViewAdapter);
+
+        } else {
+            Toast.makeText(requireContext(), "No Data Found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     private void setTableViewList(List<Periods> periods) {
+
         List<ColumnHeader> mColumnHeaderList = new ArrayList<>();
         List<RowHeader> mRowHeaders = new ArrayList<>();
         List<List<Cell>> mCellList = new ArrayList<>();

@@ -75,6 +75,8 @@ public class Constants {
 
     public static final String INTIAL_LOGIN = "initial_login";
 
+    public static final String CHANGE_PASSCODE = "change_passcode";
+
     public static final String CHARGE_TYPE = "charge_type";
 
     public static final String QR_DATA = "qrcode_data";
@@ -120,6 +122,7 @@ public class Constants {
     public static final String HAS_SETTINGS_CHANGED = "hasSettingsChanged";
 
     public static final String PASSWORD = "Password";
+    public static final String PASSCODE = "Passcode";
 
     public static final String SAVINGS_ACCOUNT_STATE = "savingsaccountstate";
 
