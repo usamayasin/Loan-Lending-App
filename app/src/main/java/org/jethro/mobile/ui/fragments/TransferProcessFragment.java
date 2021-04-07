@@ -31,6 +31,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by dilpreet on 1/7/17.
@@ -121,7 +122,7 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
     @OnClick(R.id.btn_start_transfer)
     public void startTransfer() {
         if (!Network.isConnected(getActivity())) {
-            Toaster.show(rootView, getString(R.string.internet_not_connected));
+            BaseActivity.showAlertDialogForError(getContext(),  getString(R.string.internet_not_connected));
             return;
         }
         if (transferType == TransferType.SELF) {
@@ -136,14 +137,28 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
      */
     @OnClick(R.id.btn_cancel_transfer)
     public void cancelTransfer() {
-        Toaster.cancelTransfer(rootView, getString(R.string.cancel_transfer),
-                getString(R.string.yes), new View.OnClickListener() {
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Alert")
+                .setContentText(getString(R.string.cancel_transfer))
+                .setConfirmText("Yes")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(SweetAlertDialog sDialog) {
                         getActivity().getSupportFragmentManager().popBackStack();
                         getActivity().getSupportFragmentManager().popBackStack();
+                        sDialog.dismissWithAnimation();
+                        ((BaseActivity) getActivity()).replaceFragment(ThirdPartyTransferFragment.newInstance(), true, R.id.container);
                     }
-                });
+                })
+                .setCancelText("No")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
+
     }
 
     /**
@@ -175,7 +190,7 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
      */
     @Override
     public void showError(String msg) {
-        Toaster.show(rootView, msg);
+        BaseActivity.showAlertDialogForError(getContext(), msg);
     }
 
     @Override

@@ -98,7 +98,7 @@ public class UpdatePasswordFragment extends BaseFragment implements UpdatePasswo
             rv = false;
         }
         if (!newPassword.equals(repeatPassword)) {
-            Toaster.show(rootView, getString(R.string.error_password_not_match));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.error_password_not_match));
             rv = false;
         }
         return rv;
@@ -116,7 +116,7 @@ public class UpdatePasswordFragment extends BaseFragment implements UpdatePasswo
         if (!Network.isConnected(getActivity())) {
             message = getString(R.string.no_internet_connection);
         }
-        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(), message);
     }
 
     @Override

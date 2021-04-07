@@ -98,7 +98,7 @@ public class AccountOverviewFragment extends BaseFragment implements AccountOver
 
     @Override
     public void showError(String message) {
-        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(), message);
     }
 
     @Override

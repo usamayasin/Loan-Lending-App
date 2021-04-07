@@ -206,7 +206,7 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
             payload.setOfficeId(1);
             payload.setSendPasswordToEmail(setSendPasswordToEmail);
             if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
-                Toaster.show(rootView, getString(R.string.error_password_not_match));
+                BaseActivity.showAlertDialogForError(getContext(), getString(R.string.error_password_not_match));
                 return;
             } else {
                 payload.setPassword(etPassword.getText().toString());
@@ -218,7 +218,7 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
             if (Network.isConnected(getContext())) {
                 presenter.registerUser(payload);
             } else {
-                Toaster.show(rootView, getString(R.string.no_internet_connection));
+                BaseActivity.showAlertDialogForError(getContext(), getString(R.string.no_internet_connection));
             }
         }
 

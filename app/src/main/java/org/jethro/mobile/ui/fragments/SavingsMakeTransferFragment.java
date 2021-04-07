@@ -249,7 +249,7 @@ public class SavingsMakeTransferFragment extends BaseFragment implements
             sweetUIErrorHandler.hideSweetErrorLayoutUI(layoutMakeTransfer, layoutError);
             savingsMakeTransferPresenter.loanAccountTransferTemplate();
         } else {
-            Toaster.show(rootView, getString(R.string.internet_not_connected));
+            BaseActivity.showAlertDialogForError(getContext(),getString(R.string.internet_not_connected));
         }
     }
 
@@ -306,7 +306,7 @@ public class SavingsMakeTransferFragment extends BaseFragment implements
      */
     @Override
     public void showToaster(String message) {
-        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(), message);
     }
 
     /**
@@ -320,7 +320,7 @@ public class SavingsMakeTransferFragment extends BaseFragment implements
             sweetUIErrorHandler.showSweetNoInternetUI(layoutMakeTransfer, layoutError);
         } else {
             sweetUIErrorHandler.showSweetErrorUI(message, layoutMakeTransfer, layoutError);
-            Toaster.show(rootView, message);
+            BaseActivity.showAlertDialogForError(getContext(), message);
         }
     }
 

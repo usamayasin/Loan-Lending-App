@@ -206,7 +206,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
         tilBeneficiaryName.setErrorEnabled(false);
 
         if (accountTypeId == -1) {
-            Toaster.show(rootView, getString(R.string.choose_account_type));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.choose_account_type));
             return;
         } else if (tilAccountNumber.getEditText().getText().toString().trim().equals("")) {
             tilAccountNumber.setError(getString(R.string.enter_account_number));
@@ -243,7 +243,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
             presenter.loadBeneficiaryTemplate();
 //            sweetUIErrorHandler.hideSweetErrorLayoutUI(nsvBeneficiary, layoutError);
         } else {
-            Toaster.show(rootView, getString(R.string.internet_not_connected));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.internet_not_connected));
         }
     }
 
@@ -323,7 +323,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
 //            sweetUIErrorHandler.showSweetNoInternetUI(nsvBeneficiary, layoutError);
         } else {
 //            sweetUIErrorHandler.showSweetErrorUI(msg, nsvBeneficiary, layoutError);
-            Toaster.show(rootView, msg);
+            BaseActivity.showAlertDialogForError(getContext(),msg);
         }
     }
 

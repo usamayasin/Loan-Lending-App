@@ -181,8 +181,7 @@ public class BeneficiaryAddOptionsFragment extends BaseFragment {
                             newInstance(), true, R.id.container);
 
                 } else {
-
-                    Toaster.show(rootView, getResources()
+                    BaseActivity.showAlertDialogForError(getContext(), getResources()
                             .getString(R.string.permission_denied_camera));
                 }
             }
@@ -193,7 +192,7 @@ public class BeneficiaryAddOptionsFragment extends BaseFragment {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     external_storage_read_status = true;
                 } else {
-                    Toaster.show(rootView, getResources()
+                    BaseActivity.showAlertDialogForError(getContext(), getResources()
                             .getString(R.string.permission_denied_storage));
                 }
 
@@ -204,7 +203,7 @@ public class BeneficiaryAddOptionsFragment extends BaseFragment {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     external_storage_write_status = true;
                 } else {
-                    Toaster.show(rootView, getResources()
+                    BaseActivity.showAlertDialogForError(getContext(), getResources()
                             .getString(R.string.permission_denied_storage));
                 }
             }

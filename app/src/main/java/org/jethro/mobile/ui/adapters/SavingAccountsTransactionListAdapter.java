@@ -78,7 +78,7 @@ public class SavingAccountsTransactionListAdapter extends
                 getTransactionType().getValue());
 
         if (transaction.getPaymentDetailData() != null) {
-            ((ViewHolder) holder).tvTransactionDetailData.setVisibility(View.VISIBLE);
+            ((ViewHolder) holder).tvTransactionDetailData.setVisibility(View.GONE);
             ((ViewHolder) holder).tvTransactionDetailData.setText(transaction.
                     getPaymentDetailData().getPaymentType().getName());
         }

@@ -509,7 +509,7 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
             llAddLoan.setVisibility(View.GONE);
             llError.setVisibility(View.VISIBLE);
         } else {
-            Toaster.show(rootView, message);
+            BaseActivity.showAlertDialogForError(getContext(), message);
         }
     }
 

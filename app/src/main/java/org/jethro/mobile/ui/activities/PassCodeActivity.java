@@ -98,7 +98,6 @@ public class PassCodeActivity extends BaseActivity {
     private void setupPassCodeButton() {
         if (isInitialScreen) {
             submitPassocdeButton.setText(getResources().getString(R.string.passcode_setup));
-            biometricLabel.setText(getResources().getString(R.string.setup_finger_print));
         } else {
             submitPassocdeButton.setText(getResources().getString(R.string.submit));
             biometricLabel.setText(getResources().getString(R.string.biometric));

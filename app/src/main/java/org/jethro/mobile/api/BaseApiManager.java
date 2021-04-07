@@ -48,12 +48,12 @@ public class BaseApiManager {
         createService(preferencesHelper.getBaseUrl(), preferencesHelper.getTenant(),
                 preferencesHelper.getToken());
 
-        String signUpauthenticationToken = Credentials.basic("genuser", "R3s0lut#657");
+        String signUpAuthenticationToken = Credentials.basic("genuser", "R3s0lut#657");
         createSignUpService("https://ahead-dev.com/fineract-provider/api/v1",
-                SelfServiceInterceptor.DEFAULT_TENANT,signUpauthenticationToken);
+                SelfServiceInterceptor.DEFAULT_TENANT,signUpAuthenticationToken);
 
-        String authenticationToken = Credentials.basic(preferencesHelper.getUserName().toString(),
-                preferencesHelper.getPassword().toString());
+        String authenticationToken = Credentials.basic(preferencesHelper.getUserName(),
+                preferencesHelper.getPassword());
         createBeneficiaryService(preferencesHelper.getBaseUrl(),
                 SelfServiceInterceptor.DEFAULT_TENANT, authenticationToken);
 

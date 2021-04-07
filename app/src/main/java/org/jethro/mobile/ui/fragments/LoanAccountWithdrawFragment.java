@@ -120,7 +120,7 @@ public class LoanAccountWithdrawFragment extends BaseFragment implements LoanAcc
      */
     @Override
     public void showLoanAccountWithdrawError(String message) {
-        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(), message);
     }
 
     @Override

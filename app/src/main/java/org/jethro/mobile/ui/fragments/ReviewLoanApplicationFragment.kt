@@ -1,17 +1,16 @@
 package org.jethro.mobile.ui.fragments
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProviders
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.fragment_review_loan_application.*
 import kotlinx.android.synthetic.main.layout_error.*
 import okhttp3.ResponseBody
-
 import org.jethro.mobile.R
 import org.jethro.mobile.models.payload.LoansPayload
 import org.jethro.mobile.ui.activities.base.BaseActivity
@@ -139,7 +138,7 @@ class ReviewLoanApplicationFragment : BaseFragment() {
         ll_add_loan.visibility = View.GONE
         ll_error.visibility = View.VISIBLE
     } else {
-        Toaster.show(rootView, message)
+        BaseActivity.showAlertDialogForError(context, message)
     }
 
     fun showProgress() {

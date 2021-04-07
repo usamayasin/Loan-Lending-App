@@ -124,12 +124,12 @@ public class SavingsAccountWithdrawFragment extends BaseFragment
 
     @Override
     public void showMessage(String message) {
-        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(),message);
     }
 
     @Override
     public void showError(String error) {
-        Toaster.show(rootView, error);
+        BaseActivity.showAlertDialogForError(getContext(),error);
     }
 
     @Override

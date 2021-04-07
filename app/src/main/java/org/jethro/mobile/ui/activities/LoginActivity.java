@@ -139,7 +139,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         if (Network.isConnected(this)) {
             loginPresenter.login(username, password);
         } else {
-            Toaster.show(llLogin, getString(R.string.no_internet_connection));
+            BaseActivity.showAlertDialogForError(this, getString(R.string.no_internet_connection));
         }
     }
 

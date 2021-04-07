@@ -261,7 +261,7 @@ public class UserProfileFragment extends BaseFragment implements UserDetailsView
      */
     @Override
     public void showError(String message) {
-        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(), message);
         sweetUIErrorHandler.showSweetCustomErrorUI(getString(R.string.error_fetching_user_profile),
                 R.drawable.ic_assignment_turned_in_black_24dp, appBarLayout,
                 layoutError);

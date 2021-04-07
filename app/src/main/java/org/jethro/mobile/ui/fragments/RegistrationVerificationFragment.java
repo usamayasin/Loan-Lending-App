@@ -77,7 +77,7 @@ public class RegistrationVerificationFragment extends BaseFragment implements
 
     @Override
     public void showError(String msg) {
-        Toaster.show(rootView, msg);
+        BaseActivity.showAlertDialogForError(getContext(), msg);
     }
 
     @Override

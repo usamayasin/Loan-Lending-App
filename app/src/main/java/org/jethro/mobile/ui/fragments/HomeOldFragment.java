@@ -643,7 +643,7 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView, Accoun
                 checkedItem == R.id.item_settings) {
             return;
         }
-        Toaster.show(rootView, errorMessage);
+        BaseActivity.showAlertDialogForError(getContext(), errorMessage);
     }
 
     /**

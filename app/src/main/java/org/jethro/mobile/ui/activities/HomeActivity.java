@@ -29,12 +29,16 @@ import org.jethro.mobile.presenters.UserDetailsPresenter;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.ui.enums.AccountType;
 import org.jethro.mobile.ui.enums.ChargeType;
+import org.jethro.mobile.ui.enums.LoanState;
 import org.jethro.mobile.ui.fragments.BeneficiaryListFragment;
 import org.jethro.mobile.ui.fragments.ClientAccountsFragment;
 import org.jethro.mobile.ui.fragments.ClientChargeFragment;
 import org.jethro.mobile.ui.fragments.HomeOldFragment;
+import org.jethro.mobile.ui.fragments.LoanApplicationFragment;
 import org.jethro.mobile.ui.fragments.NotificationFragment;
 import org.jethro.mobile.ui.fragments.RecentTransactionsFragment;
+import org.jethro.mobile.ui.fragments.SavingsMakeTransferFragment;
+import org.jethro.mobile.ui.fragments.SettingsFragment;
 import org.jethro.mobile.ui.fragments.ThirdPartyTransferFragment;
 import org.jethro.mobile.ui.views.UserDetailsView;
 import org.jethro.mobile.utils.CircularImageView;
@@ -42,6 +46,7 @@ import org.jethro.mobile.utils.Constants;
 import org.jethro.mobile.utils.MaterialDialog;
 import org.jethro.mobile.utils.TextDrawable;
 import org.jethro.mobile.utils.Toaster;
+import org.jethro.mobile.utils.Utils;
 import org.jethro.mobile.utils.fcm.RegistrationIntentService;
 
 import javax.inject.Inject;
@@ -137,6 +142,7 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                             // the current fragment.
                             clearFragmentBackStack();
                         }
+                        removeFragmentsFromContainer();
                         switch (item.getItemId()) {
                             case R.id.bottom_navigation_home: {
                                 hideToolbarElevation();
@@ -150,11 +156,13 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                                 return true;
                             }
                             case R.id.bottom_navigation_transfer: {
-                                replaceFragment(ThirdPartyTransferFragment.newInstance(), true, R.id.container);
+                                replaceFragment(SavingsMakeTransferFragment.newInstance(1, "")
+                                        , true, R.id.container);
+//                                replaceFragment(ThirdPartyTransferFragment.newInstance(), true, R.id.container);
                                 return true;
                             }
                             case R.id.bottom_navigation_settings: {
-                                startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
+                                replaceFragment(SettingsFragment.newInstance(), false, R.id.container);
                                 return true;
                             }
                         }
@@ -165,6 +173,11 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
 
     }
 
+    public void removeFragmentsFromContainer(){
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
+    }
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -179,6 +192,11 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         if (!isReceiverRegistered) {
@@ -186,7 +204,10 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                     new IntentFilter(Constants.REGISTER_ON_SERVER));
             isReceiverRegistered = true;
         }
-        bottomNavigation.setSelectedItemId(R.id.bottom_navigation_home);
+        if(Utils.ACTIVITY_FROM_NAME.contentEquals("SettingsActivity")){
+            bottomNavigation.setSelectedItemId(R.id.bottom_navigation_home);
+            Utils.ACTIVITY_FROM_NAME = "";
+        }
     }
 
     /**
@@ -224,13 +245,21 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                         R.id.container);
                 break;
             case R.id.item_third_party_transfer:
+                clearFragmentBackStack();
+                bottomNavigation.setSelectedItemId(R.id.bottom_navigation_transfer);
                 replaceFragment(ThirdPartyTransferFragment.newInstance(), true, R.id.container);
                 break;
             case R.id.item_beneficiaries:
+                clearFragmentBackStack();
+                bottomNavigation.setSelectedItemId(R.id.bottom_navigation_portfolio);
                 replaceFragment(BeneficiaryListFragment.newInstance(), true, R.id.container);
                 break;
             case R.id.item_apply_for_loan:
-                startActivity(new Intent(this, LoanApplicationActivity.class));
+                clearFragmentBackStack();
+                bottomNavigation.setSelectedItemId(R.id.bottom_navigation_portfolio);
+                replaceFragment(LoanApplicationFragment.newInstance(LoanState.CREATE), false,
+                        R.id.container);
+//                startActivity(new Intent(this, LoanApplicationActivity.class));
                 break;
             case R.id.item_settings:
                 startActivity(new Intent(HomeActivity.this, SettingsActivity.class));
@@ -402,7 +431,7 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
      */
     @Override
     public void showError(String message) {
-        showToast(message, Toast.LENGTH_SHORT);
+        BaseActivity.showAlertDialogForError(this, message);
     }
 
     @Override
@@ -429,7 +458,6 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                 return;
             }
             this.doubleBackToExitPressedOnce = true;
-            Toaster.show(findViewById(android.R.id.content), getString(R.string.exit_message));
             new Handler().postDelayed(new Runnable() {
 
                 @Override
@@ -437,6 +465,10 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                     doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
+        }
+
+        if (fragment instanceof LoanApplicationFragment || fragment instanceof SavingsMakeTransferFragment || fragment instanceof HomeOldFragment || fragment instanceof ClientAccountsFragment || fragment instanceof ThirdPartyTransferFragment || fragment instanceof SettingsFragment || fragment instanceof BeneficiaryListFragment) {
+            bottomNavigation.setSelectedItemId(R.id.bottom_navigation_home);
         }
 
         if (stackCount() != 0) {

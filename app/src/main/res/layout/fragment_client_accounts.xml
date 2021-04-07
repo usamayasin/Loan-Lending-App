@@ -35,7 +35,7 @@
         android:layout_marginRight="@dimen/margin_16dp"
         android:layout_marginTop="@dimen/margin_16dp"
         app:backgroundTint="@color/primary"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="62dp"
         android:layout_width="wrap_content"
         app:layout_behavior="org.jethro.mobile.utils.ScrollFabBehavior"
         app:srcCompat="@drawable/ic_add_white_24dp"

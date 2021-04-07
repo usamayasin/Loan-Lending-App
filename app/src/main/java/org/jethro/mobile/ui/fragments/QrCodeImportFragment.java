@@ -133,7 +133,7 @@ public class QrCodeImportFragment extends BaseFragment implements QrCodeImportVi
      */
     @Override
     public void showErrorReadingQr(String message) {
-        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(), message);
     }
 
 
@@ -195,7 +195,7 @@ public class QrCodeImportFragment extends BaseFragment implements QrCodeImportVi
         try {
             inputStream = getContext().getContentResolver().openInputStream(qrImageUri);
         } catch (FileNotFoundException e) {
-            Toaster.show(rootView, getString(R.string.error_fetching_image));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.error_fetching_image));
         }
 
         Bitmap b = BitmapFactory.decodeStream(inputStream, null, null);
@@ -204,7 +204,7 @@ public class QrCodeImportFragment extends BaseFragment implements QrCodeImportVi
                 inputStream.close();
             }
         } catch (Exception e) {
-            Toaster.show(rootView, getString(R.string.error_fetching_image));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.error_fetching_image));
         }
         cropImageView.setImageBitmap(b);
 

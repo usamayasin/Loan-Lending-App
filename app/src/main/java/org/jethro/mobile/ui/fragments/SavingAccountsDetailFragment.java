@@ -175,7 +175,7 @@ public class SavingAccountsDetailFragment extends BaseFragment implements Saving
             ((BaseActivity) getActivity()).replaceFragment(SavingsMakeTransferFragment
                     .newInstance(savingsId, Constants.TRANSFER_PAY_TO), true, R.id.container);
         } else {
-            Toaster.show(rootView, getString(R.string.account_not_active_to_perform_deposit));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.account_not_active_to_perform_deposit));
         }
     }
 
@@ -189,7 +189,7 @@ public class SavingAccountsDetailFragment extends BaseFragment implements Saving
             ((BaseActivity) getActivity()).replaceFragment(SavingsMakeTransferFragment
                     .newInstance(savingsId, Constants.TRANSFER_PAY_FROM), true, R.id.container);
         } else {
-            Toaster.show(rootView, getString(R.string.account_not_active_to_perform_transfer));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.account_not_active_to_perform_transfer));
         }
     }
 
