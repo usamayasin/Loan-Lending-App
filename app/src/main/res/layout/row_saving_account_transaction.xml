@@ -31,7 +31,9 @@
             android:text="@string/medium_text"
             android:gravity="start"
             android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"
             android:textColor="@color/black"/>
 
         <TextView
@@ -40,7 +42,10 @@
             android:layout_width="match_parent"
             android:text="@string/small_text"
             android:layout_weight="1"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"
             android:textColor="@color/gray_dark"/>
 
         <TextView
@@ -69,7 +74,9 @@
             android:layout_width="match_parent"
             android:text="@string/medium_text"
             android:textStyle="bold"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"
             android:textColor="@color/black"/>
 
         <TextView
@@ -78,7 +85,9 @@
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:text="@string/small_text"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"
             android:textColor="@color/gray_dark"/>
 
     </LinearLayout>

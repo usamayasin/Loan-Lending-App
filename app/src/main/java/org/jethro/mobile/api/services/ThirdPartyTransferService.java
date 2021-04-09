@@ -1,6 +1,7 @@
 package org.jethro.mobile.api.services;
 
 import org.jethro.mobile.api.ApiEndPoints;
+import org.jethro.mobile.models.payload.ThirdPartyTransferPayload;
 import org.jethro.mobile.models.payload.TransferPayload;
 import org.jethro.mobile.models.templates.account.AccountOptionsTemplate;
 
@@ -20,5 +21,5 @@ public interface ThirdPartyTransferService {
     Observable<AccountOptionsTemplate> getAccountTransferTemplate();
 
     @POST(ApiEndPoints.ACCOUNT_TRANSFER + "?type=\"tpt\"")
-    Observable<ResponseBody> makeTransfer(@Body TransferPayload transferPayload);
+    Observable<ResponseBody> makeTransfer(@Body ThirdPartyTransferPayload thirdPartyTransferPayload);
 }

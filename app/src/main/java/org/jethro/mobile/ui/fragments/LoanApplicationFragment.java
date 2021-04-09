@@ -328,7 +328,9 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
      * Initializes {@code tvExpectedDisbursementDate} with current Date
      */
     public void inflateDisbursementDate() {
-        mfDatePicker = MFDatePicker.newInstance(this, MFDatePicker.FUTURE_DAYS, active);
+        if(mfDatePicker == null){
+            mfDatePicker = MFDatePicker.newInstance(this, MFDatePicker.FUTURE_DAYS, active);
+        }
         tvExpectedDisbursementDate.setText(MFDatePicker.getDatePickedAsString());
         active = true;
     }
@@ -541,8 +543,12 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
                 break;
 
             case R.id.sp_loan_purpose:
-                if (loanTemplate.getLoanPurposeOptions() != null) {
-                    purposeId = loanTemplate.getLoanPurposeOptions().get(position).getId();
+                if(position != 0){
+                    if (loanTemplate.getLoanPurposeOptions() != null) {
+                        purposeId = loanTemplate.getLoanPurposeOptions().get(position-1).getId();
+                    }
+                }else {
+                    purposeId = -1;
                 }
                 break;
         }

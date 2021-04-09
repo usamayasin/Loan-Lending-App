@@ -22,7 +22,9 @@
         android:ellipsize="end"
         android:textStyle="bold"
         android:text="Festus Keyamo"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="15sp"
         android:textColor="@color/black" />
 
     <TextView
@@ -33,7 +35,9 @@
         android:ellipsize="end"
         android:text="123458"
         android:gravity="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="15sp"
         android:textColor="@color/black" />
 
     <TextView
@@ -44,7 +48,9 @@
         android:ellipsize="end"
         android:gravity="center"
         android:text="123456789"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="15sp"
         android:textColor="@color/black" />
 
 </LinearLayout>

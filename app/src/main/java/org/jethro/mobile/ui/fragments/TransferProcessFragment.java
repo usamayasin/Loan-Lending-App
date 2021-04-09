@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jethro.mobile.R;
+import org.jethro.mobile.models.payload.ThirdPartyTransferPayload;
 import org.jethro.mobile.models.payload.TransferPayload;
 import org.jethro.mobile.presenters.TransferProcessPresenter;
 import org.jethro.mobile.ui.activities.SavingsAccountContainerActivity;
@@ -68,6 +69,7 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
 
     private View rootView;
     private TransferPayload payload;
+    private ThirdPartyTransferPayload thirdPartyTransferPayload;
     private TransferType transferType;
 
     /**
@@ -78,10 +80,14 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
      * @param type    enum of {@link TransferType}
      * @return Instance of {@link TransferProcessFragment}
      */
-    public static TransferProcessFragment newInstance(TransferPayload payload, TransferType type) {
+    public static TransferProcessFragment newInstance(Object payload, TransferType type) {
         TransferProcessFragment fragment = new TransferProcessFragment();
         Bundle args = new Bundle();
-        args.putParcelable(Constants.PAYLOAD, payload);
+        if(type ==  TransferType.SELF){
+            args.putParcelable(Constants.PAYLOAD, (TransferPayload) payload);
+        } else {
+            args.putParcelable(Constants.PAYLOAD, (ThirdPartyTransferPayload) payload);
+        }
         args.putSerializable(Constants.TRANSFER_TYPE, type);
         fragment.setArguments(args);
         return fragment;
@@ -91,7 +97,11 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getActivity() != null) {
-            payload = getArguments().getParcelable(Constants.PAYLOAD);
+            if((TransferType) getArguments().getSerializable(Constants.TRANSFER_TYPE) == TransferType.SELF){
+                payload = getArguments().getParcelable(Constants.PAYLOAD);
+            }else {
+                thirdPartyTransferPayload = getArguments().getParcelable(Constants.PAYLOAD);
+            }
             transferType = (TransferType) getArguments().getSerializable(Constants.TRANSFER_TYPE);
         }
     }
@@ -107,11 +117,19 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
         ButterKnife.bind(this, rootView);
         presenter.attachView(this);
 
-        tvAmount.setText(CurrencyUtil.formatCurrency(getActivity(), payload.getTransferAmount()));
-        tvPayFrom.setText(String.valueOf(payload.getFromAccountNumber()));
-        tvPayTo.setText(String.valueOf(payload.getToAccountNumber()));
-        tvDate.setText(payload.getTransferDate());
-        tvRemark.setText(payload.getTransferDescription());
+        if((TransferType) getArguments().getSerializable(Constants.TRANSFER_TYPE) == TransferType.SELF){
+            tvAmount.setText(CurrencyUtil.formatCurrency(getActivity(), payload.getTransferAmount()));
+            tvPayFrom.setText(String.valueOf(payload.getFromAccountNumber()));
+            tvPayTo.setText(String.valueOf(payload.getToAccountNumber()));
+            tvDate.setText(payload.getTransferDate());
+            tvRemark.setText(payload.getTransferDescription());
+        }else {
+            tvAmount.setText(thirdPartyTransferPayload.getTransferAmount());
+            tvPayFrom.setText(String.valueOf(thirdPartyTransferPayload.getFromAccountNumber()));
+            tvPayTo.setText(String.valueOf(thirdPartyTransferPayload.getToAccountNumber()));
+            tvDate.setText(thirdPartyTransferPayload.getTransferDate());
+            tvRemark.setText(thirdPartyTransferPayload.getTransferDescription());
+        }
 
         return rootView;
     }
@@ -128,7 +146,7 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
         if (transferType == TransferType.SELF) {
             presenter.makeSavingsTransfer(payload);
         } else if (transferType == TransferType.TPT) {
-            presenter.makeTPTTransfer(payload);
+            presenter.makeTPTTransfer(thirdPartyTransferPayload);
         }
     }
 
@@ -175,7 +193,18 @@ public class TransferProcessFragment extends BaseFragment implements TransferPro
      */
     @Override
     public void showTransferredSuccessfully() {
-        Toaster.show(rootView, getString(R.string.transferred_successfully));
+        new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                .setTitleText("Alert")
+                .setContentText(getString(R.string.transferred_successfully))
+                .setConfirmText("Ok")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
         ivSuccess.setVisibility(View.VISIBLE);
         ((Animatable) ivSuccess.getDrawable()).start();
         btnClose.setVisibility(View.VISIBLE);

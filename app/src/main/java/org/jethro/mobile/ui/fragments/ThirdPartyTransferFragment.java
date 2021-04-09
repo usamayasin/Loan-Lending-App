@@ -22,6 +22,7 @@ import org.jethro.mobile.R;
 import org.jethro.mobile.models.beneficiary.Beneficiary;
 import org.jethro.mobile.models.beneficiary.BeneficiaryDetail;
 import org.jethro.mobile.models.payload.AccountDetail;
+import org.jethro.mobile.models.payload.ThirdPartyTransferPayload;
 import org.jethro.mobile.models.payload.TransferPayload;
 import org.jethro.mobile.models.templates.account.AccountOption;
 import org.jethro.mobile.models.templates.account.AccountOptionsTemplate;
@@ -201,7 +202,7 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
         spBeneficiary.setAdapter(beneficiaryAdapter);
         spBeneficiary.setOnItemSelectedListener(this);
 
-        transferDate = DateHelper.getSpecificFormat(DateHelper.FORMAT_dd_MMMM_yyyy,
+        transferDate = DateHelper.getSpecificFormat("dd/MM/yyyy",
                 MFDatePicker.getDatePickedAsString());
 
         pvOne.setCurrentActive();
@@ -234,22 +235,23 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
             return;
         }
 
-        TransferPayload transferPayload = new TransferPayload();
-        transferPayload.setFromAccountId(fromAccountOption.getAccountId());
-        transferPayload.setFromClientId(fromAccountOption.getClientId());
-        transferPayload.setFromAccountType(fromAccountOption.getAccountType().getId());
-        transferPayload.setFromOfficeId(fromAccountOption.getOfficeId());
-        transferPayload.setToOfficeId(beneficiaryAccountOption.getOfficeId());
-        transferPayload.setToAccountId(beneficiaryAccountOption.getAccountId());
-        transferPayload.setToClientId(beneficiaryAccountOption.getClientId());
-        transferPayload.setToAccountType(beneficiaryAccountOption.getAccountType().getId());
-        transferPayload.setTransferDate(transferDate);
-        transferPayload.setTransferAmount(Double.parseDouble(etAmount.getText().toString()));
-        transferPayload.setTransferDescription(etRemark.getText().toString());
-        transferPayload.setFromAccountNumber(fromAccountOption.getAccountNo());
-        transferPayload.setToAccountNumber(beneficiaryAccountOption.getAccountNo());
+        ThirdPartyTransferPayload thirdPartyTransferPayload = new ThirdPartyTransferPayload();
+        thirdPartyTransferPayload.setFromAccountId(fromAccountOption.getAccountNo());
+        thirdPartyTransferPayload.setFromClientId(fromAccountOption.getClientId());
+        thirdPartyTransferPayload.setFromAccountType(fromAccountOption.getAccountType().getId());
+        thirdPartyTransferPayload.setFromOfficeId(fromAccountOption.getOfficeId());
+        thirdPartyTransferPayload.setToOfficeId(beneficiaryAccountOption.getOfficeId());
+        thirdPartyTransferPayload.setToAccountId(beneficiaryAccountOption.getAccountNo());
+        thirdPartyTransferPayload.setToClientId(beneficiaryAccountOption.getClientId());
+        thirdPartyTransferPayload.setToAccountType(beneficiaryAccountOption.getAccountType().getId());
+        thirdPartyTransferPayload.setTransferDate(transferDate);
+        thirdPartyTransferPayload.setDateFormat(transferDate);
+        thirdPartyTransferPayload.setTransferAmount(etAmount.getText().toString());
+        thirdPartyTransferPayload.setTransferDescription(etRemark.getText().toString());
+        thirdPartyTransferPayload.setFromAccountNumber(fromAccountOption.getAccountNo());
+        thirdPartyTransferPayload.setToAccountNumber(beneficiaryAccountOption.getAccountNo());
         ((BaseActivity) getActivity()).replaceFragment(TransferProcessFragment.
-                newInstance(transferPayload, TransferType.TPT), true, R.id.container);
+                newInstance(thirdPartyTransferPayload, TransferType.TPT), true, R.id.container);
 
     }
 

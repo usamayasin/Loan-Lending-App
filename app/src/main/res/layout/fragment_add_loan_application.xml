@@ -14,7 +14,8 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/view_flipper"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:paddingBottom="60dp">
 
         <LinearLayout
             android:id="@+id/ll_add_loan"
@@ -39,8 +40,9 @@
                     android:fontFamily="@font/helvetica"
                     android:text="@string/new_loan_application"
                     android:textColor="@color/black"
-                    android:textFontWeight="400"
-                    android:textSize="12dp" />
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_new_loan_application"
@@ -51,17 +53,17 @@
                     android:fontFamily="@font/helvetica"
                     android:gravity="center"
                     android:text="@string/loan_name"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
                     android:textColor="@color/black"
-                    android:textFontWeight="700"
-                    android:textSize="16dp" />
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="15sp" />
             </LinearLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/rectangular_border"
                 android:orientation="horizontal"
                 android:padding="15dp"
@@ -75,8 +77,9 @@
                     android:fontFamily="@font/helvetica"
                     android:text="@string/account_number"
                     android:textColor="@color/black"
-                    android:textFontWeight="400"
-                    android:textSize="12dp" />
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_account_number"
@@ -86,7 +89,9 @@
                     android:gravity="center"
                     android:text="1234567"
                     android:textColor="@color/home_price_color"
-                    android:textSize="16sp" />
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="15sp" />
 
             </LinearLayout>
 
@@ -113,7 +118,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -121,7 +125,7 @@
                     style="@style/EditTextFieldHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:text="@string/select_loan_product"
                     android:textSize="14sp" />
 
@@ -148,18 +152,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
                 android:background="@drawable/background_border"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <Spinner
                     android:id="@+id/sp_loan_products"
-                    android:layout_width="350dp"
-                    android:layout_height="50dp"
-                    android:prompt="@string/select_loan_product" />
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"/>
 
             </LinearLayout>
 
@@ -178,7 +180,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -215,18 +216,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="5dp"
                 android:background="@drawable/background_border"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <Spinner
                     android:id="@+id/sp_loan_purpose"
-                    android:layout_width="350dp"
-                    android:layout_height="50dp"
-                    android:prompt="@string/purpose_of_loan" />
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
 
             </LinearLayout>
 
@@ -245,7 +244,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -270,8 +268,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_principal_amount"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/rectangular_border">
 
                 <EditText
@@ -280,15 +277,14 @@
                     android:gravity="start"
                     android:imeOptions="actionDone"
                     android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:paddingBottom="16dp" />
+                    android:maxLines="1" />
             </com.google.android.material.textfield.TextInputLayout>
 
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/rectangular_border"
                 android:orientation="horizontal"
                 android:padding="12dp"
@@ -310,14 +306,16 @@
                     android:fontFamily="@font/helvetica"
                     android:gravity="center"
                     android:textColor="@color/black"
-                    android:textFontWeight="700" />
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="15sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/rectangular_border"
                 android:orientation="horizontal"
                 android:padding="15dp"
@@ -338,26 +336,25 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/helvetica"
                     android:gravity="center"
-                    android:textFontWeight="400"
-                    android:textSize="14sp"
-                    android:textStyle="normal" />
+                    android:autoSizeTextType="uniform"
+                    android:autoSizeMinTextSize="10sp"
+                    android:autoSizeMaxTextSize="15sp" />
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/rectangular_border"
                 android:orientation="horizontal"
-                android:padding="15dp"
+                android:padding="12dp"
                 android:weightSum="2">
 
                 <TextView
                     style="@style/EditTextFieldHeading"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
                     android:layout_weight="1"
                     android:text="@string/expected_disbursement_date"
                     android:textSize="12dp" />
@@ -375,8 +372,9 @@
                         android:id="@+id/tv_expected_disbursement_date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"/>
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="match_parent"
@@ -465,11 +463,8 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_loan_review"
-                android:layout_width="170dp"
-                android:layout_height="79dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:text="@string/review"
                 android:textSize="16sp"
                 android:fontFamily="@font/helvetica"

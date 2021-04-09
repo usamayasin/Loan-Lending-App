@@ -44,7 +44,9 @@
         android:layout_weight="1"
         android:gravity="start"
         android:text="@string/small_text"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="15sp"
         android:textColor="@color/black" />
 
     <TextView
@@ -55,7 +57,9 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/medium_text"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="15sp"
         android:textColor="@color/black" />
 
 
@@ -66,7 +70,10 @@
         android:text="@string/small_text"
         android:layout_weight="1"
         android:textStyle="bold"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:gravity="center"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="15sp"
         android:textColor="@color/light_green_for_fingerprint"/>
 
 

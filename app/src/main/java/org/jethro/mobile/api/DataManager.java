@@ -27,6 +27,7 @@ import org.jethro.mobile.models.beneficiary.BeneficiaryUpdatePayload;
 import org.jethro.mobile.models.client.ClientAccounts;
 import org.jethro.mobile.models.notification.NotificationUserDetail;
 import org.jethro.mobile.models.payload.LoansPayload;
+import org.jethro.mobile.models.payload.ThirdPartyTransferPayload;
 import org.jethro.mobile.models.payload.TransferPayload;
 import org.jethro.mobile.models.register.RegisterPayload;
 import org.jethro.mobile.models.register.UserVerify;
@@ -216,8 +217,8 @@ public class DataManager {
         return baseApiManager.getThirdPartyTransferApi().getAccountTransferTemplate();
     }
 
-    public Observable<ResponseBody> makeThirdPartyTransfer(TransferPayload transferPayload) {
-        return baseApiManager.getThirdPartyTransferApi().makeTransfer(transferPayload);
+    public Observable<ResponseBody> makeThirdPartyTransfer(ThirdPartyTransferPayload thirdPartyTransferPayload) {
+        return baseApiManager.getThirdPartyTransferApi().makeTransfer(thirdPartyTransferPayload);
     }
 
     public Observable<ResponseBody> registerUser(RegisterPayload registerPayload) {

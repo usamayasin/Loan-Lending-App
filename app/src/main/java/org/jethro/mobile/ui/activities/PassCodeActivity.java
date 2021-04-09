@@ -119,8 +119,7 @@ public class PassCodeActivity extends BaseActivity {
     private void setupPassCodeButton() {
         if (isInitialScreen) {
             submitPassocdeButton.setText(getResources().getString(R.string.passcode_setup));
-        }
-        if (getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
+        } else if (getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
             submitPassocdeButton.setText("Change Passcode");
             ll_add_biometric.setVisibility(View.GONE);
         } else {
@@ -280,8 +279,8 @@ public class PassCodeActivity extends BaseActivity {
                                     passcodePreferencesHelper.savePassCode(AESEncryption.encrypt(passCodeString));
                                     Toast.makeText(PassCodeActivity.this, "passcode change succesfully", Toast.LENGTH_SHORT).show();
                                     clearPassCode(new View(PassCodeActivity.this));
+                                    onBackPressed();
                                 } catch (Exception e) {
-                                    Toast.makeText(PassCodeActivity.this, "passcode did not change ", Toast.LENGTH_SHORT).show();
                                     e.printStackTrace();
                                 }
                             }
