@@ -26,6 +26,7 @@ import com.github.therajanmaurya.sweeterror.SweetUIErrorHandler;
 
 import org.jethro.mobile.R;
 import org.jethro.mobile.models.CheckboxStatus;
+import org.jethro.mobile.models.Transaction;
 import org.jethro.mobile.models.accounts.savings.SavingsWithAssociations;
 import org.jethro.mobile.models.accounts.savings.Transactions;
 import org.jethro.mobile.presenters.SavingAccountsTransactionPresenter;
@@ -44,6 +45,7 @@ import org.jethro.mobile.utils.StatusUtils;
 import org.jethro.mobile.utils.Toaster;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -117,7 +119,7 @@ public class SavingAccountsTransactionFragment extends BaseFragment
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater,
-            @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_saving_account_transactions,
                 container, false);
 
@@ -181,7 +183,7 @@ public class SavingAccountsTransactionFragment extends BaseFragment
      */
     @Override
     public void showSavingAccountsDetail(SavingsWithAssociations
-            savingsWithAssociations) {
+                                                 savingsWithAssociations) {
         layoutAccount.setVisibility(View.VISIBLE);
         this.savingsWithAssociations = savingsWithAssociations;
         transactionsList = savingsWithAssociations.getTransactions();
@@ -225,7 +227,7 @@ public class SavingAccountsTransactionFragment extends BaseFragment
     @Override
     public void showFilteredList(List<Transactions> list) {
         if (list.size() != 0) {
-            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.filtered));
+            //BaseActivity.showAlertDialogForError(getContext(), getString(R.string.filtered));
             transactionListAdapter.setSavingAccountsTransactionList(list);
         } else {
             showEmptyTransactions();
@@ -306,9 +308,9 @@ public class SavingAccountsTransactionFragment extends BaseFragment
     private void showFilterDialog() {
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        final View dialogView = inflater.inflate(R.layout.layout_filter_dialog, null , false);
+        final View dialogView = inflater.inflate(R.layout.layout_filter_dialog, null, false);
 
-        final LinearLayout llcheckBoxPeriod =  dialogView.findViewById(R.id.ll_row_checkbox);
+        final LinearLayout llcheckBoxPeriod = dialogView.findViewById(R.id.ll_row_checkbox);
         final AppCompatCheckBox checkBoxPeriod = dialogView.findViewById(R.id.cb_select);
         final RadioGroup radioGroupFilter = dialogView.findViewById(R.id.rg_date_filter);
         tvStartDate = dialogView.findViewById(R.id.tv_start_date);
@@ -333,7 +335,7 @@ public class SavingAccountsTransactionFragment extends BaseFragment
         llcheckBoxPeriod.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    checkBoxPeriod.setChecked(!checkBoxPeriod.isChecked());
+                checkBoxPeriod.setChecked(!checkBoxPeriod.isChecked());
             }
         });
 
@@ -404,12 +406,10 @@ public class SavingAccountsTransactionFragment extends BaseFragment
         checkBoxRecyclerView.setAdapter(checkBoxAdapter);
 
         checkBoxAdapter.setStatusList(statusList);
-
         new MaterialDialog.Builder().init(getActivity())
                 .setTitle(R.string.savings_account_transaction)
                 .addView(dialogView)
-                .setPositiveButton(getString(R.string.filter), new DialogInterface.OnClickListener()
-                {
+                .setPositiveButton(getString(R.string.filter), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (checkBoxPeriod.isChecked()) {
@@ -420,23 +420,35 @@ public class SavingAccountsTransactionFragment extends BaseFragment
                                 BaseActivity.showAlertDialogForError(getContext(), getString(R.string.end_date_must_be_greater));
                                 return;
                             }
+                            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvSavingAccountsTransaction, layoutError);
                             filter(startDate, endDate, checkBoxAdapter.getStatusList());
                         } else {
+                            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvSavingAccountsTransaction, layoutError);
                             filter(checkBoxAdapter.getStatusList());
                         }
                         filterSavingsAccountTransactionsbyType(checkBoxAdapter.getStatusList());
+
                     }
                 })
                 .setNeutralButton(getString(R.string.clear_filters),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                transactionListAdapter
-                                        .setSavingAccountsTransactionList(transactionsList);
+                                /*transactionListAdapter
+                                        .setSavingAccountsTransactionList(transactionsList);*/
+                                sweetUIErrorHandler.hideSweetErrorLayoutUI(rvSavingAccountsTransaction, layoutError);
+                                showFilteredList(transactionsList);
                                 initializeFilterVariables();
                             }
                         })
-                .setNegativeButton(R.string.cancel)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sweetUIErrorHandler.hideSweetErrorLayoutUI(rvSavingAccountsTransaction, layoutError);
+                        showFilteredList(transactionsList);
+                        initializeFilterVariables();
+                    }
+                })
                 .createMaterialDialog()
                 .show();
     }
@@ -468,18 +480,32 @@ public class SavingAccountsTransactionFragment extends BaseFragment
      */
     private void filter(List<CheckboxStatus> statusModelList) {
         showFilteredList(filterSavingsAccountTransactionsbyType(statusModelList));
+        /*if (filterSavingsAccountTransactionsbyType(statusModelList).size() > 0) {
+            showFilteredList(filterSavingsAccountTransactionsbyType(statusModelList));
+        } else {
+            transactionListAdapter
+                    .setSavingAccountsTransactionList(transactionsList);
+        }*/
     }
+
     /**
      * Will filter {@code transactionsList} according to {@code startDate} and {@code endDate}
+     *
      * @param statusModelList Status Model List
      */
-    private  List<Transactions> filterSavingsAccountTransactionsbyType(List<CheckboxStatus>
-                                                                               statusModelList) {
+    private List<Transactions> filterSavingsAccountTransactionsbyType(List<CheckboxStatus>
+                                                                              statusModelList) {
         List<Transactions> filteredSavingsTransactions = new ArrayList<>();
-        for (CheckboxStatus status:savingAccountsTransactionPresenter
+        for (CheckboxStatus status : savingAccountsTransactionPresenter
                 .getCheckedStatus(statusModelList)) {
+
             filteredSavingsTransactions.addAll(savingAccountsTransactionPresenter
                     .filterTranactionListbyType(transactionsList, status));
+        }
+
+        if (filteredSavingsTransactions.containsAll(transactionsList)) {
+            List<Transactions> emptyList = new ArrayList<Transactions>();
+            filteredSavingsTransactions = emptyList;
         }
 
         return filteredSavingsTransactions;
