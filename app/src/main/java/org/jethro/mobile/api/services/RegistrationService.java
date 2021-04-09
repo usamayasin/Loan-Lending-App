@@ -15,7 +15,7 @@ import retrofit2.http.POST;
 
 public interface RegistrationService {
 
-    @POST(ApiEndPoints.REGISTRATION)
+    @POST("/fineract-provider/api/v1/users?tenantIdentifier=default&pretty=true")
     Observable<ResponseBody> registerUser(@Body RegisterPayload registerPayload);
 
     @POST(ApiEndPoints.REGISTRATION + "/user")

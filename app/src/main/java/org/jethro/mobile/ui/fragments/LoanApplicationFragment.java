@@ -328,7 +328,9 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
      * Initializes {@code tvExpectedDisbursementDate} with current Date
      */
     public void inflateDisbursementDate() {
-        mfDatePicker = MFDatePicker.newInstance(this, MFDatePicker.FUTURE_DAYS, active);
+        if(mfDatePicker == null){
+            mfDatePicker = MFDatePicker.newInstance(this, MFDatePicker.FUTURE_DAYS, active);
+        }
         tvExpectedDisbursementDate.setText(MFDatePicker.getDatePickedAsString());
         active = true;
     }
@@ -423,11 +425,8 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
 
         spLoanProducts.setSelection(loanProductAdapter
                 .getPosition(loanWithAssociations.getLoanProductName()));
-        tvAccountNumber.setText(getString(R.string.string_and_string,
-                getString(R.string.account_number) + " ", loanWithAssociations.getAccountNo()));
-        tvNewLoanApplication.setText(getString(R.string.string_and_string,
-                getString(R.string.update_loan_application) + " ",
-                loanWithAssociations.getClientName()));
+        tvAccountNumber.setText( loanWithAssociations.getAccountNo());
+        tvNewLoanApplication.setText(loanWithAssociations.getClientName());
         tilPrincipalAmount.getEditText().setText(String.format(Locale.getDefault(),
                 "%.2f", loanWithAssociations.getPrincipal()));
         tvCurrency.setText(loanWithAssociations.getCurrency().getDisplayLabel());
@@ -448,10 +447,8 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
     @Override
     public void showLoanTemplateByProduct(LoanTemplate loanTemplate) {
         this.loanTemplate = loanTemplate;
-        tvAccountNumber.setText(getString(R.string.string_and_string,
-                getString(R.string.account_number) + " ", loanTemplate.getClientAccountNo()));
-        tvNewLoanApplication.setText(getString(R.string.string_and_string,
-                getString(R.string.new_loan_application) + " ", loanTemplate.getClientName()));
+        tvAccountNumber.setText( loanTemplate.getClientAccountNo());
+        tvNewLoanApplication.setText(loanTemplate.getClientName());
         tilPrincipalAmount.getEditText().setText(String.valueOf(loanTemplate.getPrincipal()));
         tvCurrency.setText(loanTemplate.getCurrency().getDisplayLabel());
 
@@ -494,10 +491,8 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
                     .getPosition(loanWithAssociations.getLoanPurposeName()));
             isLoanUpdatePurposesInitialization = false;
         } else {
-            tvAccountNumber.setText(getString(R.string.string_and_string,
-                    getString(R.string.account_number) + " ", loanTemplate.getClientAccountNo()));
-            tvNewLoanApplication.setText(getString(R.string.string_and_string,
-                    getString(R.string.new_loan_application) + " ", loanTemplate.getClientName()));
+            tvAccountNumber.setText(loanTemplate.getClientAccountNo());
+            tvNewLoanApplication.setText( loanTemplate.getClientName());
             tilPrincipalAmount.getEditText().setText(String.valueOf(loanTemplate.getPrincipal()));
             tvCurrency.setText(loanTemplate.getCurrency().getDisplayLabel());
         }
@@ -516,7 +511,7 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
             llAddLoan.setVisibility(View.GONE);
             llError.setVisibility(View.VISIBLE);
         } else {
-            Toaster.show(rootView, message);
+            BaseActivity.showAlertDialogForError(getContext(), message);
         }
     }
 
@@ -548,8 +543,12 @@ public class LoanApplicationFragment extends BaseFragment implements LoanApplica
                 break;
 
             case R.id.sp_loan_purpose:
-                if (loanTemplate.getLoanPurposeOptions() != null) {
-                    purposeId = loanTemplate.getLoanPurposeOptions().get(position).getId();
+                if(position != 0){
+                    if (loanTemplate.getLoanPurposeOptions() != null) {
+                        purposeId = loanTemplate.getLoanPurposeOptions().get(position-1).getId();
+                    }
+                }else {
+                    purposeId = -1;
                 }
                 break;
         }

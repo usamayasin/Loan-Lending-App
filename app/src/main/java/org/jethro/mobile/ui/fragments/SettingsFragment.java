@@ -3,14 +3,19 @@ package org.jethro.mobile.ui.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
 import org.jethro.mobile.R;
+import org.jethro.mobile.ui.activities.LoginActivity;
+import org.jethro.mobile.ui.activities.PassCodeActivity;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.utils.ConfigurationDialogFragmentCompat;
 import org.jethro.mobile.utils.ConfigurationPreference;
 import org.jethro.mobile.utils.Constants;
 import org.jethro.mobile.utils.LanguageHelper;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -26,6 +31,24 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
     public static SettingsFragment newInstance() {
         SettingsFragment fragment = new SettingsFragment();
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((BaseActivity) getActivity()).setToolbarTitle("Settings");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((BaseActivity) getActivity()).setToolbarTitle("Settings");
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        ((BaseActivity) getActivity()).setToolbarTitle("Settings");
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override
@@ -85,6 +108,13 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
                 ((BaseActivity) getActivity()).replaceFragment(UpdatePasswordFragment
                         .newInstance(), true, R.id.container);
                 break;
+            case Constants.PASSCODE: {
+                Intent intent = new Intent(requireContext(), PassCodeActivity.class);
+                intent.putExtra(Constants.INTIAL_LOGIN, false);
+                intent.putExtra(Constants.CHANGE_PASSCODE, true);
+                startActivity(intent);
+                break;
+            }
         }
         return super.onPreferenceTreeClick(preference);
     }

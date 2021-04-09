@@ -14,7 +14,8 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
+import androidx.annotation.Nullable;
+import com.google.android.material.textfield.TextInputLayout;
 import org.jethro.mobile.R;
 import org.jethro.mobile.models.register.RegisterPayload;
 import org.jethro.mobile.presenters.RegistrationPresenter;
@@ -27,13 +28,10 @@ import org.jethro.mobile.utils.Toaster;
 
 import javax.inject.Inject;
 
-import androidx.annotation.Nullable;
-
-import com.google.android.material.textfield.TextInputLayout;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by dilpreet on 31/7/17.
@@ -43,6 +41,9 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
 
     @BindView(R.id.et_account_number)
     EditText etAccountNumber;
+
+    @BindView((R.id.rb_email))
+    RadioButton emailRadioButton;
 
     @BindView(R.id.et_username)
     EditText etUsername;
@@ -179,32 +180,45 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
 
     @OnClick(R.id.btn_register)
     public void registerClicked() {
-
+        boolean setSendPasswordToEmail = false;
         if (areFieldsValidated()) {
 
             RadioButton radioButton = rootView.findViewById(rgVerificationMode.
                     getCheckedRadioButtonId());
-
+            if (rgVerificationMode.getCheckedRadioButtonId() != -1) {
+                if(emailRadioButton.isChecked()){
+                    setSendPasswordToEmail = true;
+                } else {
+                    setSendPasswordToEmail = false;
+                }
+            }
             RegisterPayload payload = new RegisterPayload();
-            payload.setAccountNumber(etAccountNumber.getText().toString());
-            payload.setAuthenticationMode(radioButton.getText().toString());
-            payload.setEmail(etEmail.getText().toString());
-            payload.setFirstName(etFirstName.getText().toString());
-            payload.setLastName(etLastName.getText().toString());
-            payload.setMobileNumber(etPhoneNumber.getText().toString());
+
+            Integer[] roles = {2};
+            String accNumber = etAccountNumber.getText().toString();
+            int accountNumber = Integer.parseInt(accNumber);
+            Integer[] clients = {accountNumber};
+            payload.setFirstname(etFirstName.getText().toString());
+            payload.setLastname(etLastName.getText().toString());
+            payload.setRoles(roles);
+            payload.setClients(clients);
+            payload.setSelfServiceUser(true);
+            payload.setOfficeId(1);
+            payload.setSendPasswordToEmail(setSendPasswordToEmail);
             if (!etPassword.getText().toString().equals(etConfirmPassword.getText().toString())) {
-                Toaster.show(rootView, getString(R.string.error_password_not_match));
+                BaseActivity.showAlertDialogForError(getContext(), getString(R.string.error_password_not_match));
                 return;
             } else {
                 payload.setPassword(etPassword.getText().toString());
             }
             payload.setPassword(etPassword.getText().toString());
+            payload.setRepeatPassword(etConfirmPassword.getText().toString());
             payload.setUsername(etUsername.getText().toString().replace(" ", ""));
 
             if (Network.isConnected(getContext())) {
                 presenter.registerUser(payload);
             } else {
-                Toaster.show(rootView, getString(R.string.no_internet_connection));
+                BaseActivity.showAlertDialogForError(getContext(), getString(R.string.no_internet_connection));
             }
         }
 
@@ -290,7 +304,17 @@ public class RegistrationFragment extends BaseFragment implements RegistrationVi
 
     @Override
     public void showError(String msg) {
-        Toaster.show(rootView, msg);
+        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Alert")
+                .setContentText(msg)
+                .setConfirmText("Ok")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
     }
 
     @Override

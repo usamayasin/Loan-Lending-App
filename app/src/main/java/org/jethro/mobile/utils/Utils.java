@@ -25,6 +25,8 @@ import androidx.core.content.FileProvider;
  */
 
 public class Utils {
+
+    public static String ACTIVITY_FROM_NAME = "";
     public static String getMonth(int month) {
         return new DateFormatSymbols().getMonths()[month - 1];
     }

@@ -5,6 +5,7 @@ import android.content.Context;
 import org.jethro.mobile.R;
 import org.jethro.mobile.api.DataManager;
 import org.jethro.mobile.injection.ApplicationContext;
+import org.jethro.mobile.models.payload.ThirdPartyTransferPayload;
 import org.jethro.mobile.models.payload.TransferPayload;
 import org.jethro.mobile.presenters.base.BasePresenter;
 import org.jethro.mobile.ui.views.TransferProcessView;
@@ -95,12 +96,12 @@ public class TransferProcessPresenter extends BasePresenter<TransferProcessView>
      * function parameter. It notifies the view after successful making a Third Party Transfer. And
      * in case of any error during transfer, it notifies the view.
      *
-     * @param transferPayload Contains details about the Third Party Transfer
+     * @param thirdPartyTransferPayload Contains details about the Third Party Transfer
      */
-    public void makeTPTTransfer(TransferPayload transferPayload) {
+    public void makeTPTTransfer(ThirdPartyTransferPayload thirdPartyTransferPayload) {
         checkViewAttached();
         getMvpView().showProgress();
-        compositeDisposables.add(dataManager.makeThirdPartyTransfer(transferPayload)
+        compositeDisposables.add(dataManager.makeThirdPartyTransfer(thirdPartyTransferPayload)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribeWith(new DisposableObserver<ResponseBody>() {

@@ -225,7 +225,7 @@ public class SavingAccountsTransactionFragment extends BaseFragment
     @Override
     public void showFilteredList(List<Transactions> list) {
         if (list.size() != 0) {
-            Toaster.show(rootView, getString(R.string.filtered));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.filtered));
             transactionListAdapter.setSavingAccountsTransactionList(list);
         } else {
             showEmptyTransactions();
@@ -414,11 +414,10 @@ public class SavingAccountsTransactionFragment extends BaseFragment
                     public void onClick(DialogInterface dialog, int which) {
                         if (checkBoxPeriod.isChecked()) {
                             if (!isReady) {
-                                Toaster.show(rootView, getString(R.string.select_date));
+                                BaseActivity.showAlertDialogForError(getContext(), getString(R.string.select_date));
                                 return;
                             } else if (!isEndDateLargeThanStartDate()) {
-                                Toaster.show(rootView,
-                                        getString(R.string.end_date_must_be_greater));
+                                BaseActivity.showAlertDialogForError(getContext(), getString(R.string.end_date_must_be_greater));
                                 return;
                             }
                             filter(startDate, endDate, checkBoxAdapter.getStatusList());

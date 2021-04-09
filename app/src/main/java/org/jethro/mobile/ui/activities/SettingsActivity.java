@@ -7,6 +7,7 @@ import org.jethro.mobile.R;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.ui.fragments.SettingsFragment;
 import org.jethro.mobile.utils.Constants;
+import org.jethro.mobile.utils.Utils;
 
 import androidx.core.app.ActivityCompat;
 
@@ -30,6 +31,7 @@ public class SettingsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        Utils.ACTIVITY_FROM_NAME ="SettingsActivity";
         if (hasSettingsChanged) {
             ActivityCompat.finishAffinity(this);
             Intent i = new Intent(this, HomeActivity.class);

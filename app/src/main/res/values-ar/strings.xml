@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ميفوس موبايل</string>
+    <string name="app_name">Ahead</string>
     <string name="login">تسجيل الدخول</string>
     <string name="toast_welcome">%1$s أهلا بك</string>
     <string name="unable_to_connect">غير متصل بالإنترنت</string>

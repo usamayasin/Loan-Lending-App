@@ -35,6 +35,7 @@ import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -84,7 +85,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     private SweetUIErrorHandler sweetUIErrorHandler;
 
     public static BeneficiaryApplicationFragment newInstance(BeneficiaryState beneficiaryState,
-            @Nullable Beneficiary beneficiary) {
+                                                             @Nullable Beneficiary beneficiary) {
         BeneficiaryApplicationFragment fragment = new BeneficiaryApplicationFragment();
         Bundle args = new Bundle();
         args.putSerializable(Constants.BENEFICIARY_STATE, beneficiaryState);
@@ -117,7 +118,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-            @Nullable Bundle savedInstanceState) {
+                             @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_beneficiary_application, container, false);
         ((BaseActivity) getActivity()).getActivityComponent().inject(this);
         ButterKnife.bind(this, rootView);
@@ -205,7 +206,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
         tilBeneficiaryName.setErrorEnabled(false);
 
         if (accountTypeId == -1) {
-            Toaster.show(rootView, getString(R.string.choose_account_type));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.choose_account_type));
             return;
         } else if (tilAccountNumber.getEditText().getText().toString().trim().equals("")) {
             tilAccountNumber.setError(getString(R.string.enter_account_number));
@@ -242,7 +243,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
             presenter.loadBeneficiaryTemplate();
 //            sweetUIErrorHandler.hideSweetErrorLayoutUI(nsvBeneficiary, layoutError);
         } else {
-            Toaster.show(rootView, getString(R.string.internet_not_connected));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.internet_not_connected));
         }
     }
 
@@ -266,8 +267,15 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
     private void submitUpdateBeneficiaryApplication() {
         BeneficiaryUpdatePayload payload = new BeneficiaryUpdatePayload();
         payload.setName(tilBeneficiaryName.getEditText().getText().toString());
-        payload.setTransferLimit(Float.parseFloat(tilTransferLimit.getEditText().getText().
-                toString()));
+        if (tilTransferLimit.getEditText().getText().toString().contains(".")) {
+            payload.setTransferLimit(Integer.parseInt(
+                    tilTransferLimit.getEditText().getText().toString().split("\\.")[0].toString()
+            ));
+        } else {
+            payload.setTransferLimit(Integer.parseInt(
+                    tilTransferLimit.getEditText().getText().toString()
+            ));
+        }
         presenter.updateBeneficiary(beneficiary.getId(), payload);
     }
 
@@ -315,7 +323,7 @@ public class BeneficiaryApplicationFragment extends BaseFragment implements
 //            sweetUIErrorHandler.showSweetNoInternetUI(nsvBeneficiary, layoutError);
         } else {
 //            sweetUIErrorHandler.showSweetErrorUI(msg, nsvBeneficiary, layoutError);
-            Toaster.show(rootView, msg);
+            BaseActivity.showAlertDialogForError(getContext(),msg);
         }
     }
 

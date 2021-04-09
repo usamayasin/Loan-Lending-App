@@ -162,7 +162,7 @@ public class ClientChargeFragment extends BaseFragment implements
             sweetUIErrorHandler.showSweetNoInternetUI(rvClientCharge, layoutError);
         } else {
             sweetUIErrorHandler.showSweetErrorUI(message, rvClientCharge, layoutError);
-            Toaster.show(rootView, message);
+            BaseActivity.showAlertDialogForError(getContext(), message);
         }
     }
 

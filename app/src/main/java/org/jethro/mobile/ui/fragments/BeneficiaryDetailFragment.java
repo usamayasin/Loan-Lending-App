@@ -176,7 +176,7 @@ public class BeneficiaryDetailFragment extends BaseFragment implements Beneficia
      */
     @Override
     public void showError(String msg) {
-        Toaster.show(rootView, msg);
+        BaseActivity.showAlertDialogForError(getContext(), msg);
     }
 
     /**

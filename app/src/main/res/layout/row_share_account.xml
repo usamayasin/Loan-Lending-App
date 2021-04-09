@@ -11,31 +11,41 @@
         android:layout_marginBottom="@dimen/default_margin"
         android:layout_marginTop="@dimen/default_margin"
         android:layout_width="@dimen/side_bar_width"
+        android:visibility="gone"
         android:src="@drawable/round_corner"/>
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="vertical"
+        android:orientation="horizontal"
+        android:background="@drawable/rectangular_border"
         android:padding="@dimen/row_padding_left">
 
         <TextView
             android:ellipsize="end"
             android:id="@+id/tv_clientSharingAccountNumber"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:lines="1"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="@string/medium_text"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"/>
 
         <TextView
             android:id="@+id/tv_shareAccountProductName"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
             android:text="@string/small_text"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            android:textColor="@color/gray_dark"/>
+            android:gravity="center"
+            android:autoSizeTextType="uniform"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeMaxTextSize="15sp"
+            android:textColor="@color/black"/>
 
         <LinearLayout
             android:id="@+id/ll_account_detail"
@@ -43,7 +53,7 @@
             android:layout_marginTop="@dimen/divider_margin"
             android:layout_width="match_parent"
             android:orientation="horizontal"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:layout_height="wrap_content"

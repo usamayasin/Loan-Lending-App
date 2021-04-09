@@ -144,7 +144,10 @@ dependencies {
 
     //sweetalert
     implementation 'com.github.f0ris.sweetalert:library:1.5.6'
-    
+
+    //biometric
+    implementation "androidx.biometric:biometric:1.1.0"
+
     // Unit tests dependencies
     testImplementation "junit:junit:$rootProject.jUnitVersion"
     testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"

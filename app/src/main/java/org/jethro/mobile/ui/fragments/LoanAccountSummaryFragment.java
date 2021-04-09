@@ -141,7 +141,7 @@ public class LoanAccountSummaryFragment extends BaseFragment {
                 loanWithAssociations.getPrincipal()));
         tvInterestChargedName.setText(getString(R.string.string_and_double,
                 currencySymbol,
-                loanWithAssociations.getSummary().getInterestCharged()));
+                loanWithAssociations.getSummary().getInterestPaid()));
         tvFeesName.setText(getString(R.string.string_and_double,
                 currencySymbol,
                 loanWithAssociations.getSummary().getFeeChargesCharged()));

@@ -1,25 +1,45 @@
 package org.jethro.mobile.ui.activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 
+import com.google.android.material.navigation.NavigationView;
 import com.mifos.mobile.passcode.utils.PasscodePreferencesHelper;
 
 import org.jethro.mobile.R;
+import org.jethro.mobile.api.local.PreferencesHelper;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.utils.AESEncryption;
 import org.jethro.mobile.utils.CheckSelfPermissionAndRequest;
 import org.jethro.mobile.utils.Constants;
+import org.jethro.mobile.utils.MaterialDialog;
 
+import java.util.concurrent.Executor;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class PassCodeActivity extends BaseActivity {
+
+    @Inject
+    PreferencesHelper preferencesHelper;
+
+    private LinearLayout ll_add_biometric;
 
     private int count = 0;
     private String passCodeString = "";
@@ -29,6 +49,11 @@ public class PassCodeActivity extends BaseActivity {
     private boolean showPassCodeFlag = false;
     private AppCompatButton submitPassocdeButton;
 
+    private Executor executor;
+    private BiometricPrompt biometricPrompt;
+    private BiometricPrompt.PromptInfo promptInfo;
+
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,20 +66,62 @@ public class PassCodeActivity extends BaseActivity {
         passCodeFourthDigit = findViewById(R.id.tv_passcode_fourth_digit);
         submitPassocdeButton = findViewById(R.id.btn_set_passcode);
         biometricLabel = findViewById(R.id.tv_biometric_label);
+        ll_add_biometric = findViewById(R.id.ll_add_biometric);
 
         isInitialScreen = getIntent().getBooleanExtra(Constants.INTIAL_LOGIN, false);
+
         setupPassCodeButton();
         if (!CheckSelfPermissionAndRequest.checkSelfPermission(this,
                 Manifest.permission.READ_PHONE_STATE)) {
             requestPermission();
         }
 
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(PassCodeActivity.this,
+                executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(),
+                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+                        .show();
+//                showAlertDialogForError(PassCodeActivity.this,"Authentication Error");
+
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                startHomeActivity();
+                Toast.makeText(getApplicationContext(),
+                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(), "Authentication failed",
+                        Toast.LENGTH_SHORT)
+                        .show();
+                showAlertDialogForError(PassCodeActivity.this,"Authentication failed");
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric login")
+                .setSubtitle("Log in using your biometric")
+                .setNegativeButtonText(" ")
+                .build();
     }
 
     private void setupPassCodeButton() {
         if (isInitialScreen) {
             submitPassocdeButton.setText(getResources().getString(R.string.passcode_setup));
-            biometricLabel.setText(getResources().getString(R.string.setup_finger_print));
+        } else if (getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
+            submitPassocdeButton.setText("Change Passcode");
+            ll_add_biometric.setVisibility(View.GONE);
         } else {
             submitPassocdeButton.setText(getResources().getString(R.string.submit));
             biometricLabel.setText(getResources().getString(R.string.biometric));
@@ -101,6 +168,15 @@ public class PassCodeActivity extends BaseActivity {
                 try {
                     passcodePreferencesHelper.savePassCode(AESEncryption.encrypt(passCodeString));
                     startHomeActivity();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            if (getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
+                try {
+                    showChangePasscodeDialog();
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -132,53 +208,13 @@ public class PassCodeActivity extends BaseActivity {
     }
 
     public void startHomeActivity() {
-        new SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
-                .setTitleText("Alert")
-                .setContentText("You are Successfully Logged in!")
-                .setConfirmText("Ok")
-                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sDialog) {
-                        sDialog.dismissWithAnimation();
-                        startActivity(new Intent(PassCodeActivity.this, HomeActivity.class));
-                        finish();
-                    }
-                }).show();
+        startActivity(new Intent(PassCodeActivity.this, HomeActivity.class));
+        finish();
     }
-
-//    @Override
-//    public void startLoginActivity() {
-//        new MaterialDialog.Builder().init(PassCodeActivity.this)
-//                .setCancelable(false)
-//                .setMessage(R.string.login_using_password_confirmation)
-//                .setPositiveButton(getString(R.string.logout),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                Intent i = new Intent(PassCodeActivity.this,
-//                                        LoginActivity.class);
-//                                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.
-//                                        FLAG_ACTIVITY_CLEAR_TASK);
-//                                startActivity(i);
-//                                finish();
-//                            }
-//                        })
-//                .setNegativeButton(getString(R.string.cancel),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        })
-//                .createMaterialDialog()
-//                .show();
-//    }
-//
-
 
     @Override
     public void onBackPressed() {
-        if (isInitialScreen) {
+        if (isInitialScreen || getIntent().getBooleanExtra(Constants.CHANGE_PASSCODE, false)) {
             super.onBackPressed();
         }
     }
@@ -228,6 +264,35 @@ public class PassCodeActivity extends BaseActivity {
     }
 
     public void startBiometricActivity(View view){
-        startActivity(new Intent(PassCodeActivity.this, BiometricActivity.class));
+        biometricPrompt.authenticate(promptInfo);
+    }
+
+    private void showChangePasscodeDialog() {
+        new MaterialDialog.Builder().init(PassCodeActivity.this)
+                .setCancelable(false)
+                .setMessage("Are you sure to change the passcode?")
+                .setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                try {
+                                    passcodePreferencesHelper.savePassCode(AESEncryption.encrypt(passCodeString));
+                                    Toast.makeText(PassCodeActivity.this, "passcode change succesfully", Toast.LENGTH_SHORT).show();
+                                    clearPassCode(new View(PassCodeActivity.this));
+                                    onBackPressed();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        })
+                .setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                .createMaterialDialog()
+                .show();
     }
 }

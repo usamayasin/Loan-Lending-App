@@ -352,7 +352,7 @@ public class HomeFragment extends BaseFragment implements HomeView,
      */
     @Override
     public void showError(String errorMessage) {
-        Toaster.show(rootView, errorMessage);
+        BaseActivity.showAlertDialogForError(getContext(), errorMessage);
     }
 
     @Override

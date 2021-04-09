@@ -240,7 +240,8 @@ public class AddGuarantorFragment extends BaseFragment implements AddGuarantorVi
 
     @Override
     public void showError(String message) {
-        Toaster.show(rootView, message);
+//        Toaster.show(rootView, message);
+        BaseActivity.showAlertDialogForError(getContext(), message);
     }
 
 }

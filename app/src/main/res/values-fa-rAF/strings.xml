@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Mifos Mobile</string>
+    <string name="app_name">Ahead</string>
     <string name="about_us">درباره ما</string>
     <string name="about_us_under_construction">"درباره ما در  ساخت و ساز "</string>
     <string name="account_balance">موجودی حساب</string>

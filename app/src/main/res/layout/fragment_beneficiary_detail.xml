@@ -9,12 +9,13 @@
         android:id="@+id/ll_account_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="70dp"
+            android:layout_marginTop="10dp"
             android:background="@color/white"
             android:clickable="true"
             android:focusable="true"
@@ -44,7 +45,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/beneficiary_name"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -52,7 +55,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         tools:text="@string/beneficiary_name" />
@@ -71,7 +76,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/account_number"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -79,7 +86,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         tools:text="@string/account_number" />
@@ -93,7 +102,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="5dp"
             android:background="@color/white"
             android:clickable="true"
             android:focusable="true"
@@ -122,7 +131,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/client_name"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -130,7 +141,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         tools:text="@string/client_name" />
@@ -147,7 +160,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/account_type"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -155,7 +170,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         tools:text="account_type" />
@@ -172,7 +189,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/transfer_limit"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -180,7 +199,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         tools:text="transfer_limit" />
@@ -197,7 +218,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/office_name"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black" />
 
                     <TextView
@@ -205,7 +228,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                        android:autoSizeTextType="uniform"
+                        android:autoSizeMinTextSize="10sp"
+                        android:autoSizeMaxTextSize="15sp"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         tools:text="office_name" />
@@ -220,7 +245,7 @@
             android:layout_gravity="center"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
             android:orientation="horizontal">

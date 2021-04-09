@@ -26,6 +26,7 @@ public class PreferencesHelper {
     private static final String CLIENT_ID = "preferences_client";
     private static final String OFFICE_NAME = "preferences_office_name";
     private static final String USER_NAME = "preferences_user_name";
+    private static final String PASSWORD = "preferences_user_password";
     private static final String PASSCODE = "preferences_passcode";
     private static final String OVERVIEW_STATE = "preferences_overview_state";
     private static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
@@ -117,9 +118,17 @@ public class PreferencesHelper {
         putString(PASSCODE, passcode);
     }
 
+    public void setPassword(String password) {
+        putString(PASSWORD, password);
+    }
+
     public String getPasscode() {
         return getString(PASSCODE, "");
     }
+    public String getPassword() {
+        return getString(PASSWORD, "");
+    }
+
 
     public void setClientId(long clientId) {
         putLong(CLIENT_ID, clientId);

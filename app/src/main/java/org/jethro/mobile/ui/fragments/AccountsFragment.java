@@ -468,6 +468,11 @@ public class AccountsFragment extends BaseFragment implements
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public void onItemLongPress(View childView, int position) {
 
     }

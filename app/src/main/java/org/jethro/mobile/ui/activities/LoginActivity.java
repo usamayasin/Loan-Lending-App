@@ -10,6 +10,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.jethro.mobile.R;
+import org.jethro.mobile.api.local.PreferencesHelper;
 import org.jethro.mobile.presenters.LoginPresenter;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.ui.views.LoginView;
@@ -67,6 +68,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     public void onLoginSuccess(String userName) {
         this.userName = userName;
         loginPresenter.loadClient();
+
     }
 
     /**
@@ -137,7 +139,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
         if (Network.isConnected(this)) {
             loginPresenter.login(username, password);
         } else {
-            Toaster.show(llLogin, getString(R.string.no_internet_connection));
+            BaseActivity.showAlertDialogForError(this, getString(R.string.no_internet_connection));
         }
     }
 
@@ -159,6 +161,7 @@ public class LoginActivity extends BaseActivity implements LoginView {
     private void startPassCodeActivity() {
         Intent intent = new Intent(LoginActivity.this, PassCodeActivity.class);
         intent.putExtra(Constants.INTIAL_LOGIN, true);
+        intent.putExtra(Constants.CHANGE_PASSCODE, false);
         startActivity(intent);
         finish();
     }

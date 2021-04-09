@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Mifos မိုဘိုင်း</string>
+    <string name="app_name">Ahead</string>
     <string name="login">လော့ဂ်အင်</string>
     <string name="toast_welcome">%1$s ကိုမှလှိုက်လှဲစွာကြိုဆိုပါသည်</string>
     <string name="unable_to_connect">အင်တာနက်ချိတ်ဆက်မ</string>

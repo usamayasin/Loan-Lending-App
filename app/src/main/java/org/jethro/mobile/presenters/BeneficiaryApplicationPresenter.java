@@ -40,7 +40,7 @@ public class BeneficiaryApplicationPresenter extends BasePresenter<BeneficiaryAp
      */
     @Inject
     public BeneficiaryApplicationPresenter(DataManager dataManager,
-            @ApplicationContext Context context) {
+                                           @ApplicationContext Context context) {
         super(context);
         this.dataManager = dataManager;
         compositeDisposable = new CompositeDisposable();

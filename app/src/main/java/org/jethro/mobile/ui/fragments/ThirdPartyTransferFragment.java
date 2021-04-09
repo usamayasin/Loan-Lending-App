@@ -1,5 +1,6 @@
 package org.jethro.mobile.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -21,10 +22,12 @@ import org.jethro.mobile.R;
 import org.jethro.mobile.models.beneficiary.Beneficiary;
 import org.jethro.mobile.models.beneficiary.BeneficiaryDetail;
 import org.jethro.mobile.models.payload.AccountDetail;
+import org.jethro.mobile.models.payload.ThirdPartyTransferPayload;
 import org.jethro.mobile.models.payload.TransferPayload;
 import org.jethro.mobile.models.templates.account.AccountOption;
 import org.jethro.mobile.models.templates.account.AccountOptionsTemplate;
 import org.jethro.mobile.presenters.ThirdPartyTransferPresenter;
+import org.jethro.mobile.ui.activities.HomeActivity;
 import org.jethro.mobile.ui.activities.base.BaseActivity;
 import org.jethro.mobile.ui.adapters.AccountsSpinnerAdapter;
 import org.jethro.mobile.ui.adapters.BeneficiarySpinnerAdapter;
@@ -51,6 +54,7 @@ import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by dilpreet on 21/6/17.
@@ -198,7 +202,7 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
         spBeneficiary.setAdapter(beneficiaryAdapter);
         spBeneficiary.setOnItemSelectedListener(this);
 
-        transferDate = DateHelper.getSpecificFormat(DateHelper.FORMAT_dd_MMMM_yyyy,
+        transferDate = DateHelper.getSpecificFormat("dd/MM/yyyy",
                 MFDatePicker.getDatePickedAsString());
 
         pvOne.setCurrentActive();
@@ -211,41 +215,43 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
     @OnClick(R.id.btn_review_transfer)
     public void reviewTransfer() {
         if (etAmount.getText().toString().equals("")) {
-            Toaster.show(rootView, getString(R.string.enter_amount));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.enter_amount));
             return;
         }
 
         if (etAmount.getText().toString().equals(".")) {
-            Toaster.show(rootView, getString(R.string.invalid_amount));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.invalid_amount));
             return;
         }
 
         if (etRemark.getText().toString().trim().equals("")) {
-            Toaster.show(rootView, getString(R.string.remark_is_mandatory));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.remark_is_mandatory));
             return;
         }
 
         if (spBeneficiary.getSelectedItem().toString().
                 equals(spPayFrom.getSelectedItem().toString())) {
-            Toaster.show(rootView, getString(R.string.error_same_account_transfer));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.error_same_account_transfer));
             return;
         }
 
-        TransferPayload transferPayload = new TransferPayload();
-        transferPayload.setFromAccountId(fromAccountOption.getAccountId());
-        transferPayload.setFromClientId(fromAccountOption.getClientId());
-        transferPayload.setFromAccountType(fromAccountOption.getAccountType().getId());
-        transferPayload.setFromOfficeId(fromAccountOption.getOfficeId());
-        transferPayload.setToOfficeId(beneficiaryAccountOption.getOfficeId());
-        transferPayload.setToAccountId(beneficiaryAccountOption.getAccountId());
-        transferPayload.setToClientId(beneficiaryAccountOption.getClientId());
-        transferPayload.setToAccountType(beneficiaryAccountOption.getAccountType().getId());
-        transferPayload.setTransferDate(transferDate);
-        transferPayload.setTransferAmount(Double.parseDouble(etAmount.getText().toString()));
-        transferPayload.setTransferDescription(etRemark.getText().toString());
-
+        ThirdPartyTransferPayload thirdPartyTransferPayload = new ThirdPartyTransferPayload();
+        thirdPartyTransferPayload.setFromAccountId(fromAccountOption.getAccountNo());
+        thirdPartyTransferPayload.setFromClientId(fromAccountOption.getClientId());
+        thirdPartyTransferPayload.setFromAccountType(fromAccountOption.getAccountType().getId());
+        thirdPartyTransferPayload.setFromOfficeId(fromAccountOption.getOfficeId());
+        thirdPartyTransferPayload.setToOfficeId(beneficiaryAccountOption.getOfficeId());
+        thirdPartyTransferPayload.setToAccountId(beneficiaryAccountOption.getAccountNo());
+        thirdPartyTransferPayload.setToClientId(beneficiaryAccountOption.getClientId());
+        thirdPartyTransferPayload.setToAccountType(beneficiaryAccountOption.getAccountType().getId());
+        thirdPartyTransferPayload.setTransferDate(transferDate);
+        thirdPartyTransferPayload.setDateFormat(transferDate);
+        thirdPartyTransferPayload.setTransferAmount(etAmount.getText().toString());
+        thirdPartyTransferPayload.setTransferDescription(etRemark.getText().toString());
+        thirdPartyTransferPayload.setFromAccountNumber(fromAccountOption.getAccountNo());
+        thirdPartyTransferPayload.setToAccountNumber(beneficiaryAccountOption.getAccountNo());
         ((BaseActivity) getActivity()).replaceFragment(TransferProcessFragment.
-                newInstance(transferPayload, TransferType.TPT), true, R.id.container);
+                newInstance(thirdPartyTransferPayload, TransferType.TPT), true, R.id.container);
 
     }
 
@@ -256,7 +262,7 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
      */
     @Override
     public void showToaster(String msg) {
-        Toaster.show(rootView, msg);
+        BaseActivity.showAlertDialogForError(getContext(), msg);
     }
 
     /**
@@ -370,7 +376,26 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
 
     @OnClick(R.id.btn_cancel_transfer)
     public void cancelTransfer() {
-        getActivity().getSupportFragmentManager().popBackStack();
+        new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText("Alert")
+                .setContentText("Are you sure.?")
+                .setConfirmText("Yes")
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                        sDialog.dismissWithAnimation();
+                        startActivity(new Intent(getContext(), HomeActivity.class));
+                    }
+                })
+                .setCancelText("No")
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                })
+                .show();
     }
 
     @OnClick(R.id.btn_add_beneficiary)
@@ -385,7 +410,7 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
             sweetUIErrorHandler.hideSweetErrorLayoutUI(layoutMakeTransfer, layoutError);
             presenter.loadTransferTemplate();
         } else {
-            Toaster.show(rootView, getString(R.string.internet_not_connected));
+            BaseActivity.showAlertDialogForError(getContext(), getString(R.string.internet_not_connected));
         }
     }
 
@@ -400,7 +425,7 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
             sweetUIErrorHandler.showSweetNoInternetUI(layoutMakeTransfer, layoutError);
         } else {
             sweetUIErrorHandler.showSweetErrorUI(msg, layoutMakeTransfer, layoutError);
-            Toaster.show(rootView, msg);
+            BaseActivity.showAlertDialogForError(getContext(), msg);
         }
     }
 
@@ -424,7 +449,7 @@ public class ThirdPartyTransferFragment extends BaseFragment implements ThirdPar
         switch (parent.getId()) {
             case R.id.sp_beneficiary:
                 beneficiaryAccountOption = presenter.searchAccount(accountOptionsTemplate.
-                        getFromAccountOptions(), beneficiaryAdapter.getItem(position));
+                        getToAccountOptions(), beneficiaryAdapter.getItem(position));
                 break;
             case R.id.sp_pay_from:
                 fromAccountOption = accountOptionsTemplate.getFromAccountOptions().get(position);

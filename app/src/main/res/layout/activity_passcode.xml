@@ -377,10 +377,9 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:textSize="18sp"
-                android:text="@string/setup_finger_print"
+                android:text="@string/biometric"
                 android:textColor="@color/black" />
-
-
         </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -37,6 +37,5 @@ data class Summary(
         var interestNotPosted: Double? = null,
 
         @SerializedName("lastInterestCalculationDate")
-        var lastInterestCalculationDate: List<Int>
-
+        var lastInterestCalculationDate: List<Int>?
 ) : Parcelable

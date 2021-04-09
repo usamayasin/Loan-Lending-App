@@ -16,6 +16,9 @@ data class BeneficiaryPayload(
         @SerializedName("name")
         var name: String? = null,
 
+        @SerializedName("officeName")
+        var officeName: String? = null,
+
         @SerializedName("accountNumber")
         var accountNumber: String? = null,
 
@@ -23,8 +26,6 @@ data class BeneficiaryPayload(
         var accountType: Int = 0,
 
         @SerializedName("transferLimit")
-        var transferLimit: Int  = 0,
+        var transferLimit: Int  = 0
 
-        @SerializedName("officeName")
-        var officeName: String? = null
 ) : Parcelable

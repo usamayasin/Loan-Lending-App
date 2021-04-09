@@ -242,7 +242,9 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView, Accoun
                 break;
             }
         }
-        tv_homeAccountAmount.setText(String.valueOf(selectedSavingAccount.getAccountBalance()));
+        tv_homeAccountAmount.setText(getContext().getString(R.string.string_and_string,
+                selectedSavingAccount.getCurrency().getDisplaySymbol(), CurrencyUtil.formatCurrency(getContext(),
+                        selectedSavingAccount.getAccountBalance())));
         tv_homeAccountType.setText(selectedSavingAccount.getProductName());
         savingAccountsTransactionPresenter.loadSavingsWithAssociations(selectedSavingAccount.getId());
 
@@ -348,7 +350,9 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView, Accoun
     public void showSavingAccountsDetail(SavingsWithAssociations savingsWithAssociations) {
         transactionsList = savingsWithAssociations.getTransactions();
         if (transactionsList.size() > 0) {
-            tv_homeAccountLatestTransactionAmount.setText(transactionsList.get(0).getAmount().toString());
+            tv_homeAccountLatestTransactionAmount.setText(getContext().getString(R.string.string_and_string,
+                    transactionsList.get(0).getCurrency().getDisplaySymbol(), CurrencyUtil.formatCurrency(getContext(),
+                            transactionsList.get(0).getAmount())));
             tv_homeAccountLatestTransactionType.setText(transactionsList.get(0).getTransactionType().getValue());
             tv_homeAccountLatestTransactionTime.setText(DateHelper.
                     getDateAsString(transactionsList.get(0).getDate()));
@@ -356,12 +360,10 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView, Accoun
 
         } else {
             tv_homeAccountLatestTransactionAmount.setText("");
-            tv_homeAccountLatestTransactionType.setText("");
+            tv_homeAccountLatestTransactionType.setText("No Recent Transaction Found");
             tv_homeAccountLatestTransactionTime.setText("");
             tv_homeAccountLatestTransactionNumber.setText("");
             selectedAccountID = 0L;
-            Toast.makeText(requireContext(), "No Recent Transaction Found", Toast.LENGTH_SHORT).show();
-
         }
 
     }
@@ -645,7 +647,7 @@ public class HomeOldFragment extends BaseFragment implements HomeOldView, Accoun
                 checkedItem == R.id.item_settings) {
             return;
         }
-        Toaster.show(rootView, errorMessage);
+        BaseActivity.showAlertDialogForError(getContext(), errorMessage);
     }
 
     /**
