@@ -62,6 +62,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * @author Vishwajeet
@@ -245,9 +246,20 @@ public class HomeActivity extends BaseActivity implements UserDetailsView, Navig
                         R.id.container);
                 break;
             case R.id.item_third_party_transfer:
-                clearFragmentBackStack();
-                bottomNavigation.setSelectedItemId(R.id.bottom_navigation_transfer);
-                replaceFragment(ThirdPartyTransferFragment.newInstance(), true, R.id.container);
+//                clearFragmentBackStack();
+//                bottomNavigation.setSelectedItemId(R.id.bottom_navigation_transfer);
+//                replaceFragment(ThirdPartyTransferFragment.newInstance(), true, R.id.container);
+                new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.SUCCESS_TYPE)
+                        .setTitleText("Alert")
+                        .setContentText("Coming Soon!")
+                        .setConfirmText("Ok")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.dismissWithAnimation();
+                            }
+                        })
+                        .show();
                 break;
             case R.id.item_beneficiaries:
                 clearFragmentBackStack();
