@@ -358,13 +358,24 @@ public class AccountsFragment extends BaseFragment implements
      */
     public void filterSavingsAccount(List<CheckboxStatus> statusModelList) {
         List<SavingAccount> filteredSavings = new ArrayList<>();
+        int unCheckedStatusCount = 0;
         for (CheckboxStatus status : accountsPresenter.getCheckedStatus(statusModelList)) {
             filteredSavings.addAll(accountsPresenter.getFilteredSavingsAccount(savingAccounts,
                     status));
         }
-        if (filteredSavings.size() == 0) {
+        for (int i = 0; i < statusModelList.size(); i++) {
+            if (!statusModelList.get(i).isChecked()) {
+                unCheckedStatusCount++;
+            }
+        }
+
+        if (unCheckedStatusCount != statusModelList.size() && filteredSavings.size() == 0) {
             showEmptyAccounts(getString(R.string.no_saving_account));
+        } else if (unCheckedStatusCount == statusModelList.size() && filteredSavings.size() == 0) {
+            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvAccounts, layoutError);
+            accountsPresenter.loadAccounts(Constants.SAVINGS_ACCOUNTS);
         } else {
+            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvAccounts, layoutError);
             savingAccountsListAdapter.setSavingAccountsList(filteredSavings);
         }
     }
@@ -377,12 +388,24 @@ public class AccountsFragment extends BaseFragment implements
      */
     public void filterLoanAccount(List<CheckboxStatus> statusModelList) {
         List<LoanAccount> filteredSavings = new ArrayList<>();
+        int unCheckedStatusCount = 0;
+
         for (CheckboxStatus status : accountsPresenter.getCheckedStatus(statusModelList)) {
             filteredSavings.addAll(accountsPresenter.getFilteredLoanAccount(loanAccounts,
                     status));
         }
-        if (filteredSavings.size() == 0) {
+
+        for (int i = 0; i < statusModelList.size(); i++) {
+            if (!statusModelList.get(i).isChecked()) {
+                unCheckedStatusCount++;
+            }
+        }
+
+        if (unCheckedStatusCount != statusModelList.size() && filteredSavings.size() == 0) {
             showEmptyAccounts(getString(R.string.no_loan_account));
+        } else if (unCheckedStatusCount == statusModelList.size() && filteredSavings.size() == 0){
+            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvAccounts, layoutError);
+            accountsPresenter.loadAccounts(Constants.LOAN_ACCOUNTS);
         } else {
             loanAccountsListAdapter.setLoanAccountsList(filteredSavings);
         }
@@ -396,13 +419,25 @@ public class AccountsFragment extends BaseFragment implements
      */
     public void filterShareAccount(List<CheckboxStatus> statusModelList) {
         List<ShareAccount> filteredSavings = new ArrayList<>();
+        int unCheckedStatusCount = 0;
         for (CheckboxStatus status : accountsPresenter.getCheckedStatus(statusModelList)) {
             filteredSavings.addAll(accountsPresenter.getFilteredShareAccount(shareAccounts,
                     status));
         }
-        if (filteredSavings.size() == 0) {
+
+        for (int i = 0; i < statusModelList.size(); i++) {
+            if (!statusModelList.get(i).isChecked()) {
+                unCheckedStatusCount++;
+            }
+        }
+
+        if (unCheckedStatusCount != statusModelList.size() && filteredSavings.size() == 0) {
             showEmptyAccounts(getString(R.string.no_sharing_account));
+        } else if (unCheckedStatusCount == statusModelList.size() && filteredSavings.size() == 0){
+            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvAccounts, layoutError);
+            accountsPresenter.loadAccounts(Constants.SHARE_ACCOUNTS);
         } else {
+            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvAccounts, layoutError);
             shareAccountsListAdapter.setShareAccountsList(filteredSavings);
         }
     }
