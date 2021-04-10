@@ -40,6 +40,7 @@
             android:checked="false"
             android:icon="@drawable/ic_compare_arrows_black_24dp"
             android:title="@string/third_party_transfer"
+            android:visible="false"
             />
         <item
             android:id="@+id/item_apply_for_loan"
