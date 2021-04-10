@@ -227,7 +227,7 @@ public class SavingAccountsTransactionFragment extends BaseFragment
     @Override
     public void showFilteredList(List<Transactions> list) {
         if (list.size() != 0) {
-            //BaseActivity.showAlertDialogForError(getContext(), getString(R.string.filtered));
+            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvSavingAccountsTransaction, layoutError);
             transactionListAdapter.setSavingAccountsTransactionList(list);
         } else {
             showEmptyTransactions();
@@ -479,13 +479,17 @@ public class SavingAccountsTransactionFragment extends BaseFragment
      * @param statusModelList Status Model List
      */
     private void filter(List<CheckboxStatus> statusModelList) {
-        showFilteredList(filterSavingsAccountTransactionsbyType(statusModelList));
-        /*if (filterSavingsAccountTransactionsbyType(statusModelList).size() > 0) {
-            showFilteredList(filterSavingsAccountTransactionsbyType(statusModelList));
+        int unCheckedStatusCount = 0;
+        for (int i = 0; i < statusModelList.size(); i++) {
+            if (!statusModelList.get(i).isChecked()) {
+                unCheckedStatusCount++;
+            }
+        }
+        if (unCheckedStatusCount == statusModelList.size() && filterSavingsAccountTransactionsbyType(statusModelList).size() == 0) {
+            sweetUIErrorHandler.hideSweetErrorLayoutUI(rvSavingAccountsTransaction, layoutError);
         } else {
-            transactionListAdapter
-                    .setSavingAccountsTransactionList(transactionsList);
-        }*/
+            showFilteredList(filterSavingsAccountTransactionsbyType(statusModelList));
+        }
     }
 
     /**
@@ -496,18 +500,11 @@ public class SavingAccountsTransactionFragment extends BaseFragment
     private List<Transactions> filterSavingsAccountTransactionsbyType(List<CheckboxStatus>
                                                                               statusModelList) {
         List<Transactions> filteredSavingsTransactions = new ArrayList<>();
-        for (CheckboxStatus status : savingAccountsTransactionPresenter
-                .getCheckedStatus(statusModelList)) {
+        for (CheckboxStatus status : savingAccountsTransactionPresenter.getCheckedStatus(statusModelList)) {
 
             filteredSavingsTransactions.addAll(savingAccountsTransactionPresenter
                     .filterTranactionListbyType(transactionsList, status));
         }
-
-        if (filteredSavingsTransactions.containsAll(transactionsList)) {
-            List<Transactions> emptyList = new ArrayList<Transactions>();
-            filteredSavingsTransactions = emptyList;
-        }
-
         return filteredSavingsTransactions;
     }
 
