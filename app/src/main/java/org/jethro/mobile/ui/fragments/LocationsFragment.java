@@ -64,7 +64,7 @@ public class LocationsFragment extends BaseFragment implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        LatLng headquarterLatLng = new LatLng(47.61115, -122.34481);
+        LatLng headquarterLatLng = new LatLng(51.51375362705288, -0.1391224008868915);
 
         addMarker(googleMap, headquarterLatLng);
         addAnimationToHeadquarter(googleMap, headquarterLatLng);
@@ -74,7 +74,7 @@ public class LocationsFragment extends BaseFragment implements OnMapReadyCallbac
     private void addMarker(GoogleMap googleMap, LatLng headquarterLatLng) {
 
         googleMap.addMarker(new MarkerOptions().position(headquarterLatLng)
-                .title(getString(R.string.mifos_initiative)));
+                .title(getString(R.string.ahead_initiative)));
 
     }
 

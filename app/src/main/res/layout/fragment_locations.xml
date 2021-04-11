@@ -12,7 +12,7 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="@string/mifos_initiative"
+        android:text="@string/ahead_initiative"
         android:textColor="@color/primary"
         android:textSize="@dimen/text_medium"
         android:textStyle="bold"/>
@@ -20,7 +20,7 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:text="@string/mifos_location"
+        android:text="1st Floor, 26 Fouberts Place, London W1F 799, United Kingdom."
         android:textColor="@color/black"
         android:textSize="@dimen/text_medium"/>
 

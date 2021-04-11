@@ -290,6 +290,7 @@
     <string name="add_widget">Add widget</string>
     <string name="help">Help</string>
     <string name="mifos_initiative">Mifos Initiative</string>
+    <string name="ahead_initiative">Ahead Initiative</string>
     <string name="mifos_location">Mifos Initiative , Seattle , Washington 98121</string>
     <string name="map_marker_heading">Seattle</string>
     <string name="map_marker_desc">Home to large tech industry</string>

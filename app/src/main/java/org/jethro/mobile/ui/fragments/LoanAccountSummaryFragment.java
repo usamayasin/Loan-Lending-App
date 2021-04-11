@@ -136,36 +136,49 @@ public class LoanAccountSummaryFragment extends BaseFragment {
             currencySymbol = loanWithAssociations.getCurrency().getCode();
         }
         tvLoanProductName.setText(loanWithAssociations.getLoanProductName());
-        tvPrincipalName.setText(getString(R.string.string_and_double,
+        tvPrincipalName.setText(getContext().getString(R.string.string_and_string,
+                loanWithAssociations.getCurrency().getDisplaySymbol(),
+                CurrencyUtil.formatCurrency(loanWithAssociations.getPrincipal().toString())));
+//        tvInterestChargedName.setText(getString(R.string.string_and_double,
+//                currencySymbol,
+//                loanWithAssociations.getSummary().getInterestPaid()));
+
+        tvInterestChargedName.setText(getContext().getString(R.string.string_and_string,
+                loanWithAssociations.getCurrency().getDisplaySymbol(),
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getInterestPaid()))));
+
+        tvFeesName.setText(getString(R.string.string_and_string,
                 currencySymbol,
-                loanWithAssociations.getPrincipal()));
-        tvInterestChargedName.setText(getString(R.string.string_and_double,
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getFeeChargesCharged()))));
+
+        tvPenaltiesName.setText(getString(R.string.string_and_string,
                 currencySymbol,
-                loanWithAssociations.getSummary().getInterestPaid()));
-        tvFeesName.setText(getString(R.string.string_and_double,
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getPenaltyChargesCharged()))));
+
+        tvTotalRepaymentName.setText(getString(R.string.string_and_string,
                 currencySymbol,
-                loanWithAssociations.getSummary().getFeeChargesCharged()));
-        tvPenaltiesName.setText(getString(R.string.string_and_double,
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getTotalExpectedRepayment()))));
+
+        tvTotalPaidName.setText(getString(R.string.string_and_string,
                 currencySymbol,
-                loanWithAssociations.getSummary().getPenaltyChargesCharged()));
-        tvTotalRepaymentName.setText(getString(R.string.string_and_double,
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getTotalRepayment()))));
+
+        tvInterestWaivedName.setText(getString(R.string.string_and_string,
                 currencySymbol,
-                loanWithAssociations.getSummary().getTotalExpectedRepayment()));
-        tvTotalPaidName.setText(getString(R.string.string_and_double,
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getInterestWaived()))));
+
+        tvPenaltiesWaivedName.setText(getString(R.string.string_and_string,
                 currencySymbol,
-                loanWithAssociations.getSummary().getTotalRepayment()));
-        tvInterestWaivedName.setText(getString(R.string.string_and_double,
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getPenaltyChargesWaived()))));
+
+        tvFeesWaivedName.setText(getString(R.string.string_and_string,
                 currencySymbol,
-                loanWithAssociations.getSummary().getInterestWaived()));
-        tvPenaltiesWaivedName.setText(getString(R.string.string_and_double,
-                currencySymbol,
-                loanWithAssociations.getSummary().getPenaltyChargesWaived()));
-        tvFeesWaivedName.setText(getString(R.string.string_and_double,
-                currencySymbol,
-                loanWithAssociations.getSummary().getFeeChargesWaived()));
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getFeeChargesWaived()))));
+
         tvOutstandingBalanceName.setText(getResources().getString(R.string.string_and_string,
-                currencySymbol, CurrencyUtil.formatCurrency(getActivity(),
-                        loanWithAssociations.getSummary().getTotalOutstanding())));
+                currencySymbol,
+                CurrencyUtil.formatCurrency(String.valueOf(loanWithAssociations.getSummary().getTotalOutstanding()))));
+
         tvLoanAccountNumber.setText(loanWithAssociations.getAccountNo());
         if (loanWithAssociations.getLoanPurposeName() != null) {
             llLoanPurpose.setVisibility(View.VISIBLE);

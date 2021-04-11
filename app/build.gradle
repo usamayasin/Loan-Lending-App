@@ -29,10 +29,10 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("../default_key_store.jks")
-            storePassword "mifos1234"
-            keyAlias "mifos-mobile"
-            keyPassword "mifos1234"
+            storeFile file("../AppSignatureKey.jks")
+            storePassword "ahead123"
+            keyAlias "AheadAlias"
+            keyPassword "ahead123"
         }
     }
 

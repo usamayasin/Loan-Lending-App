@@ -29,6 +29,11 @@ public class CurrencyUtil {
     }
 
 
+    public static String formatCurrency(String number){
+        double convertedNumber = Double.parseDouble(number);
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(convertedNumber);
+    }
     private static DecimalFormat getDecimalFormatter(Context context) {
         DecimalFormat currencyFormatter;
         Locale locale;

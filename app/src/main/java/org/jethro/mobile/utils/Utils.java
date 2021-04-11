@@ -65,7 +65,7 @@ public class Utils {
         File imagePath = new File(context.getCacheDir(), "images");
         File newFile = new File(imagePath, "image.png");
 
-        return FileProvider.getUriForFile(context, "org.mifos.mobilebanking.fileprovider",
+        return FileProvider.getUriForFile(context, "org.jethro.mobile.fileprovider",
                 newFile);
     }
 

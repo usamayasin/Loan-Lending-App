@@ -83,9 +83,9 @@ public class PassCodeActivity extends BaseActivity {
             public void onAuthenticationError(int errorCode,
                                               @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
-                Toast.makeText(getApplicationContext(),
-                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
-                        .show();
+//                Toast.makeText(getApplicationContext(),
+//                        "Authentication error: " + errString, Toast.LENGTH_SHORT)
+//                        .show();
 //                showAlertDialogForError(PassCodeActivity.this,"Authentication Error");
 
             }
@@ -95,16 +95,14 @@ public class PassCodeActivity extends BaseActivity {
                     @NonNull BiometricPrompt.AuthenticationResult result) {
                 super.onAuthenticationSucceeded(result);
                 startHomeActivity();
-                Toast.makeText(getApplicationContext(),
-                        "Authentication succeeded!", Toast.LENGTH_SHORT).show();
-            }
+             }
 
             @Override
             public void onAuthenticationFailed() {
                 super.onAuthenticationFailed();
-                Toast.makeText(getApplicationContext(), "Authentication failed",
-                        Toast.LENGTH_SHORT)
-                        .show();
+//                Toast.makeText(getApplicationContext(), "Authentication failed",
+//                        Toast.LENGTH_SHORT)
+//                        .show();
                 showAlertDialogForError(PassCodeActivity.this,"Authentication failed");
             }
         });
