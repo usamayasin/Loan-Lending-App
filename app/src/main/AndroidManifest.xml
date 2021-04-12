@@ -16,6 +16,7 @@
         android:name="org.jethro.mobile.MifosSelfServiceApp"
         android:supportsRtl="true"
         android:theme="@style/MaterialAppTheme"
+        android:debuggable="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".ui.activities.BiometricActivity"></activity>
         <activity android:name=".ui.activities.ForgotPasswordActivity"></activity>

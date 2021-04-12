@@ -7,7 +7,7 @@ package org.jethro.mobile.api;
 
 public class BaseURL {
 
-    public static final String API_ENDPOINT = "mobile.openmf.org";
+    public static final String API_ENDPOINT = "ahead-dev.com";
     public static final String API_PATH = "/fineract-provider/api/v1/self/";
     public static final String PROTOCOL_HTTPS = "https://";
 
